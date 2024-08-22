@@ -64,20 +64,7 @@ export function Navbar() {
                                     >
                                         Players
                                     </Link>
-                                    <Link
-                                        href="/login"
-                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/login' ? 'bg-orange-50 text-sky-900' : 'text-orange-100 hover:decoration-1 hover:underline'
-                                            }`}
-                                    >
-                                        Log in
-                                    </Link>
-                                    <Link
-                                        href="/signup"
-                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/signup' ? 'bg-orange-50 text-sky-900' : 'text-orange-100 hover:decoration-1 hover:underline'
-                                            }`}
-                                    >
-                                        Sign up
-                                    </Link>
+
                                     <Link
                                         href="/logout"
                                         className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/logout' ? 'bg-orange-50 text-sky-900' : 'text-orange-100 hover:decoration-1 hover:underline'
