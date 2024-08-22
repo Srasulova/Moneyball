@@ -35,9 +35,12 @@ export default function Home() {
       try {
         // Fetch league names
         const leagueData = await MoneyballApi.getLeagueNames();
-        setLeagues(leagueData.leagues);
 
-        // Fetch standings
+        // Filter for American and National League
+        const filteredLeagues = leagueData.leagues.filter(league => [103, 104].includes(league.id));
+        setLeagues(filteredLeagues);
+
+        // Fetch standings for filtered leagues
         const americanData = await MoneyballApi.getAmericanLeagueStandings();
         const nationalData = await MoneyballApi.getNationalLeagueStandings();
 
@@ -99,8 +102,6 @@ export default function Home() {
         setAmericanLeague(transformedAmericanData);
         setNationalLeague(transformedNationalData);
 
-        console.log(transformedAmericanData);
-        console.log(transformedNationalData);
       } catch (err) {
         console.error("Failed to fetch standings:", err);
       } finally {
