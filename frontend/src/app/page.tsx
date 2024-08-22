@@ -19,13 +19,25 @@ export type LeagueStanding = {
   AWAY: string;
 };
 
+type LeagueName = {
+  id: number;
+  name: string;
+};
+
 export default function Home() {
   const [americanLeague, setAmericanLeague] = useState<LeagueStanding[]>([]);
   const [nationalLeague, setNationalLeague] = useState<LeagueStanding[]>([]);
+  const [leagues, setLeagues] = useState<LeagueName[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStandings() {
       try {
+        // Fetch league names
+        const leagueData = await MoneyballApi.getLeagueNames();
+        setLeagues(leagueData.leagues);
+
+        // Fetch standings
         const americanData = await MoneyballApi.getAmericanLeagueStandings();
         const nationalData = await MoneyballApi.getNationalLeagueStandings();
 
@@ -91,17 +103,29 @@ export default function Home() {
         console.log(transformedNationalData);
       } catch (err) {
         console.error("Failed to fetch standings:", err);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchStandings();
   }, []);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <main>
-      <LeagueStandings leagueName="American League" teams={americanLeague} />
-      <LeagueStandings leagueName="National League" teams={nationalLeague} />
+      {leagues.map((league) => (
+        <LeagueStandings
+          key={league.id}
+          leagueName={league.name}
+          teams={
+            league.id === 103 ? americanLeague : nationalLeague
+          }
+        />
+      ))}
     </main>
   );
 }

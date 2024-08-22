@@ -23,28 +23,29 @@ class MoneyballApi {
     }
   }
 
-  /** Get National League standings */
-  static async getLeagueNames(): Promise<any> {
+  /** Get league names */
+  static async getLeagueNames(): Promise<{
+    leagues: Array<{ id: number; name: string }>;
+  }> {
     const endpoint = "leagues";
-    // const params = { leagueId: "104" };
-    const standings = await this.request(endpoint);
-    return standings;
+    return this.request(endpoint);
+  }
+
+  /** Get standings for a specific league */
+  static async getStandings(leagueId: number): Promise<any> {
+    const endpoint = "standings";
+    const params = { leagueId: leagueId.toString() };
+    return this.request(endpoint, params);
   }
 
   /** Get National League standings */
-  static async getNationalLeagueStandings(): Promise<any> {
-    const endpoint = "standings";
-    const params = { leagueId: "104" };
-    const standings = await this.request(endpoint, params);
-    return standings;
+  static getNationalLeagueStandings(): Promise<any> {
+    return this.getStandings(104);
   }
 
-  /** Get National League standings */
-  static async getAmericanLeagueStandings(): Promise<any> {
-    const endpoint = "standings";
-    const params = { leagueId: "103" };
-    const standings = await this.request(endpoint, params);
-    return standings;
+  /** Get American League standings */
+  static getAmericanLeagueStandings(): Promise<any> {
+    return this.getStandings(103);
   }
 }
 
