@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
+import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
-import MoneyballApi from "./api";
+import Link from "next/link";
 
 export type LeagueStanding = {
   name: string;
@@ -25,10 +26,12 @@ type LeagueName = {
 };
 
 export default function Home() {
-  const [americanLeague, setAmericanLeague] = useState<LeagueStanding[]>([]);
-  const [nationalLeague, setNationalLeague] = useState<LeagueStanding[]>([]);
+  const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
   const [leagues, setLeagues] = useState<LeagueName[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Simulate a logged-in state 
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     async function fetchStandings() {
@@ -40,67 +43,19 @@ export default function Home() {
         const filteredLeagues = leagueData.leagues.filter(league => [103, 104].includes(league.id));
         setLeagues(filteredLeagues);
 
-        // Fetch standings for filtered leagues
-        const americanData = await MoneyballApi.getAmericanLeagueStandings();
-        const nationalData = await MoneyballApi.getNationalLeagueStandings();
+        // Fetch standings for each league
+        const standingsData: { [key: string]: LeagueStanding[] } = {};
 
-        console.log("American League Data:", americanData.records);
-        console.log("National League Data:", nationalData.records);
+        for (const league of filteredLeagues) {
+          const leagueStandings = await MoneyballApi.getStandings(league.id);
+          const transformedData = leagueStandings.records
+            .flatMap((record: any) => (record.teamRecords || []).map(extractTeamStandings))
+            .sort((a: LeagueStanding, b: LeagueStanding) => b.pct - a.pct);
 
-        // Ensure that americanData.records and nationalData.records are arrays before mapping
-        if (!Array.isArray(americanData.records) || !Array.isArray(nationalData.records)) {
-          throw new Error("API response is not an array");
+          standingsData[league.name] = transformedData;
         }
 
-        const extractTeamStandings = (teamRecords: any): LeagueStanding => {
-          const name = teamRecords.team.name;
-          const { wins, losses, pct } = teamRecords.leagueRecord || {}; // Ensure leagueRecord exists
-          const gamesBack = teamRecords.gamesBack || "-";
-          const wildCardGamesBack = teamRecords.wildCardGamesBack || "-";
-          const streakCode = teamRecords.streak?.streakCode || "-";
-          const runsScored = teamRecords.runsScored || 0;
-          const runsAllowed = teamRecords.runsAllowed || 0;
-          const runDifferential = teamRecords.runDifferential || 0;
-
-          let HOME = "";
-          let AWAY = "";
-
-          (teamRecords.records?.overallRecords || []).forEach((record: any) => {
-            if (record.type === "home") {
-              HOME = `${record.wins}-${record.losses}`;
-            }
-            if (record.type === "away") {
-              AWAY = `${record.wins}-${record.losses}`;
-            }
-          });
-
-          return {
-            name,
-            W: wins,
-            L: losses,
-            pct,
-            gamesBack,
-            wildCardGamesBack,
-            streakCode,
-            runsScored,
-            runsAllowed,
-            runDifferential,
-            HOME,
-            AWAY
-          };
-        };
-
-        // Map over each team's records and sort the result
-        const transformedAmericanData = americanData.records
-          .flatMap((record: any) => (record.teamRecords || []).map(extractTeamStandings))
-          .sort((a: LeagueStanding, b: LeagueStanding) => b.pct - a.pct);  // Sort in descending order by pct
-
-        const transformedNationalData = nationalData.records
-          .flatMap((record: any) => (record.teamRecords || []).map(extractTeamStandings))
-          .sort((a: LeagueStanding, b: LeagueStanding) => b.pct - a.pct);  // Sort in descending order by pct
-
-        setAmericanLeague(transformedAmericanData);
-        setNationalLeague(transformedNationalData);
+        setStandings(standingsData);
 
       } catch (err) {
         console.error("Failed to fetch standings:", err);
@@ -108,6 +63,44 @@ export default function Home() {
         setLoading(false);
       }
     }
+
+    const extractTeamStandings = (teamRecords: any): LeagueStanding => {
+      const name = teamRecords.team.name;
+      const { wins, losses, pct } = teamRecords.leagueRecord || {};
+      const gamesBack = teamRecords.gamesBack || "-";
+      const wildCardGamesBack = teamRecords.wildCardGamesBack || "-";
+      const streakCode = teamRecords.streak?.streakCode || "-";
+      const runsScored = teamRecords.runsScored || 0;
+      const runsAllowed = teamRecords.runsAllowed || 0;
+      const runDifferential = teamRecords.runDifferential || 0;
+
+      let HOME = "";
+      let AWAY = "";
+
+      (teamRecords.records?.overallRecords || []).forEach((record: any) => {
+        if (record.type === "home") {
+          HOME = `${record.wins}-${record.losses}`;
+        }
+        if (record.type === "away") {
+          AWAY = `${record.wins}-${record.losses}`;
+        }
+      });
+
+      return {
+        name,
+        W: wins,
+        L: losses,
+        pct,
+        gamesBack,
+        wildCardGamesBack,
+        streakCode,
+        runsScored,
+        runsAllowed,
+        runDifferential,
+        HOME,
+        AWAY
+      };
+    };
 
     fetchStandings();
   }, []);
@@ -118,15 +111,24 @@ export default function Home() {
 
   return (
     <main>
-      {leagues.map((league) => (
-        <LeagueStandings
-          key={league.id}
-          leagueName={league.name}
-          teams={
-            league.id === 103 ? americanLeague : nationalLeague
-          }
-        />
-      ))}
+      {isLoggedIn ? (
+        leagues.map((league) => (
+          <LeagueStandings
+            key={league.id}
+            leagueName={league.name}
+            teams={standings[league.name] || []}
+          />
+        ))
+      ) : (
+        <div className="flex flex-col items-center justify-start min-h-screen mt-48">
+          <h1 className="text-4xl font-bold text-sky-900">Welcome to Moneyball</h1>
+          <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
+          <div className="mt-6 flex gap-2">
+            <Link href="/login" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Log In</Link>
+            <Link href="/signup" className="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-700">Sign Up</Link>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
