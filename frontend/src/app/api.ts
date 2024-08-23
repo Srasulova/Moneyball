@@ -37,16 +37,6 @@ class MoneyballApi {
     const params = { leagueId: leagueId.toString() };
     return this.request(endpoint, params);
   }
-
-  /** Get National League standings */
-  static getNationalLeagueStandings(): Promise<any> {
-    return this.getStandings(104);
-  }
-
-  /** Get American League standings */
-  static getAmericanLeagueStandings(): Promise<any> {
-    return this.getStandings(103);
-  }
 }
 
 export default MoneyballApi;
