@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 export default function Login() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-orange-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="bg-white p-8 rounded-lg shadow-xl sm:w-96 w-full">
         <h2 className="text-3xl font-bold mb-8 text-sky-900 text-center">
           Login
         </h2>
@@ -47,9 +49,9 @@ export default function Login() {
 
         <p className="mt-8 text-center text-sm text-gray-600">
           Don&apos;t have an account?{" "}
-          <a href="#" className="text-red-800 font-medium hover:underline">
+          <Link href="/signup" className="text-red-800 font-medium hover:underline">
             Sign up here
-          </a>
+          </Link>
         </p>
       </div>
     </div>
