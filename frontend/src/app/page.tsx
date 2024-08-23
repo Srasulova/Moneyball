@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../public/logo-no.png"
 
 export type LeagueStanding = {
   name: string;
@@ -120,7 +122,8 @@ export default function Home() {
           />
         ))
       ) : (
-        <div className="flex flex-col items-center justify-start min-h-screen mt-48">
+        <div className="flex flex-col items-center justify-start min-h-screen mt-28">
+          <Image className="h-60 w-auto mb-10" src={logo} alt="logo" />
           <h1 className="text-4xl font-bold text-sky-900">Welcome to Moneyball</h1>
           <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
           <div className="mt-6 flex gap-2">

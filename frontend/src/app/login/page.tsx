@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
-      <div className="bg-white p-8 rounded-lg shadow-xl sm:w-96 w-full">
+      <div className="bg-white p-8 rounded-lg shadow-2xl sm:w-96 w-full">
         <h2 className="text-3xl font-bold mb-8 text-sky-900 text-center">
           Login
         </h2>
@@ -47,12 +47,18 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-gray-600">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-red-800 font-medium hover:underline">
-            Sign up here
+        <div className="flex flex-col">
+          <p className="mt-8 text-center text-sm text-gray-600">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="text-red-800 font-medium hover:underline">
+              Sign up here
+            </Link>
+          </p>
+          <Link href="/" className="mt-4 text-center text-xs text-sky-700 hover:underline">
+            Go back to Home page
           </Link>
-        </p>
+        </div>
+
       </div>
     </div>
   );
