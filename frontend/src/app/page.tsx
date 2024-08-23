@@ -31,7 +31,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   // Simulate a logged-in state 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     async function fetchStandings() {

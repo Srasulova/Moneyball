@@ -1,4 +1,4 @@
-export default function LoginPage() {
+export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
