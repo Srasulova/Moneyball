@@ -68,7 +68,7 @@ class MoneyballApi {
   }
 
   /** Get players for MLB teams */
-  static async getMlbPlayers(): Promise<Array<any>> {
+  static async getMlbPlayers(page = 1, limit = 50): Promise<Array<any>> {
     const endpoint = "sports/1/players"; // All players endpoint
 
     try {
@@ -80,7 +80,7 @@ class MoneyballApi {
       const mlbTeamIds = new Set(teams.map((team) => team.id));
 
       // Filter players whose teams are in MLB and have valid team information
-      return data.people
+      const filteredPlayers = data.people
         .filter(
           (player) =>
             player.currentTeam &&
@@ -89,7 +89,13 @@ class MoneyballApi {
             mlbTeamIds.has(player.currentTeam.id) &&
             player.currentTeam.name.trim() !== "" // Ensure team name is not empty
         )
-        .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically;
+        .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
+
+      // Implement pagination by slicing the filtered list
+      const start = (page - 1) * limit;
+      const paginatedPlayers = filteredPlayers.slice(start, start + limit);
+
+      return paginatedPlayers;
     } catch (error) {
       console.error("Failed to fetch MLB players:", error);
       throw error;
