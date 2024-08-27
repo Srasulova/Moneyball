@@ -37,6 +37,31 @@ class MoneyballApi {
     const params = { leagueId: leagueId.toString() };
     return this.request(endpoint, params);
   }
+
+  /** Get MLB teams with specific fields */
+  static async getMlbTeams(): Promise<
+    Array<{
+      name: string;
+      firstYearOfPlay: string;
+      leagueName: string;
+      divisionName: string;
+      locationName: string;
+    }>
+  > {
+    const endpoint = "teams";
+    const params = { sportId: "1" }; // MLB
+
+    const data = await this.request<{ teams: Array<any> }>(endpoint, params);
+
+    // Extract the necessary fields from the response
+    return data.teams.map((team) => ({
+      name: team.name,
+      firstYearOfPlay: team.firstYearOfPlay,
+      leagueName: team.league.name,
+      divisionName: team.division.name,
+      locationName: team.locationName,
+    }));
+  }
 }
 
 export default MoneyballApi;
