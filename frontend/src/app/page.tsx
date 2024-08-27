@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import Link from "next/link";
@@ -31,11 +32,15 @@ export default function Home() {
   const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
   const [leagues, setLeagues] = useState<LeagueName[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Simulate a logged-in state 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
+    // Check login status from localStorage
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+
     async function fetchStandings() {
       try {
         // Fetch league names
