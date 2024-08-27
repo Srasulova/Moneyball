@@ -17,6 +17,8 @@ type Player = {
     birthCity: string;
     birthStateProvince: string;
     birthCountry: string;
+    draftYear: number;
+    mlbDebutDate: string;
 };
 
 export default function Players() {
@@ -54,6 +56,8 @@ export default function Players() {
                         <p>Birth City: <span className="text-sky-900">{player.birthCity}</span></p>
                         <p>Birth State/Province: <span className="text-sky-900">{player.birthStateProvince}</span></p>
                         <p>Birth Country: <span className="text-sky-900">{player.birthCountry}</span></p>
+                        <p>Debut: <span className="text-sky-900">{player.mlbDebutDate}</span></p>
+                        <p>Draft: <span className="text-sky-900">{player.draftYear}</span></p>
                     </div>
                 ))}
             </div>
