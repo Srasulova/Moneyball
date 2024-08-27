@@ -1,4 +1,5 @@
 import { LeagueStanding } from "../page";
+import Image from "next/image";
 
 interface LeagueStandingsProps {
     leagueName: string;
@@ -16,7 +17,7 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                 <tr>
                                     <th
                                         scope="col"
-                                        className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-medium text-red-800 sm:pl-0"
+                                        className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-2xl font-medium text-red-800 sm:pl-0"
                                     >
                                         {leagueName}
                                     </th>
@@ -62,7 +63,8 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                             <tbody className="divide-y divide-sky-200 bg-white">
                                 {teams.map((team, idx) => (
                                     <tr key={idx}>
-                                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0">
+                                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0 flex">
+                                            <Image src={team.logoUrl} alt={team.name} width={20} height={20} className="mr-2" />
                                             {team.name}
                                         </td>
                                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-red-800">

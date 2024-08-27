@@ -10,6 +10,7 @@ import logo from "../../public/logo-no.png"
 
 export type LeagueStanding = {
   name: string;
+  logoUrl: string;
   W: number;
   L: number;
   pct: number;
@@ -73,6 +74,7 @@ export default function Home() {
 
     const extractTeamStandings = (teamRecords: any): LeagueStanding => {
       const name = teamRecords.team.name;
+      const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecords.team.id}.svg`;
       const { wins, losses, pct } = teamRecords.leagueRecord || {};
       const gamesBack = teamRecords.gamesBack || "-";
       const wildCardGamesBack = teamRecords.wildCardGamesBack || "-";
@@ -95,6 +97,7 @@ export default function Home() {
 
       return {
         name,
+        logoUrl,
         W: wins,
         L: losses,
         pct,
