@@ -35,7 +35,7 @@ export default function Teams() {
                 {teams.map((team) => (
                     <div
                         key={team.name}
-                        className="bg-white text-red-800 text-base p-4 rounded-lg shadow-xl border border-gray-100 hover:scale-125"
+                        className="bg-white text-red-800 text-base p-4 rounded-lg shadow-xl border border-gray-100 hover:scale-110"
                     >
                         <h2 className="text-2xl text-sky-900 font-bold text-center my-4">{team.name}</h2>
                         <p>Location: <span className="text-sky-900">{team.locationName}</span> </p>

@@ -41,6 +41,7 @@ class MoneyballApi {
   /** Get MLB teams with specific fields */
   static async getMlbTeams(): Promise<
     Array<{
+      id: number;
       name: string;
       firstYearOfPlay: string;
       leagueName: string;
@@ -54,13 +55,45 @@ class MoneyballApi {
     const data = await this.request<{ teams: Array<any> }>(endpoint, params);
 
     // Extract the necessary fields from the response
-    return data.teams.map((team) => ({
-      name: team.name,
-      firstYearOfPlay: team.firstYearOfPlay,
-      leagueName: team.league.name,
-      divisionName: team.division.name,
-      locationName: team.locationName,
-    }));
+    return data.teams
+      .map((team) => ({
+        id: team.id,
+        name: team.name,
+        firstYearOfPlay: team.firstYearOfPlay,
+        leagueName: team.league.name,
+        divisionName: team.division.name,
+        locationName: team.locationName,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  /** Get players for MLB teams */
+  static async getMlbPlayers(): Promise<Array<any>> {
+    const endpoint = "sports/1/players"; // All players endpoint
+
+    try {
+      // Fetch all players
+      const data = await this.request<{ people: Array<any> }>(endpoint);
+
+      // Fetch MLB teams to filter players
+      const teams = await this.getMlbTeams();
+      const mlbTeamIds = new Set(teams.map((team) => team.id));
+
+      // Filter players whose teams are in MLB and have valid team information
+      return data.people
+        .filter(
+          (player) =>
+            player.currentTeam &&
+            player.currentTeam.id &&
+            player.currentTeam.name &&
+            mlbTeamIds.has(player.currentTeam.id) &&
+            player.currentTeam.name.trim() !== "" // Ensure team name is not empty
+        )
+        .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically;
+    } catch (error) {
+      console.error("Failed to fetch MLB players:", error);
+      throw error;
+    }
   }
 }
 
