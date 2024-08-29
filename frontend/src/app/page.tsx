@@ -116,7 +116,7 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center text-gray-500">Loading...</p>;
   }
 
   return (
