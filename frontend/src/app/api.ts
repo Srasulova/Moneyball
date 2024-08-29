@@ -68,7 +68,7 @@ class MoneyballApi {
   }
 
   /** Get players for MLB teams */
-  static async getMlbPlayers(page = 1, limit = 50): Promise<Array<any>> {
+  static async getMlbPlayers(): Promise<Array<any>> {
     const endpoint = "sports/1/players"; // All players endpoint
 
     try {
@@ -91,11 +91,7 @@ class MoneyballApi {
         )
         .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
 
-      // Implement pagination by slicing the filtered list
-      const start = (page - 1) * limit;
-      const paginatedPlayers = filteredPlayers.slice(start, start + limit);
-
-      return paginatedPlayers;
+      return filteredPlayers;
     } catch (error) {
       console.error("Failed to fetch MLB players:", error);
       throw error;
