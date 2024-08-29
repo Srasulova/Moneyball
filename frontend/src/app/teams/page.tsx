@@ -81,6 +81,10 @@ export default function Teams() {
                             <p>First Year of Play: <span className="text-sky-900">{team.firstYearOfPlay}</span></p>
                             <p>League: <span className="text-sky-900">{team.leagueName}</span></p>
                             <p>Division: <span className="text-sky-900">{team.divisionName}</span></p>
+                            <div className="flex justify-center">
+                                <button className="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white">Add to favorites</button>
+                            </div>
+
                         </div>
                     );
                 })}

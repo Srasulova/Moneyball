@@ -87,13 +87,15 @@ export default function Players() {
                             <Image
                                 src={imgUrl}
                                 alt={`${player.fullName}`}
-                                className="rounded-lg"
+                                className="rounded-md"
                                 width={200}
                                 height={200}
                             />
                             <div className="ml-8">
-                                <h2 className="text-2xl text-sky-900 font-bold text-center my-4">
+                                <button className="rounded-md shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white">Add to favorites</button>
+                                <h2 className="text-2xl text-sky-900 font-bold my-2">
                                     {index + 1}. {player.fullName}
+
                                 </h2>
                                 <p className="mb-1">Team: <span className="text-sky-900 ">{player.currentTeam.name}</span></p>
                                 <p className="mb-1">Position: <span className="text-sky-900">{player.primaryPosition.name}</span></p>
@@ -106,6 +108,7 @@ export default function Players() {
                                 <p className="mb-1">Debut: <span className="text-sky-900">{player.mlbDebutDate}</span></p>
                                 <p className="mb-1">Draft: <span className="text-sky-900">{player.draftYear}</span></p>
                             </div>
+
                         </div>
                     );
                 })
