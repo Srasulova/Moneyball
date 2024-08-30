@@ -1,5 +1,44 @@
 const BASE_URL = "https://statsapi.mlb.com/api/v1/";
 
+/** Types for API responses */
+type League = {
+  id: number;
+  name: string;
+};
+
+type Team = {
+  id: number;
+  name: string;
+  firstYearOfPlay: string;
+  league: { name: string };
+  division: { name: string };
+  locationName: string;
+};
+
+type Player = {
+  id: number;
+  fullName: string;
+  currentTeam: {
+    id: number;
+    name: string;
+  };
+};
+
+type TeamInfo = {
+  teamName: string;
+  leagueName: string;
+  division: string;
+  leagueRank: number | string;
+};
+
+type TeamStats = {
+  stats: Array<{
+    splits: Array<{
+      stat: Record<string, any>;
+    }>;
+  }>;
+};
+
 /** API Class for interacting with the MLB API */
 class MoneyballApi {
   /** Helper method to make a fetch request */
@@ -24,9 +63,7 @@ class MoneyballApi {
   }
 
   /** Get league names */
-  static async getLeagueNames(): Promise<{
-    leagues: Array<{ id: number; name: string }>;
-  }> {
+  static async getLeagueNames(): Promise<{ leagues: League[] }> {
     const endpoint = "leagues";
     return this.request(endpoint);
   }
@@ -52,7 +89,7 @@ class MoneyballApi {
     const endpoint = "teams";
     const params = { sportId: "1" }; // MLB
 
-    const data = await this.request<{ teams: Array<any> }>(endpoint, params);
+    const data = await this.request<{ teams: Team[] }>(endpoint, params);
 
     // Extract the necessary fields from the response
     return data.teams
@@ -68,19 +105,19 @@ class MoneyballApi {
   }
 
   /** Get players for MLB teams */
-  static async getMlbPlayers(): Promise<Array<any>> {
+  static async getMlbPlayers(): Promise<Player[]> {
     const endpoint = "sports/1/players"; // All players endpoint
 
     try {
       // Fetch all players
-      const data = await this.request<{ people: Array<any> }>(endpoint);
+      const data = await this.request<{ people: Player[] }>(endpoint);
 
       // Fetch MLB teams to filter players
       const teams = await this.getMlbTeams();
       const mlbTeamIds = new Set(teams.map((team) => team.id));
 
       // Filter players whose teams are in MLB and have valid team information
-      const filteredPlayers = data.people
+      return data.people
         .filter(
           (player) =>
             player.currentTeam &&
@@ -90,8 +127,6 @@ class MoneyballApi {
             player.currentTeam.name.trim() !== "" // Ensure team name is not empty
         )
         .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
-
-      return filteredPlayers;
     } catch (error) {
       console.error("Failed to fetch MLB players:", error);
       throw error;
@@ -99,12 +134,7 @@ class MoneyballApi {
   }
 
   /** Get team general information and league rank */
-  static async getTeamInfo(teamId: number): Promise<{
-    teamName: string;
-    leagueName: string;
-    division: string;
-    leagueRank: number | string;
-  }> {
+  static async getTeamInfo(teamId: number): Promise<TeamInfo> {
     try {
       // Fetch team general information
       const teamResponse = await fetch(`${BASE_URL}teams/${teamId}`);
@@ -148,22 +178,52 @@ class MoneyballApi {
   ): Promise<any> {
     const endpoint = `teams/${teamId}/stats`;
     const params = { stats: "season", group };
-    return this.request(endpoint, params);
+    const response = await this.request<TeamStats>(endpoint, params);
+
+    // Extract relevant stats based on group
+    const stats = response.stats[0].splits[0].stat; // Adjust if needed based on actual structure
+
+    return stats;
   }
 
   /** Get hitting stats for a specific team */
   static async getHittingStats(teamId: number): Promise<any> {
-    return this.getTeamStats(teamId, "hitting");
+    const stats = await this.getTeamStats(teamId, "hitting");
+    return {
+      avg: stats.avg,
+      hr: stats.hr,
+      obp: stats.obp,
+      slg: stats.slg,
+      ops: stats.ops,
+      r: stats.r,
+      h: stats.h,
+      so: stats.so,
+      sb: stats.sb,
+      rbi: stats.rbi,
+      bb: stats.bb,
+      babip: stats.babip,
+    };
   }
 
   /** Get pitching stats for a specific team */
   static async getPitchingStats(teamId: number): Promise<any> {
-    return this.getTeamStats(teamId, "pitching");
+    const stats = await this.getTeamStats(teamId, "pitching");
+    return {
+      era: stats.era,
+      so: stats.so,
+      bb: stats.bb,
+      whip: stats.whip,
+    };
   }
 
   /** Get fielding stats for a specific team */
   static async getFieldingStats(teamId: number): Promise<any> {
-    return this.getTeamStats(teamId, "fielding");
+    const stats = await this.getTeamStats(teamId, "fielding");
+    return {
+      fpct: stats.fpct,
+      e: stats.e,
+      dp: stats.dp,
+    };
   }
 }
 

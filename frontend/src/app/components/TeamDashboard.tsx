@@ -1,4 +1,5 @@
 import Image from "next/image";
+import TeamStats from "./TeamStats";
 
 interface TeamDashboardProps {
     teamId: number;
@@ -30,6 +31,7 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamId, teamSummary }) =>
                 <p className="text-base  text-red-800">Division: <span className="text-sky-900">{teamSummary.division}</span> </p>
                 <p className="ttext-base  text-red-800">League Rank: <span className="text-sky-900">{teamSummary.leagueRank}</span> </p>
             </div>
+            <TeamStats teamId={teamId} season="season" />
         </div>
     );
 };
