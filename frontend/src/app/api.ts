@@ -140,6 +140,31 @@ class MoneyballApi {
       throw error;
     }
   }
+
+  /** Get stats for a specific team and group */
+  static async getTeamStats(
+    teamId: number,
+    group: "hitting" | "pitching" | "fielding"
+  ): Promise<any> {
+    const endpoint = `teams/${teamId}/stats`;
+    const params = { stats: "season", group };
+    return this.request(endpoint, params);
+  }
+
+  /** Get hitting stats for a specific team */
+  static async getHittingStats(teamId: number): Promise<any> {
+    return this.getTeamStats(teamId, "hitting");
+  }
+
+  /** Get pitching stats for a specific team */
+  static async getPitchingStats(teamId: number): Promise<any> {
+    return this.getTeamStats(teamId, "pitching");
+  }
+
+  /** Get fielding stats for a specific team */
+  static async getFieldingStats(teamId: number): Promise<any> {
+    return this.getTeamStats(teamId, "fielding");
+  }
 }
 
 export default MoneyballApi;
