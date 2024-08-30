@@ -31,15 +31,10 @@ type LeagueName = {
 };
 
 type TeamSummary = {
+  teamName: string;
   leagueName: string;
-  leagueRank: number;
-  recentScores: { date: string; opponent: string; result: string; score: string }[];
-  playerLeaders: { name: string; statistic: string; value: string }[];
-};
-
-const getFavoriteTeamIds = (): number[] => {
-  const storedTeams = localStorage.getItem("favoriteTeams");
-  return storedTeams ? JSON.parse(storedTeams) : [];
+  division: string;
+  leagueRank: string;
 };
 
 export default function Home() {
@@ -48,16 +43,17 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
-  const [teamSummary, setTeamSummary] = useState<TeamSummary | null>(null);
+  const [teamSummaries, setTeamSummaries] = useState<TeamSummary[]>([]);
 
   const router = useRouter();
   const season = "2024"; // Define the season
 
+  // Fetch league standings
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
 
-    async function fetchStandings() {
+    const fetchStandings = async () => {
       try {
         const leagueData = await MoneyballApi.getLeagueNames();
         const filteredLeagues = leagueData.leagues.filter(league => [103, 104].includes(league.id));
@@ -72,18 +68,12 @@ export default function Home() {
           standingsData[league.name] = transformedData;
         }
         setStandings(standingsData);
-
-        const favoriteTeamId = getFavoriteTeamIds()[0]; // Assuming single favorite team for simplicity
-        if (favoriteTeamId) {
-          const summary = await MoneyballApi.getTeamSummary(favoriteTeamId, season);
-          setTeamSummary(summary);
-        }
       } catch (err) {
-        console.error("Failed to fetch data:", err);
+        console.error("Failed to fetch standings:", err);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     const extractTeamStandings = (teamRecords: any): LeagueStanding => {
       const name = teamRecords.team.name;
@@ -128,6 +118,30 @@ export default function Home() {
     fetchStandings();
   }, []);
 
+  // Fetch team summaries for favorite teams
+  useEffect(() => {
+    const fetchFavoriteTeamsSummary = async () => {
+      try {
+        const storedTeams = localStorage.getItem("favoriteTeams");
+        const ids = storedTeams ? JSON.parse(storedTeams) : [];
+        setFavoriteTeamIds(ids);
+
+        if (ids.length > 0) {
+          console.log("Fetching summaries for teams:", ids);
+          const summaries = await Promise.all(
+            ids.map((id: number) => MoneyballApi.getTeamInfo(id))
+          );
+          console.log("Fetched team summaries:", summaries);
+          setTeamSummaries(summaries); // Store summaries for all favorite teams
+        }
+      } catch (err) {
+        console.error("Failed to fetch team summaries:", err);
+      }
+    };
+
+    fetchFavoriteTeamsSummary();
+  }, []);
+
   if (loading) {
     return <p className="text-center text-gray-500 mt-20">Loading...</p>;
   }
@@ -136,20 +150,32 @@ export default function Home() {
     <main>
       {isLoggedIn ? (
         <>
-          {leagues.map((league) => (
-            <LeagueStandings
-              key={league.id}
-              leagueName={league.name}
-              teams={standings[league.name] || []}
-            />
-          ))}
-          {teamSummary && (
-            <TeamDashboard
-              teamId={getFavoriteTeamIds()[0]} // Pass favorite team ID
-              season={season} // Pass the season
-              teamSummary={teamSummary} // Pass the team summary
-            />
+          {teamSummaries.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
+              {teamSummaries.map((summary, index) => (
+                <TeamDashboard
+                  key={index}
+                  teamId={favoriteTeamIds[index]}
+                  season={season}
+                  teamSummary={summary}
+                />
+              ))}
+            </div>
           )}
+
+          <div>
+            <h2 className="text-2xl font-bold text-center text-sky-900 mt-10">League Standings</h2>
+            {leagues.map((league) => (
+              <LeagueStandings
+                key={league.id}
+                leagueName={league.name}
+                teams={standings[league.name] || []}
+              />
+            ))}
+          </div>
+
+
         </>
       ) : (
         <div className="flex flex-col items-center justify-start min-h-screen mt-28">

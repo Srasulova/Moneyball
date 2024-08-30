@@ -98,60 +98,45 @@ class MoneyballApi {
     }
   }
 
-  /** Get team summary dashboard data */
-  static async getTeamSummary(
-    teamId: number,
-    season: string
-  ): Promise<{
+  /** Get team general information and league rank */
+  static async getTeamInfo(teamId: number): Promise<{
+    teamName: string;
     leagueName: string;
-    leagueRank: number;
-    recentScores: any[];
-    playerLeaders: any[];
+    division: string;
+    leagueRank: number | string;
   }> {
     try {
-      // Fetch league standings data
-      const standingsData = await this.request<{ records: any[] }>("standings");
+      // Fetch team general information
+      const teamResponse = await fetch(`${BASE_URL}teams/${teamId}`);
+      const teamData = await teamResponse.json();
+      const team = teamData.teams[0];
 
-      // Find the league and team standings data
-      const leagueStandings = standingsData.records.find((record) =>
-        record.teamRecords.some((record: any) => record.team.id === teamId)
+      const teamName = team.name;
+      const leagueName = team.league.name;
+      const division = team.division.name;
+
+      // Fetch league standings to get team ranking
+      const leagueId = team.league.id;
+      const standingsResponse = await fetch(
+        `${BASE_URL}standings?leagueId=${leagueId}`
       );
+      const standingsData = await standingsResponse.json();
 
-      if (!leagueStandings) {
-        throw new Error("Team not found in standings data.");
-      }
+      // Find the team's rank in the league
+      const teamRecord = standingsData.records
+        .flatMap((record: any) => record.teamRecords)
+        .find((record: any) => record.team.id === teamId);
 
-      const leagueName = leagueStandings.league.name;
-      const leagueId = leagueStandings.league.id;
+      const leagueRank = teamRecord ? teamRecord.leagueRank : "N/A";
 
-      // Find the specific team's standing information
-      const teamStanding = leagueStandings.teamRecords.find(
-        (record: any) => record.team.id === teamId
-      );
-
-      const leagueRank = teamStanding
-        ? leagueStandings.teamRecords.findIndex(
-            (record: any) => record.team.id === teamId
-          ) + 1
-        : 0;
-
-      // Fetch recent scores
-      const recentScoresData = await this.request<any[]>("games", {
-        teamId: teamId.toString(),
-        season,
-      });
-      const recentScores = recentScoresData.slice(0, 5); // Last 5 scores, adjust as needed
-
-      // Fetch player leaders
-      const playerLeadersData = await this.request<{ leaders: any[] }>(
-        `teams/${teamId}/leaders`,
-        { season }
-      );
-      const playerLeaders = playerLeadersData.leaders;
-
-      return { leagueName, leagueRank, recentScores, playerLeaders };
+      return {
+        teamName,
+        leagueName,
+        division,
+        leagueRank,
+      };
     } catch (error) {
-      console.error("Failed to fetch team summary:", error);
+      console.error("Failed to fetch team information:", error);
       throw error;
     }
   }
