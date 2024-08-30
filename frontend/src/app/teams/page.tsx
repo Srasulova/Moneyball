@@ -17,6 +17,11 @@ export default function Teams() {
     const [teams, setTeams] = useState<Team[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
+    const [favoriteTeams, setFavoriteTeams] = useState<number[]>(() => {
+        // Initialize state from localStorage
+        const storedFavorites = localStorage.getItem("favoriteTeams");
+        return storedFavorites ? JSON.parse(storedFavorites) : [];
+    });
 
     useEffect(() => {
         async function fetchTeams() {
@@ -44,6 +49,18 @@ export default function Teams() {
         setSearchTerm(event.target.value);
     };
 
+    // Add or remove a team to/from the favorites list
+    const handleFavoriteClick = (teamId: number) => {
+        setFavoriteTeams(prevFavorites => {
+            const updatedFavorites = prevFavorites.includes(teamId)
+                ? prevFavorites.filter(id => id !== teamId) // Remove from favorites
+                : [...prevFavorites, teamId]; // Add to favorites
+
+            localStorage.setItem("favoriteTeams", JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
+    };
+
     return (
         <div className="min-h-screen bg-white py-8 px-8">
             <h1 className="text-red-800 text-4xl font-bold text-center mb-8">
@@ -61,6 +78,7 @@ export default function Teams() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredTeams.map((team) => {
                     const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${team.id}.svg`;
+                    const isFavorite = favoriteTeams.includes(team.id);
 
                     return (
                         <div
@@ -82,7 +100,13 @@ export default function Teams() {
                             <p>League: <span className="text-sky-900">{team.leagueName}</span></p>
                             <p>Division: <span className="text-sky-900">{team.divisionName}</span></p>
                             <div className="flex justify-center">
-                                <button className="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white">Add to favorites</button>
+                                <button
+                                    onClick={() => handleFavoriteClick(team.id)}
+                                    className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'
+                                        }  font-normal px-3 py-2 text-white`}
+                                >
+                                    {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                </button>
                             </div>
 
                         </div>
@@ -92,3 +116,5 @@ export default function Teams() {
         </div>
     );
 }
+
+

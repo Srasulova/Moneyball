@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import MoneyballApi from "@/app/api";
-import LeagueStandings from "./components/LeagueStandings";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/logo-no.png"
+import logo from "../../public/logo-no.png";
+import MoneyballApi from "@/app/api";
+import LeagueStandings from "./components/LeagueStandings";
+import TeamDashboard from "./components/TeamDashboard";
 
 export type LeagueStanding = {
   name: string;
@@ -29,44 +30,56 @@ type LeagueName = {
   name: string;
 };
 
+type TeamSummary = {
+  leagueName: string;
+  leagueRank: number;
+  recentScores: { date: string; opponent: string; result: string; score: string }[];
+  playerLeaders: { name: string; statistic: string; value: string }[];
+};
+
+const getFavoriteTeamIds = (): number[] => {
+  const storedTeams = localStorage.getItem("favoriteTeams");
+  return storedTeams ? JSON.parse(storedTeams) : [];
+};
+
 export default function Home() {
   const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
   const [leagues, setLeagues] = useState<LeagueName[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
+  const [teamSummary, setTeamSummary] = useState<TeamSummary | null>(null);
 
   const router = useRouter();
+  const season = "2024"; // Define the season
 
   useEffect(() => {
-    // Check login status from localStorage
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
 
     async function fetchStandings() {
       try {
-        // Fetch league names
         const leagueData = await MoneyballApi.getLeagueNames();
-
-        // Filter for American and National League
         const filteredLeagues = leagueData.leagues.filter(league => [103, 104].includes(league.id));
         setLeagues(filteredLeagues);
 
-        // Fetch standings for each league
         const standingsData: { [key: string]: LeagueStanding[] } = {};
-
         for (const league of filteredLeagues) {
           const leagueStandings = await MoneyballApi.getStandings(league.id);
           const transformedData = leagueStandings.records
             .flatMap((record: any) => (record.teamRecords || []).map(extractTeamStandings))
             .sort((a: LeagueStanding, b: LeagueStanding) => b.pct - a.pct);
-
           standingsData[league.name] = transformedData;
         }
-
         setStandings(standingsData);
 
+        const favoriteTeamId = getFavoriteTeamIds()[0]; // Assuming single favorite team for simplicity
+        if (favoriteTeamId) {
+          const summary = await MoneyballApi.getTeamSummary(favoriteTeamId, season);
+          setTeamSummary(summary);
+        }
       } catch (err) {
-        console.error("Failed to fetch standings:", err);
+        console.error("Failed to fetch data:", err);
       } finally {
         setLoading(false);
       }
@@ -122,13 +135,22 @@ export default function Home() {
   return (
     <main>
       {isLoggedIn ? (
-        leagues.map((league) => (
-          <LeagueStandings
-            key={league.id}
-            leagueName={league.name}
-            teams={standings[league.name] || []}
-          />
-        ))
+        <>
+          {leagues.map((league) => (
+            <LeagueStandings
+              key={league.id}
+              leagueName={league.name}
+              teams={standings[league.name] || []}
+            />
+          ))}
+          {teamSummary && (
+            <TeamDashboard
+              teamId={getFavoriteTeamIds()[0]} // Pass favorite team ID
+              season={season} // Pass the season
+              teamSummary={teamSummary} // Pass the team summary
+            />
+          )}
+        </>
       ) : (
         <div className="flex flex-col items-center justify-start min-h-screen mt-28">
           <Image className="sm:h-60 h-40 w-auto mb-10" src={logo} alt="logo" />

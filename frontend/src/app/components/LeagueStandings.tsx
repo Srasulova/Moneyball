@@ -3,7 +3,7 @@ import Image from "next/image";
 
 interface LeagueStandingsProps {
     leagueName: string;
-    teams: LeagueStanding[]; // Ensure this matches the type used in Home
+    teams: LeagueStanding[];
 }
 
 export default function LeagueStandings({ leagueName, teams }: LeagueStandingsProps) {
