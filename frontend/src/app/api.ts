@@ -190,18 +190,16 @@ class MoneyballApi {
   static async getHittingStats(teamId: number): Promise<any> {
     const stats = await this.getTeamStats(teamId, "hitting");
     return {
-      avg: stats.avg,
-      hr: stats.homeRuns,
-      obp: stats.obp,
-      slg: stats.slg,
-      ops: stats.ops,
-      r: stats.runs,
-      h: stats.hits,
-      so: stats.strikeOuts,
-      sb: stats.stolenBases,
-      rbi: stats.rbi,
-      bb: stats.baseOnBalls,
-      babip: stats.babip,
+      avg: stats.avg, // Batting average
+      homeRuns: stats.homeRuns, // Number of home runs
+      obp: stats.obp, // On-base percentage
+      slg: stats.slg, // Slugging percentage
+      ops: stats.ops, // On-base plus slugging percentage
+      runs: stats.runs, // Number of runs
+      hits: stats.hits, // Number of hits
+      strikeOuts: stats.strikeOuts, // Number of strikeouts
+      stolenBases: stats.stolenBases, // Number of stolen bases
+      rbi: stats.rbi, // Runs batted in
     };
   }
 
@@ -209,23 +207,16 @@ class MoneyballApi {
   static async getPitchingStats(teamId: number): Promise<any> {
     const stats = await this.getTeamStats(teamId, "pitching");
     return {
-      era: stats.era,
-      so: stats.strikeOuts,
-      bb: stats.baseOnBalls,
-      whip: stats.whip,
-      ip: stats.inningsPitched,
-      wins: stats.wins,
-      losses: stats.losses,
-      saves: stats.saves,
-      holds: stats.holds,
-      blownSaves: stats.blownSaves,
-      strikePercentage: stats.strikePercentage,
-      strikeoutWalkRatio: stats.strikeoutWalkRatio,
-      strikeoutsPer9Inn: stats.strikeoutsPer9Inn,
-      walksPer9Inn: stats.walksPer9Inn,
-      hitsPer9Inn: stats.hitsPer9Inn,
-      homeRunsPer9: stats.homeRunsPer9,
-      winPercentage: stats.winPercentage,
+      era: stats.era, // Earned Run Average
+      so: stats.strikeOuts, // Strikeouts
+      bb: stats.baseOnBalls, // Base on Balls (Walks)
+      whip: stats.whip, // Walks plus Hits per Inning Pitched
+      ip: stats.inningsPitched, // Innings Pitched
+      wins: stats.wins, // Wins
+      losses: stats.losses, // Losses
+      saves: stats.saves, // Saves
+      blownSaves: stats.blownSaves, // Blown Saves
+      strikeoutWalkRatio: stats.strikeoutWalkRatio, // Strikeout-to-Walk Ratio
     };
   }
 
@@ -233,17 +224,16 @@ class MoneyballApi {
   static async getFieldingStats(teamId: number): Promise<any> {
     const stats = await this.getTeamStats(teamId, "fielding");
     return {
-      fpct: stats.fielding,
-      errors: stats.errors,
-      assists: stats.assists,
-      putOuts: stats.putOuts,
-      chances: stats.chances,
-      doublePlays: stats.doublePlays,
-      triplePlays: stats.triplePlays,
-      passedBall: stats.passedBall,
-      throwingErrors: stats.throwingErrors,
-      rangeFactorPerGame: stats.rangeFactorPerGame,
-      rangeFactorPer9Inn: stats.rangeFactorPer9Inn,
+      fpct: stats.fielding || "N/A",
+      errors: stats.errors || "N/A",
+      assists: stats.assists || "N/A",
+      putOuts: stats.putOuts || "N/A",
+      chances: stats.chances || "N/A",
+      doublePlays: stats.doublePlays || "N/A",
+      triplePlays: stats.triplePlays || "N/A",
+      passedBall: stats.passedBall || "N/A",
+      throwingErrors: stats.throwingErrors || "N/A",
+      rangeFactorPerGame: stats.rangeFactorPerGame || "N/A",
     };
   }
 }

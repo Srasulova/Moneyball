@@ -19,15 +19,15 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamId, teamSummary }) =>
 
     return (
 
-        <div className="p-4 bg-white shadow-lg rounded-lg max-w-5xl mx-auto my-4 border border-gray-100">
+        <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-4 border border-gray-100 flex">
             <div className="mb-6">
-                <div className="flex mb-4 items-center justify-center">
+                <div className="flex mb-4 items-center ">
                     <Image src={`https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamId}.svg`} alt={`${teamSummary.teamName} logo`} width={40}
                         height={40}
                         className="mr-2" />
                     <h2 className="text-2xl font-medium text-red-800">{teamSummary.teamName}</h2>
                 </div>
-                <div className="flex gap-4 justify-center">
+                <div className="">
                     <p className="text-base  text-red-800">League: <span className="text-sky-900">{teamSummary.leagueName}</span> </p>
                     <p className="text-base  text-red-800">Division: <span className="text-sky-900">{teamSummary.division}</span> </p>
                     <p className="ttext-base  text-red-800">League Rank: <span className="text-sky-900">{teamSummary.leagueRank}</span> </p>

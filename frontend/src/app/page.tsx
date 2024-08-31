@@ -151,16 +151,19 @@ export default function Home() {
       {isLoggedIn ? (
         <>
           {teamSummaries.length > 0 && (
-            <div>
+            <div className="w-full ">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
-              {teamSummaries.map((summary, index) => (
-                <TeamDashboard
-                  key={index}
-                  teamId={favoriteTeamIds[index]}
-                  season={season}
-                  teamSummary={summary}
-                />
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 mx-4 ">
+                {teamSummaries.map((summary, index) => (
+                  <TeamDashboard
+                    key={index}
+                    teamId={favoriteTeamIds[index]}
+                    season={season}
+                    teamSummary={summary}
+                  />
+                ))}
+              </div>
+
             </div>
           )}
 
