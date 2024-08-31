@@ -10,6 +10,7 @@ import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
 
 export type LeagueStanding = {
+  id: number;
   name: string;
   logoUrl: string;
   W: number;
@@ -76,6 +77,7 @@ export default function Home() {
     };
 
     const extractTeamStandings = (teamRecords: any): LeagueStanding => {
+      const id = teamRecords.team.id;
       const name = teamRecords.team.name;
       const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecords.team.id}.svg`;
       const { wins, losses, pct } = teamRecords.leagueRecord || {};
@@ -99,6 +101,7 @@ export default function Home() {
       });
 
       return {
+        id,
         name,
         logoUrl,
         W: wins,
@@ -151,9 +154,9 @@ export default function Home() {
       {isLoggedIn ? (
         <>
           {teamSummaries.length > 0 && (
-            <div className="w-full ">
+            <div className="w-full mt-16 ">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 mx-4 ">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {teamSummaries.map((summary, index) => (
                   <TeamDashboard
                     key={index}

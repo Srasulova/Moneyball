@@ -96,7 +96,7 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
     }
 
     return (
-        <div className="px-6 sm:px-10">
+        <div className="ml-16 lg:mx-0">
             <div className="flex mb-4">
                 <button
                     className={`px-3 py-1.5 border rounded-md ${statsType === 'hitting' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
