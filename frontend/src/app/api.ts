@@ -236,6 +236,97 @@ class MoneyballApi {
       rangeFactorPerGame: stats.rangeFactorPerGame || "N/A",
     };
   }
+
+  /** Get hitting stats for a specific player */
+  static async getPlayerHittingStats(playerId: number): Promise<any> {
+    const endpoint = `people/${playerId}/stats`;
+    const params = { stats: "season", group: "hitting" };
+    const response = await this.request<{
+      stats: Array<{ splits: Array<{ stat: any }> }>;
+    }>(endpoint, params);
+
+    // Extract the relevant stats from the response
+    const stats = response.stats[0]?.splits[0]?.stat;
+    if (!stats) {
+      throw new Error(`No hitting stats found for player with ID ${playerId}`);
+    }
+
+    return {
+      gamesPlayed: stats.gamesPlayed,
+      atBats: stats.atBats,
+      hits: stats.hits,
+      homeRuns: stats.homeRuns,
+      avg: stats.avg,
+      obp: stats.obp,
+      slg: stats.slg,
+      ops: stats.ops,
+      rbi: stats.rbi,
+      runs: stats.runs,
+      strikeOuts: stats.strikeOuts,
+      stolenBases: stats.stolenBases,
+    };
+  }
+
+  /** Get pitching stats for a specific player */
+  static async getPlayerPitchingStats(playerId: number): Promise<any> {
+    const endpoint = `people/${playerId}/stats`;
+    const params = { stats: "season", group: "pitching" };
+    const response = await this.request<{
+      stats: Array<{ splits: Array<{ stat: any }> }>;
+    }>(endpoint, params);
+
+    // Extract the relevant stats from the response
+    const stats = response.stats[0]?.splits[0]?.stat;
+    if (!stats) {
+      throw new Error(`No pitching stats found for player with ID ${playerId}`);
+    }
+
+    return {
+      gamesPlayed: stats.gamesPlayed,
+      era: stats.era,
+      strikeOuts: stats.strikeOuts,
+      baseOnBalls: stats.baseOnBalls,
+      whip: stats.whip,
+      inningsPitched: stats.inningsPitched,
+      wins: stats.wins,
+      losses: stats.losses,
+      saves: stats.saves,
+      homeRunsAllowed: stats.homeRuns,
+      hitsAllowed: stats.hits,
+      earnedRuns: stats.runs,
+    };
+  }
+
+  /** Get fielding stats for a specific player */
+  static async getPlayerFieldingStats(playerId: number): Promise<any> {
+    const endpoint = `people/${playerId}/stats`;
+    const params = { stats: "season", group: "fielding" };
+    const response = await this.request<{
+      stats: Array<{ splits: Array<{ stat: any }> }>;
+    }>(endpoint, params);
+
+    // Extract the relevant stats from the response
+    const stats = response.stats[0]?.splits[0]?.stat;
+    if (!stats) {
+      throw new Error(`No fielding stats found for player with ID ${playerId}`);
+    }
+
+    return {
+      gamesPlayed: stats.gamesPlayed,
+      gamesStarted: stats.gamesStarted,
+      assists: stats.assists,
+      putOuts: stats.putOuts,
+      errors: stats.errors,
+      chances: stats.chances,
+      fieldingPercentage: stats.fielding,
+      rangeFactorPerGame: stats.rangeFactorPerGame,
+      rangeFactorPer9Inn: stats.rangeFactorPer9Inn,
+      innings: stats.innings,
+      doublePlays: stats.doublePlays,
+      triplePlays: stats.triplePlays,
+      throwingErrors: stats.throwingErrors,
+    };
+  }
 }
 
 export default MoneyballApi;
