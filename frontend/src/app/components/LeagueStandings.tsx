@@ -75,7 +75,7 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                     <th className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900">
                                         AWAY
                                     </th>
-                                    <th className="relative whitespace-nowrap py-3.5 px-2 text-center text-sm font-medium text-sky-900">
+                                    <th className="relative whitespace-nowrap py-3.5 px-2 text-center text-sm font-medium text-red-800">
                                         Add to favorites
                                         <span className="sr-only">Edit</span>
                                     </th>

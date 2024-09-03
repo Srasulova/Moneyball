@@ -28,6 +28,11 @@ export default function Players() {
     const [isLoading, setIsLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
+    const [favoritePlayers, setFavoritePlayers] = useState<number[]>(() => {
+        // Initialize state from localStorage
+        const storedFavorites = localStorage.getItem("favoritePlayers");
+        return storedFavorites ? JSON.parse(storedFavorites) : [];
+    });
 
 
     useEffect(() => {
@@ -61,6 +66,19 @@ export default function Players() {
         setSearchTerm(event.target.value);
     };
 
+    // Add or remove a team to/from the favorites list
+    const handleFavoriteClick = (playerId: number) => {
+        setFavoritePlayers(prevFavorites => {
+            const updatedFavorites = prevFavorites.includes(playerId)
+                ? prevFavorites.filter(id => id !== playerId) // Remove from favorites
+                : [...prevFavorites, playerId]; // Add to favorites
+
+            localStorage.setItem("favoritePlayers", JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
+    };
+
+
     return (
         <div className="min-h-screen bg-white py-8 px-8">
             <h1 className="text-red-800 text-4xl font-bold text-center mb-8">
@@ -78,6 +96,7 @@ export default function Players() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-10">
                 {filteredPlayers.map((player, index) => {
                     const imgUrl = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${player.id}/headshot/67/current`;
+                    const isFavorite = favoritePlayers.includes(player.id);
 
                     return (
                         <div
@@ -92,7 +111,13 @@ export default function Players() {
                                 height={200}
                             />
                             <div className="ml-8">
-                                <button className="rounded-md shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white">Add to favorites</button>
+                                <button
+                                    onClick={() => handleFavoriteClick(player.id)}
+                                    className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'
+                                        }  font-normal px-3 py-2 text-white`}
+                                >
+                                    {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                </button>
                                 <h2 className="text-2xl text-sky-900 font-bold my-2">
                                     {index + 1}. {player.fullName}
 
