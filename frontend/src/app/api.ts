@@ -22,6 +22,10 @@ type Player = {
     id: number;
     name: string;
   };
+  primaryPosition: string;
+  primaryNumber: number;
+  batSide: string;
+  pitchingHand: string;
 };
 
 type TeamInfo = {
@@ -326,6 +330,50 @@ class MoneyballApi {
       triplePlays: stats.triplePlays,
       throwingErrors: stats.throwingErrors,
     };
+  }
+
+  // Method to fetch player information by ID
+  static async getPlayerInfo(playerId: number): Promise<Player> {
+    try {
+      // Fetch player's general information
+      const playerEndpoint = `people/${playerId}`;
+      const playerData = await this.request<{ people: any[] }>(playerEndpoint);
+
+      if (playerData.people.length === 0) {
+        throw new Error(`Player with ID ${playerId} not found`);
+      }
+
+      const player = playerData.people[0];
+
+      // Fetch player's stats to get team information
+      const statsEndpoint = `people/${playerId}/stats?stats=season`;
+      const statsData = await this.request<{ stats: any[] }>(statsEndpoint);
+
+      if (
+        statsData.stats.length === 0 ||
+        statsData.stats[0].splits.length === 0
+      ) {
+        throw new Error(`Stats for player with ID ${playerId} not found`);
+      }
+
+      const teamName = statsData.stats[0].splits[0].team.name;
+
+      return {
+        id: player.id,
+        fullName: player.fullName,
+        currentTeam: {
+          id: statsData.stats[0].splits[0].team.id,
+          name: teamName,
+        },
+        primaryPosition: player.primaryPosition.name,
+        primaryNumber: parseInt(player.primaryNumber, 10),
+        batSide: player.batSide?.description || "",
+        pitchingHand: player.pitchHand?.description || "",
+      };
+    } catch (error) {
+      console.error(`Failed to fetch player info for ID ${playerId}:`, error);
+      throw error;
+    }
   }
 }
 

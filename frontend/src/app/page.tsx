@@ -8,6 +8,7 @@ import logo from "../../public/logo-no.png";
 import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
+import PlayerDashboard from "./components/PlayerDashboard"; // Import the PlayerDashboard component
 
 export type LeagueStanding = {
   id: number;
@@ -38,6 +39,19 @@ type TeamSummary = {
   leagueRank: string;
 };
 
+type PlayerSummary = {
+  id: number;
+  fullName: string;
+  currentTeam: {
+    id: number;
+    name: string;
+  };
+  primaryPosition: string;
+  primaryNumber: number;
+  batSide: string;
+  pitchingHand: string;
+};
+
 export default function Home() {
   const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
   const [leagues, setLeagues] = useState<LeagueName[]>([]);
@@ -45,6 +59,8 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
   const [teamSummaries, setTeamSummaries] = useState<TeamSummary[]>([]);
+  const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]); // State for favorite players
+  const [playerSummaries, setPlayerSummaries] = useState<PlayerSummary[]>([]); // State for player summaries
 
   const router = useRouter();
   const season = "2024"; // Define the season
@@ -145,6 +161,30 @@ export default function Home() {
     fetchFavoriteTeamsSummary();
   }, []);
 
+  // Fetch player summaries for favorite players
+  useEffect(() => {
+    const fetchFavoritePlayersSummary = async () => {
+      try {
+        const storedPlayers = localStorage.getItem("favoritePlayers");
+        const ids = storedPlayers ? JSON.parse(storedPlayers) : [];
+        setFavoritePlayerIds(ids);
+
+        if (ids.length > 0) {
+          console.log("Fetching summaries for players:", ids);
+          const summaries = await Promise.all(
+            ids.map((id: number) => MoneyballApi.getPlayerInfo(id))
+          );
+          console.log("Fetched player summaries:", summaries);
+          setPlayerSummaries(summaries); // Store summaries for all favorite players
+        }
+      } catch (err) {
+        console.error("Failed to fetch player summaries:", err);
+      }
+    };
+
+    fetchFavoritePlayersSummary();
+  }, []);
+
   if (loading) {
     return <p className="text-center text-gray-500 mt-20">Loading...</p>;
   }
@@ -166,7 +206,22 @@ export default function Home() {
                   />
                 ))}
               </div>
+            </div>
+          )}
 
+          {playerSummaries.length > 0 && (
+            <div className="w-full mt-16">
+              <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Players Dashboard</h2>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
+                {playerSummaries.map((summary, index) => (
+                  <PlayerDashboard
+                    key={index}
+                    playerId={favoritePlayerIds[index]}
+                    playerSummary={summary}
+                    statsType="hitting"
+                  />
+                ))}
+              </div>
             </div>
           )}
 
@@ -180,8 +235,6 @@ export default function Home() {
               />
             ))}
           </div>
-
-
         </>
       ) : (
         <div className="flex flex-col items-center justify-start min-h-screen mt-28">
@@ -190,7 +243,7 @@ export default function Home() {
           <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
           <div className="mt-6 flex gap-2">
             <Link href="/login" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Log In</Link>
-            <Link href="/signup" className="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-700">Sign Up</Link>
+            <Link href="/signup" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Sign Up</Link>
           </div>
         </div>
       )}
