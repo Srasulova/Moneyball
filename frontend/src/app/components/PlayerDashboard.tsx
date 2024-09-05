@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import PlayerStats from './PlayerStats'; // Ensure this is the correct import path
+import PlayerStats from './PlayerStats';
 
 interface PlayerDashboardProps {
     playerId: number;
@@ -13,7 +13,7 @@ interface PlayerDashboardProps {
         primaryPosition: string;
         primaryNumber: number;
         batSide: string;
-        pitchingHand: string;
+        pitchHand: string;
     } | null;
     statsType: 'hitting' | 'pitching' | 'fielding';
 }
@@ -38,16 +38,16 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
     };
 
     return (
-        <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-4 border border-gray-100 flex flex-col items-center">
+        <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-2 border border-gray-100 flex flex-col items-center w-full">
             <div className="flex">
                 <div className="mb-6">
                     <div className="flex mb-4 items-center">
                         <Image
                             src={`https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerId}/headshot/67/current`}
                             alt={`${playerSummary.fullName} photo`}
-                            width={40}
+                            width={80}
                             height={40}
-                            className="mr-2"
+                            className="mr-2 rounded-md"
                         />
                         <h2 className="text-2xl font-medium text-red-800">{playerSummary.fullName}</h2>
                     </div>
@@ -56,15 +56,14 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
                         <p className="text-base text-red-800">Number: <span className="text-sky-900">{playerSummary.primaryNumber}</span></p>
                         <p className="text-base text-red-800">Position: <span className="text-sky-900">{playerSummary.primaryPosition}</span></p>
                         <p className="text-base text-red-800">Batside: <span className="text-sky-900">{playerSummary.batSide}</span></p>
-                        <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchingHand}</span></p>
+                        <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchHand}</span></p>
                     </div>
                 </div>
-                {/* <PlayerStats playerId={playerId} statsType={statsType} /> */}
+                <PlayerStats playerId={playerId} statsType={statsType} />
             </div>
             <button
                 onClick={handleRemoveFromFavorites}
-                className="text-base rounded-md px-3 py-1.5 bg-red-800 text-white"
-            >
+                className="text-base rounded-md px-3 py-1.5 bg-red-800 text-white">
                 Remove from favorites
             </button>
         </div>

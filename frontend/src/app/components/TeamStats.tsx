@@ -6,17 +6,23 @@ interface TeamStatsProps {
     season: string;
 }
 
+const headers = {
+    hitting: ['BA', 'HR', 'OBP', 'SLG', 'OPS', 'R', 'H', 'SO', 'SB', 'RBI'],
+    pitching: ['ERA', 'SO', 'BB', 'WHIP', 'IP', 'W', 'L', 'SV', 'BS', 'K/BB'],
+    fielding: ['FPCT', 'E', 'A', 'PO', 'CH', 'DP', 'TP', 'PB', 'TE', 'RF/G']
+};
+
 const formatHittingStats = (stats: any) => ({
-    avg: stats.avg || 'N/A',           // Batting average
-    hr: stats.homeRuns || 'N/A',       // Home runs
-    obp: stats.obp || 'N/A',           // On-base percentage
-    slg: stats.slg || 'N/A',           // Slugging percentage
-    ops: stats.ops || 'N/A',           // On-base plus slugging
-    r: stats.runs || 'N/A',            // Runs scored
-    h: stats.hits || 'N/A',            // Hits
-    so: stats.strikeOuts || 'N/A',     // Strikeouts
-    sb: stats.stolenBases || 'N/A',    // Stolen bases
-    rbi: stats.rbi || 'N/A'            // Runs batted in
+    avg: stats.avg || 'N/A',
+    hr: stats.homeRuns || 'N/A',
+    obp: stats.obp || 'N/A',
+    slg: stats.slg || 'N/A',
+    ops: stats.ops || 'N/A',
+    r: stats.runs || 'N/A',
+    h: stats.hits || 'N/A',
+    so: stats.strikeOuts || 'N/A',
+    sb: stats.stolenBases || 'N/A',
+    rbi: stats.rbi || 'N/A'
 });
 
 const formatPitchingStats = (stats: any) => ({
@@ -44,7 +50,6 @@ const formatFieldingStats = (stats: any) => ({
     throwingErrors: stats.throwingErrors || 'N/A',
     rangeFactorPerGame: stats.rangeFactorPerGame || 'N/A',
 });
-
 
 const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
     const [statsType, setStatsType] = useState<'hitting' | 'pitching' | 'fielding'>('hitting');
@@ -95,6 +100,8 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
         return <div className="text-center text-red-800 mt-20">{error}</div>;
     }
 
+    const currentHeaders = headers[statsType];
+
     return (
         <div className="ml-16 lg:mx-0">
             <div className="flex mb-4">
@@ -123,56 +130,19 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
                         <table className="min-w-full divide-y divide-gray-300">
                             <thead>
                                 <tr>
-                                    {statsType === 'hitting' && (
-                                        <>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">BA</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">HR</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">OBP</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">SLG</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">OPS</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">R</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">H</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">SO</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">SB</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">RBI</th>
-                                        </>
-                                    )}
-                                    {statsType === 'pitching' && (
-                                        <>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">ERA</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">SO</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">BB</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">WHIP</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">IP</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">W</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">L</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">SV</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">BS</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">K/BB</th>
-                                        </>
-                                    )}
-
-                                    {statsType === 'fielding' && (
-                                        <>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">FPCT</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">E</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">A</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">PO</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">CH</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">DP</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">TP</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">PB</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">TE</th>
-                                            <th className="px-2 py-3.5 text-left text-sm font-medium text-sky-900">RF/G</th>
-                                        </>
-                                    )}
-
+                                    {currentHeaders.map((header, index) => (
+                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">
+                                            {header}
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 <tr>
                                     {Object.values(stats).map((stat: any, index: number) => (
-                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">{stat}</td>
+                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
+                                            {stat}
+                                        </td>
                                     ))}
                                 </tr>
                             </tbody>

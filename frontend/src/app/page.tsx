@@ -8,7 +8,7 @@ import logo from "../../public/logo-no.png";
 import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
-import PlayerDashboard from "./components/PlayerDashboard"; // Import the PlayerDashboard component
+import PlayerDashboard from "./components/PlayerDashboard";
 
 export type LeagueStanding = {
   id: number;
@@ -49,7 +49,7 @@ type PlayerSummary = {
   primaryPosition: string;
   primaryNumber: number;
   batSide: string;
-  pitchingHand: string;
+  pitchHand: string;
 };
 
 export default function Home() {
@@ -199,7 +199,7 @@ export default function Home() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {teamSummaries.map((summary, index) => (
                   <TeamDashboard
-                    key={index}
+                    key={favoriteTeamIds[index]}
                     teamId={favoriteTeamIds[index]}
                     season={season}
                     teamSummary={summary}
@@ -215,7 +215,7 @@ export default function Home() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {playerSummaries.map((summary, index) => (
                   <PlayerDashboard
-                    key={index}
+                    key={favoritePlayerIds[index]}
                     playerId={favoritePlayerIds[index]}
                     playerSummary={summary}
                     statsType="hitting"
@@ -242,7 +242,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-sky-900">Welcome to Moneyball</h1>
           <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
           <div className="mt-6 flex gap-2">
-            <Link href="/login" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Log In</Link>
+            <Link href="/login" className="px-6 py-2 bg-red-800 text-white rounded-md hover:bg-red-900">Log In</Link>
             <Link href="/signup" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Sign Up</Link>
           </div>
         </div>

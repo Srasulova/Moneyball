@@ -252,7 +252,7 @@ class MoneyballApi {
     // Extract the relevant stats from the response
     const stats = response.stats[0]?.splits[0]?.stat;
     if (!stats) {
-      throw new Error(`No hitting stats found for player with ID ${playerId}`);
+      throw new Error(`No hitting stats found for player`);
     }
 
     return {
@@ -265,9 +265,7 @@ class MoneyballApi {
       slg: stats.slg,
       ops: stats.ops,
       rbi: stats.rbi,
-      runs: stats.runs,
       strikeOuts: stats.strikeOuts,
-      stolenBases: stats.stolenBases,
     };
   }
 
@@ -282,22 +280,20 @@ class MoneyballApi {
     // Extract the relevant stats from the response
     const stats = response.stats[0]?.splits[0]?.stat;
     if (!stats) {
-      throw new Error(`No pitching stats found for player with ID ${playerId}`);
+      throw new Error(`No pitching stats found for player`);
     }
 
     return {
-      gamesPlayed: stats.gamesPlayed,
-      era: stats.era,
+      era: parseFloat(stats.era), // Convert ERA to a float
       strikeOuts: stats.strikeOuts,
-      baseOnBalls: stats.baseOnBalls,
-      whip: stats.whip,
-      inningsPitched: stats.inningsPitched,
+      whip: parseFloat(stats.whip), // Convert WHIP to a float
+      inningsPitched: parseFloat(stats.inningsPitched), // Convert innings pitched to a float
       wins: stats.wins,
       losses: stats.losses,
       saves: stats.saves,
       homeRunsAllowed: stats.homeRuns,
-      hitsAllowed: stats.hits,
-      earnedRuns: stats.runs,
+      earnedRuns: stats.earnedRuns,
+      strikeoutsPer9Inn: parseFloat(stats.strikeoutsPer9Inn), // Convert strikeouts per 9 innings to a float
     };
   }
 
@@ -312,7 +308,7 @@ class MoneyballApi {
     // Extract the relevant stats from the response
     const stats = response.stats[0]?.splits[0]?.stat;
     if (!stats) {
-      throw new Error(`No fielding stats found for player with ID ${playerId}`);
+      throw new Error(`No fielding stats found for player`);
     }
 
     return {
@@ -322,56 +318,59 @@ class MoneyballApi {
       putOuts: stats.putOuts,
       errors: stats.errors,
       chances: stats.chances,
-      fieldingPercentage: stats.fielding,
-      rangeFactorPerGame: stats.rangeFactorPerGame,
-      rangeFactorPer9Inn: stats.rangeFactorPer9Inn,
-      innings: stats.innings,
+      fieldingPercentage: parseFloat(stats.fielding),
+      rangeFactorPerGame: parseFloat(stats.rangeFactorPerGame),
+      rangeFactorPer9Inn: parseFloat(stats.rangeFactorPer9Inn),
+      innings: parseFloat(stats.innings),
       doublePlays: stats.doublePlays,
       triplePlays: stats.triplePlays,
       throwingErrors: stats.throwingErrors,
     };
   }
 
-  // Method to fetch player information by ID
-  static async getPlayerInfo(playerId: number): Promise<Player> {
-    try {
-      // Fetch player's general information
-      const playerEndpoint = `people/${playerId}`;
-      const playerData = await this.request<{ people: any[] }>(playerEndpoint);
+  /** Get general information on a specific player by ID */
+  static async getPlayerInfo(playerId: number): Promise<{
+    id: number;
+    fullName: string;
+    currentTeam: {
+      name: string;
+      id: number;
+    };
 
-      if (playerData.people.length === 0) {
+    primaryNumber: string;
+    primaryPosition: string;
+    batSide: string;
+    pitchHand: string;
+  }> {
+    const endpoint = "sports/1/players";
+    try {
+      // Fetch all players from the API
+      const data = await this.request<{ people: any[] }>(endpoint);
+
+      // Find the player by ID
+      const player = data.people.find((p) => p.id === playerId);
+
+      if (!player) {
         throw new Error(`Player with ID ${playerId} not found`);
       }
 
-      const player = playerData.people[0];
-
-      // Fetch player's stats to get team information
-      const statsEndpoint = `people/${playerId}/stats?stats=season`;
-      const statsData = await this.request<{ stats: any[] }>(statsEndpoint);
-
-      if (
-        statsData.stats.length === 0 ||
-        statsData.stats[0].splits.length === 0
-      ) {
-        throw new Error(`Stats for player with ID ${playerId} not found`);
-      }
-
-      const teamName = statsData.stats[0].splits[0].team.name;
-
-      return {
+      // Extract the required player details
+      const playerInfo = {
         id: player.id,
         fullName: player.fullName,
         currentTeam: {
-          id: statsData.stats[0].splits[0].team.id,
-          name: teamName,
+          name: player.currentTeam.name,
+          id: player.currentTeam.id,
         },
+        primaryNumber: player.primaryNumber,
         primaryPosition: player.primaryPosition.name,
-        primaryNumber: parseInt(player.primaryNumber, 10),
-        batSide: player.batSide?.description || "",
-        pitchingHand: player.pitchHand?.description || "",
+        batSide: player.batSide.description,
+        pitchHand: player.pitchHand.description,
       };
+
+      return playerInfo;
     } catch (error) {
-      console.error(`Failed to fetch player info for ID ${playerId}:`, error);
+      console.error("Failed to fetch player information:", error);
       throw error;
     }
   }

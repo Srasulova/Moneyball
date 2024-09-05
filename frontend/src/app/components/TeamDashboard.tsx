@@ -32,7 +32,7 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamId, teamSummary }) =>
     };
 
     return (
-        <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-4 border border-gray-100 flex flex-col items-center">
+        <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-2 border border-gray-100 flex flex-col items-center w-full">
             <div className="flex">
                 <div className="mb-6">
                     <div className="flex mb-4 items-center">
