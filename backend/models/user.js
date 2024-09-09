@@ -63,12 +63,12 @@ class User {
     return result.rows[0];
   }
 
-  /** Get user by email. */
+  /** Get user by email including favorite teams and players. */
   static async get(email) {
     const userRes = await db.query(
-      `SELECT email, first_name AS "firstName"
-           FROM users
-           WHERE email = $1`,
+      `SELECT email, first_name AS "firstName", favorite_teams, favorite_players
+     FROM users
+     WHERE email = $1`,
       [email]
     );
 
@@ -203,6 +203,36 @@ class User {
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
     return user.favorite_players;
+  }
+
+  /** Get favorite teams of a user. */
+  static async getFavoriteTeams(email) {
+    const result = await db.query(
+      `SELECT favorite_teams
+     FROM users
+     WHERE email = $1`,
+      [email]
+    );
+
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+    return user.favorite_teams || [];
+  }
+
+  /** Get favorite players of a user. */
+  static async getFavoritePlayers(email) {
+    const result = await db.query(
+      `SELECT favorite_players
+     FROM users
+     WHERE email = $1`,
+      [email]
+    );
+
+    const user = result.rows[0];
+    if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+    return user.favorite_players || [];
   }
 }
 
