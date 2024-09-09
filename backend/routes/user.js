@@ -46,7 +46,7 @@ router.patch("/:email", ensureCorrectUser, async function (req, res, next) {
       throw new BadRequestError(errs);
     }
 
-    const user = await User.update(req.params.email, req.body); // Ensure User.update(email, data) exists
+    const user = await User.update(req.params.email, req.body);
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -60,7 +60,7 @@ router.patch("/:email", ensureCorrectUser, async function (req, res, next) {
 
 router.delete("/:email", ensureCorrectUser, async function (req, res, next) {
   try {
-    await User.remove(req.params.email); // Ensure User.remove(email) exists
+    await User.remove(req.params.email);
     return res.json({ deleted: req.params.email });
   } catch (err) {
     return next(err);
