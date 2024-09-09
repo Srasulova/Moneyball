@@ -60,13 +60,17 @@ router.patch("/:firstName", ensureCorrectUser, async function (req, res, next) {
  * Authorization required: same-user-as-:email
  **/
 
-router.delete("/:username", ensureCorrectUser, async function (req, res, next) {
-  try {
-    await User.remove(req.params.username);
-    return res.json({ deleted: req.params.username });
-  } catch (err) {
-    return next(err);
+router.delete(
+  "/:firstName",
+  ensureCorrectUser,
+  async function (req, res, next) {
+    try {
+      await User.remove(req.params.username);
+      return res.json({ deleted: req.params.username });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 module.exports = router;
