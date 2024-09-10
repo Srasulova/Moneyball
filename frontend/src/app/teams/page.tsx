@@ -3,15 +3,16 @@
 import { useEffect, useState } from "react";
 import MoneyballApi from "../api";
 import Image from "next/image";
+import { Team } from "../types";
 
-type Team = {
-    id: number;
-    name: string;
-    firstYearOfPlay: string;
-    leagueName: string;
-    divisionName: string;
-    locationName: string;
-};
+// type Team = {
+//     id: number;
+//     name: string;
+//     firstYearOfPlay: string;
+//     leagueName: string;
+//     divisionName: string;
+//     locationName: string;
+// };
 
 export default function Teams() {
     const [teams, setTeams] = useState<Team[]>([]);
@@ -97,8 +98,8 @@ export default function Teams() {
                             </div>
                             <p>Location: <span className="text-sky-900">{team.locationName}</span></p>
                             <p>First Year of Play: <span className="text-sky-900">{team.firstYearOfPlay}</span></p>
-                            <p>League: <span className="text-sky-900">{team.leagueName}</span></p>
-                            <p>Division: <span className="text-sky-900">{team.divisionName}</span></p>
+                            <p>League: <span className="text-sky-900">{team.league.name}</span></p>
+                            <p>Division: <span className="text-sky-900">{team.division.name}</span></p>
                             <div className="flex justify-center">
                                 <button
                                     onClick={() => handleFavoriteClick(team.id)}

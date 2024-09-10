@@ -3,25 +3,7 @@
 import { useEffect, useState } from "react";
 import MoneyballApi from "../api";
 import Image from "next/image";
-
-type Player = {
-    id: number;
-    fullName: string;
-    currentTeam: {
-        name: string;
-    };
-    primaryPosition: {
-        name: string;
-    };
-    height: string;
-    weight: number;
-    currentAge: number;
-    birthCity: string;
-    birthStateProvince: string;
-    birthCountry: string;
-    draftYear: number;
-    mlbDebutDate: string;
-};
+import { Player } from "../types";
 
 export default function Players() {
     const [players, setPlayers] = useState<Player[]>([]);

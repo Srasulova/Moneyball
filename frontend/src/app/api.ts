@@ -1,47 +1,6 @@
+import { Player, League, Team, TeamInfo, TeamStats } from "./types";
+
 const BASE_URL = "https://statsapi.mlb.com/api/v1/";
-
-/** Types for API responses */
-type League = {
-  id: number;
-  name: string;
-};
-
-type Team = {
-  id: number;
-  name: string;
-  firstYearOfPlay: string;
-  league: { name: string };
-  division: { name: string };
-  locationName: string;
-};
-
-type Player = {
-  id: number;
-  fullName: string;
-  currentTeam: {
-    id: number;
-    name: string;
-  };
-  primaryPosition: string;
-  primaryNumber: number;
-  batSide: string;
-  pitchingHand: string;
-};
-
-type TeamInfo = {
-  teamName: string;
-  leagueName: string;
-  division: string;
-  leagueRank: number | string;
-};
-
-type TeamStats = {
-  stats: Array<{
-    splits: Array<{
-      stat: Record<string, any>;
-    }>;
-  }>;
-};
 
 /** API Class for interacting with the MLB API */
 class MoneyballApi {
@@ -80,29 +39,19 @@ class MoneyballApi {
   }
 
   /** Get MLB teams with specific fields */
-  static async getMlbTeams(): Promise<
-    Array<{
-      id: number;
-      name: string;
-      firstYearOfPlay: string;
-      leagueName: string;
-      divisionName: string;
-      locationName: string;
-    }>
-  > {
+  static async getMlbTeams(): Promise<Team[]> {
     const endpoint = "teams";
     const params = { sportId: "1" }; // MLB
 
     const data = await this.request<{ teams: Team[] }>(endpoint, params);
 
-    // Extract the necessary fields from the response
     return data.teams
       .map((team) => ({
         id: team.id,
         name: team.name,
         firstYearOfPlay: team.firstYearOfPlay,
-        leagueName: team.league.name,
-        divisionName: team.division.name,
+        league: team.league, // Directly using the object
+        division: team.division, // Directly using the object
         locationName: team.locationName,
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
