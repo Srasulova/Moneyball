@@ -3,12 +3,11 @@ import Image from "next/image";
 import { LeagueStanding } from "../types";
 
 interface LeagueStandingsProps {
-    leagueId: number;
     leagueName: string;
     teams: LeagueStanding[];
 }
 
-export default function LeagueStandings({ leagueId, leagueName, teams }: LeagueStandingsProps) {
+export default function LeagueStandings({ leagueName, teams }: LeagueStandingsProps) {
 
     const [favoriteTeams, setFavoriteTeams] = useState<number[]>(() => {
         const storedFavorites = localStorage.getItem("favoriteTeams");

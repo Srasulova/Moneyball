@@ -40,11 +40,19 @@ class MoneyballApi {
     // Transform the response into the LeagueStanding type
     return response.records.flatMap((record: any) =>
       record.teamRecords.map((teamRecord: any) => {
+        // Find the league name from the leagueRecords
+        const leagueName =
+          teamRecord.records.leagueRecords.find(
+            (rec: any) => rec.league.id === leagueId
+          )?.league.name || "";
+
+        const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecord.team.id}.svg1`;
+
         return {
           teamId: teamRecord.team.id,
           teamName: teamRecord.team.name,
           leagueId: record.league.id,
-          leagueName: record.league.name,
+          leagueName: leagueName,
           logoUrl: "",
           W: teamRecord.leagueRecord.wins,
           L: teamRecord.leagueRecord.losses,

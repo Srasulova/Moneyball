@@ -39,7 +39,7 @@ export default function Home() {
             leagues.push({ leagueId, leagueName, teams: standingsData.sort((a, b) => b.pct - a.pct) });
           }
         }
-
+        console.log(leagues)
         setLeagueStandings(leagues);
       } catch (err) {
         console.error("Failed to fetch standings:", err);
@@ -135,7 +135,6 @@ export default function Home() {
             {leagueStandings.map(({ leagueId, leagueName, teams }) => (
               <LeagueStandings
                 key={leagueId}
-                leagueId={leagueId}
                 leagueName={leagueName}
                 teams={teams}
               />
