@@ -1,4 +1,11 @@
-import { Player, League, Team, TeamInfo, TeamStats } from "./types";
+import {
+  Player,
+  League,
+  Team,
+  TeamInfo,
+  TeamStats,
+  PlayerGeneralInfo,
+} from "./types";
 
 const BASE_URL = "https://statsapi.mlb.com/api/v1/";
 
@@ -82,6 +89,41 @@ class MoneyballApi {
         .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
     } catch (error) {
       console.error("Failed to fetch MLB players:", error);
+      throw error;
+    }
+  }
+
+  /** Get general information on a specific player by ID */
+  static async getPlayerInfo(playerId: number): Promise<PlayerGeneralInfo> {
+    const endpoint = "sports/1/players";
+    try {
+      // Fetch all players from the API
+      const data = await this.request<{ people: Player[] }>(endpoint);
+
+      // Find the player by ID
+      const player = data.people.find((p) => p.id === playerId);
+
+      if (!player) {
+        throw new Error(`Player with ID ${playerId} not found`);
+      }
+
+      // Extract the required player details
+      const playerInfo: PlayerGeneralInfo = {
+        id: player.id,
+        fullName: player.fullName,
+        currentTeam: {
+          name: player.currentTeam.name,
+          id: player.currentTeam.id,
+        },
+        primaryNumber: player.primaryNumber,
+        primaryPosition: player.primaryPosition.name,
+        batSide: player.batSide?.description,
+        pitchingHand: player.pitchingHand?.description,
+      };
+
+      return playerInfo;
+    } catch (error) {
+      console.error("Failed to fetch player information:", error);
       throw error;
     }
   }
@@ -278,51 +320,51 @@ class MoneyballApi {
   }
 
   /** Get general information on a specific player by ID */
-  static async getPlayerInfo(playerId: number): Promise<{
-    id: number;
-    fullName: string;
-    currentTeam: {
-      name: string;
-      id: number;
-    };
+  // static async getPlayerInfo(playerId: number): Promise<{
+  //   id: number;
+  //   fullName: string;
+  //   currentTeam: {
+  //     name: string;
+  //     id: number;
+  //   };
 
-    primaryNumber: string;
-    primaryPosition: string;
-    batSide: string;
-    pitchHand: string;
-  }> {
-    const endpoint = "sports/1/players";
-    try {
-      // Fetch all players from the API
-      const data = await this.request<{ people: any[] }>(endpoint);
+  //   primaryNumber: string;
+  //   primaryPosition: string;
+  //   batSide: string;
+  //   pitchHand: string;
+  // }> {
+  //   const endpoint = "sports/1/players";
+  //   try {
+  //     // Fetch all players from the API
+  //     const data = await this.request<{ people: any[] }>(endpoint);
 
-      // Find the player by ID
-      const player = data.people.find((p) => p.id === playerId);
+  //     // Find the player by ID
+  //     const player = data.people.find((p) => p.id === playerId);
 
-      if (!player) {
-        throw new Error(`Player with ID ${playerId} not found`);
-      }
+  //     if (!player) {
+  //       throw new Error(`Player with ID ${playerId} not found`);
+  //     }
 
-      // Extract the required player details
-      const playerInfo = {
-        id: player.id,
-        fullName: player.fullName,
-        currentTeam: {
-          name: player.currentTeam.name,
-          id: player.currentTeam.id,
-        },
-        primaryNumber: player.primaryNumber,
-        primaryPosition: player.primaryPosition.name,
-        batSide: player.batSide.description,
-        pitchHand: player.pitchHand.description,
-      };
+  //     // Extract the required player details
+  //     const playerInfo = {
+  //       id: player.id,
+  //       fullName: player.fullName,
+  //       currentTeam: {
+  //         name: player.currentTeam.name,
+  //         id: player.currentTeam.id,
+  //       },
+  //       primaryNumber: player.primaryNumber,
+  //       primaryPosition: player.primaryPosition.name,
+  //       batSide: player.batSide.description,
+  //       pitchHand: player.pitchHand.description,
+  //     };
 
-      return playerInfo;
-    } catch (error) {
-      console.error("Failed to fetch player information:", error);
-      throw error;
-    }
-  }
+  //     return playerInfo;
+  //   } catch (error) {
+  //     console.error("Failed to fetch player information:", error);
+  //     throw error;
+  //   }
+  // }
 }
 
 export default MoneyballApi;

@@ -11,8 +11,14 @@ type Player = {
     name: string;
   };
   primaryNumber?: number;
-  batSide?: string;
-  pitchingHand?: string;
+  batSide?: {
+    code: string;
+    description: string;
+  };
+  pitchingHand?: {
+    code: string;
+    description: string;
+  };
   height?: string;
   weight?: number;
   currentAge?: number;
@@ -21,6 +27,19 @@ type Player = {
   birthCountry?: string;
   draftYear?: number;
   mlbDebutDate?: string;
+};
+
+type PlayerGeneralInfo = {
+  id: number;
+  fullName: string;
+  currentTeam: {
+    name: string;
+    id?: number;
+  };
+  primaryNumber?: number;
+  primaryPosition: string;
+  batSide?: string;
+  pitchingHand?: string;
 };
 
 type League = {
@@ -52,4 +71,60 @@ type TeamStats = {
   }>;
 };
 
-export type { Player, League, Team, TeamInfo, TeamStats };
+// Define types for player stats
+type HittingStats = {
+  gamesPlayed: number;
+  atBats: number;
+  hits: number;
+  homeRuns: number;
+  avg: number;
+  obp: number;
+  slg: number;
+  ops: number;
+  rbi: number;
+  strikeOuts: number;
+};
+
+type PitchingStats = {
+  era: number;
+  strikeOuts: number;
+  whip: number;
+  inningsPitched: number;
+  wins: number;
+  losses: number;
+  saves: number;
+  homeRunsAllowed: number;
+  earnedRuns: number;
+  strikeoutsPer9Inn: number;
+};
+
+type FieldingStats = {
+  gamesPlayed: number;
+  gamesStarted: number;
+  assists: number;
+  putOuts: number;
+  errors: number;
+  chances: number;
+  fieldingPercentage: number;
+  rangeFactorPerGame: number;
+  rangeFactorPer9Inn: number;
+  innings: number;
+  doublePlays: number;
+  triplePlays: number;
+  throwingErrors: number;
+};
+
+type Stats = HittingStats | PitchingStats | FieldingStats;
+
+export type {
+  Player,
+  PlayerGeneralInfo,
+  League,
+  Team,
+  TeamInfo,
+  TeamStats,
+  Stats,
+  PitchingStats,
+  HittingStats,
+  FieldingStats,
+};

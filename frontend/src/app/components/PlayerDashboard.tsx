@@ -1,20 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import PlayerStats from './PlayerStats';
+import { Player } from '../types'; // Adjust the path as needed
 
 interface PlayerDashboardProps {
     playerId: number;
-    playerSummary: {
-        id: number;
-        fullName: string;
-        currentTeam: {
-            name: string;
-        };
-        primaryPosition: string;
-        primaryNumber: number;
-        batSide: string;
-        pitchHand: string;
-    } | null;
+    playerSummary: Player | null;
     statsType: 'hitting' | 'pitching' | 'fielding';
 }
 
@@ -53,10 +44,10 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
                     </div>
                     <div>
                         <p className="text-base text-red-800">Team: <span className="text-sky-900">{playerSummary.currentTeam.name}</span></p>
-                        <p className="text-base text-red-800">Number: <span className="text-sky-900">{playerSummary.primaryNumber}</span></p>
-                        <p className="text-base text-red-800">Position: <span className="text-sky-900">{playerSummary.primaryPosition}</span></p>
-                        <p className="text-base text-red-800">Batside: <span className="text-sky-900">{playerSummary.batSide}</span></p>
-                        <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchHand}</span></p>
+                        <p className="text-base text-red-800">Number: <span className="text-sky-900">{playerSummary.primaryNumber || 'N/A'}</span></p>
+                        <p className="text-base text-red-800">Position: <span className="text-sky-900">{playerSummary.primaryPosition.name}</span></p>
+                        <p className="text-base text-red-800">Batside: <span className="text-sky-900">{playerSummary.batSide?.description || 'N/A'}</span></p>
+                        <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchingHand?.description || 'N/A'}</span></p>
                     </div>
                 </div>
                 <PlayerStats playerId={playerId} statsType={statsType} />

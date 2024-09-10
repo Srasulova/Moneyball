@@ -1,50 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MoneyballApi from '../api';
+import { Stats } from '../types';
 
-// Define types for different stats
-type HittingStats = {
-    gamesPlayed: number;
-    atBats: number;
-    hits: number;
-    homeRuns: number;
-    avg: number;
-    obp: number;
-    slg: number;
-    ops: number;
-    rbi: number;
-    strikeOuts: number;
-};
-
-type PitchingStats = {
-    era: number;
-    strikeOuts: number;
-    whip: number;
-    inningsPitched: number;
-    wins: number;
-    losses: number;
-    saves: number;
-    homeRunsAllowed: number;
-    earnedRuns: number;
-    strikeoutsPer9Inn: number;
-};
-
-type FieldingStats = {
-    gamesPlayed: number;
-    gamesStarted: number;
-    assists: number;
-    putOuts: number;
-    errors: number;
-    chances: number;
-    fieldingPercentage: number;
-    rangeFactorPerGame: number;
-    rangeFactorPer9Inn: number;
-    innings: number;
-    doublePlays: number;
-    triplePlays: number;
-    throwingErrors: number;
-};
-
-type Stats = HittingStats | PitchingStats | FieldingStats;
 
 const PlayerStats: React.FC<{ playerId: number; statsType: 'hitting' | 'pitching' | 'fielding' }> = ({ playerId, statsType }) => {
     const [stats, setStats] = useState<Stats | null>(null);
