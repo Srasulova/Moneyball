@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { LeagueStanding } from "../types";
+import { LeagueStanding, League } from "../types";
 
 interface LeagueStandingsProps {
     leagueName: string;
