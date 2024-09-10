@@ -4,12 +4,11 @@ import PlayerStats from './PlayerStats';
 import { Player } from '../types'; // Adjust the path as needed
 
 interface PlayerDashboardProps {
-    playerId: number;
     playerSummary: Player | null;
     statsType: 'hitting' | 'pitching' | 'fielding';
 }
 
-const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSummary, statsType }) => {
+const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsType }) => {
     if (!playerSummary) {
         return <div className="text-center text-sky-900 mt-20">Loading...</div>;
     }
@@ -19,7 +18,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
         const favoritePlayers = JSON.parse(localStorage.getItem('favoritePlayers') || '[]');
 
         // Filter out the playerId to remove
-        const updatedFavorites = favoritePlayers.filter((id: number) => id !== playerId);
+        const updatedFavorites = favoritePlayers.filter((id: number) => id !== playerSummary.id);
 
         // Update localStorage with the filtered array
         localStorage.setItem('favoritePlayers', JSON.stringify(updatedFavorites));
@@ -34,7 +33,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
                 <div className="mb-6">
                     <div className="flex mb-4 items-center">
                         <Image
-                            src={`https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerId}/headshot/67/current`}
+                            src={`https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerSummary.id}/headshot/67/current`}
                             alt={`${playerSummary.fullName} photo`}
                             width={80}
                             height={40}
@@ -50,7 +49,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerId, playerSumma
                         <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchingHand?.description || 'N/A'}</span></p>
                     </div>
                 </div>
-                <PlayerStats playerId={playerId} statsType={statsType} />
+                <PlayerStats playerId={playerSummary.id} statsType={statsType} />
             </div>
             <button
                 onClick={handleRemoveFromFavorites}

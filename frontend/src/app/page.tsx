@@ -9,58 +9,18 @@ import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
 import PlayerDashboard from "./components/PlayerDashboard";
+import { Player, Team, League, LeagueStanding } from "./types"
 
-export type LeagueStanding = {
-  id: number;
-  name: string;
-  logoUrl: string;
-  W: number;
-  L: number;
-  pct: number;
-  gamesBack: string;
-  wildCardGamesBack: string;
-  streakCode: string;
-  runsScored: number;
-  runsAllowed: number;
-  runDifferential: number;
-  HOME: string;
-  AWAY: string;
-};
-
-type LeagueName = {
-  id: number;
-  name: string;
-};
-
-type TeamSummary = {
-  teamName: string;
-  leagueName: string;
-  division: string;
-  leagueRank: string;
-};
-
-type PlayerSummary = {
-  id: number;
-  fullName: string;
-  currentTeam: {
-    id: number;
-    name: string;
-  };
-  primaryPosition: string;
-  primaryNumber: number;
-  batSide: string;
-  pitchHand: string;
-};
 
 export default function Home() {
   const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
-  const [leagues, setLeagues] = useState<LeagueName[]>([]);
+  const [leagues, setLeagues] = useState<League[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
-  const [teamSummaries, setTeamSummaries] = useState<TeamSummary[]>([]);
-  const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]); // State for favorite players
-  const [playerSummaries, setPlayerSummaries] = useState<PlayerSummary[]>([]); // State for player summaries
+  const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
+  const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
+  const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
 
   const router = useRouter();
   const season = "2024"; // Define the season
@@ -151,7 +111,7 @@ export default function Home() {
             ids.map((id: number) => MoneyballApi.getTeamInfo(id))
           );
           console.log("Fetched team summaries:", summaries);
-          setTeamSummaries(summaries); // Store summaries for all favorite teams
+          setTeamSummaries(summaries);
         }
       } catch (err) {
         console.error("Failed to fetch team summaries:", err);
@@ -175,7 +135,7 @@ export default function Home() {
             ids.map((id: number) => MoneyballApi.getPlayerInfo(id))
           );
           console.log("Fetched player summaries:", summaries);
-          setPlayerSummaries(summaries); // Store summaries for all favorite players
+          setPlayerSummaries(summaries);
         }
       } catch (err) {
         console.error("Failed to fetch player summaries:", err);
@@ -197,11 +157,9 @@ export default function Home() {
             <div className="w-full mt-16 ">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
-                {teamSummaries.map((summary, index) => (
+                {teamSummaries.map((summary) => (
                   <TeamDashboard
-                    key={favoriteTeamIds[index]}
-                    teamId={favoriteTeamIds[index]}
-                    season={season}
+                    key={summary.id}
                     teamSummary={summary}
                   />
                 ))}
@@ -213,10 +171,9 @@ export default function Home() {
             <div className="w-full mt-16">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Players Dashboard</h2>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
-                {playerSummaries.map((summary, index) => (
+                {playerSummaries.map((summary) => (
                   <PlayerDashboard
-                    key={favoritePlayerIds[index]}
-                    playerId={favoritePlayerIds[index]}
+                    key={summary.id}
                     playerSummary={summary}
                     statsType="hitting"
                   />

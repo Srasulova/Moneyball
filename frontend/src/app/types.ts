@@ -1,5 +1,3 @@
-// src/types.ts
-
 type Player = {
   id: number;
   fullName: string;
@@ -47,20 +45,38 @@ type League = {
   name: string;
 };
 
+type LeagueStanding = {
+  id: number;
+  name: string;
+  logoUrl: string;
+  W: number;
+  L: number;
+  pct: number;
+  gamesBack: string;
+  wildCardGamesBack: string;
+  streakCode: string;
+  runsScored: number;
+  runsAllowed: number;
+  runDifferential: number;
+  HOME: string;
+  AWAY: string;
+};
+
 type Team = {
   id: number;
   name: string;
+  season: string;
   firstYearOfPlay: string;
-  league: { name: string };
-  division: { name: string };
+  league: {
+    name: string;
+    id: number;
+  };
+  division: {
+    name: string;
+    id: number;
+  };
   locationName: string;
-};
-
-type TeamInfo = {
-  teamName: string;
-  leagueName: string;
-  division: string;
-  leagueRank: number | string;
+  leagueRank?: number | string;
 };
 
 type TeamStats = {
@@ -121,10 +137,10 @@ export type {
   PlayerGeneralInfo,
   League,
   Team,
-  TeamInfo,
   TeamStats,
   Stats,
   PitchingStats,
   HittingStats,
   FieldingStats,
+  LeagueStanding,
 };

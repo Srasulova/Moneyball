@@ -1,11 +1,4 @@
-import {
-  Player,
-  League,
-  Team,
-  TeamInfo,
-  TeamStats,
-  PlayerGeneralInfo,
-} from "./types";
+import { Player, League, Team, TeamStats, PlayerGeneralInfo } from "./types";
 
 const BASE_URL = "https://statsapi.mlb.com/api/v1/";
 
@@ -56,12 +49,82 @@ class MoneyballApi {
       .map((team) => ({
         id: team.id,
         name: team.name,
+        season: team.season,
         firstYearOfPlay: team.firstYearOfPlay,
-        league: team.league, // Directly using the object
-        division: team.division, // Directly using the object
+        league: {
+          name: team.league.name,
+          id: team.league.id,
+        },
+        division: {
+          name: team.division.name,
+          id: team.division.id,
+        },
         locationName: team.locationName,
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  /** Get team general information and league rank */
+  static async getTeamInfo(teamId: number): Promise<Team> {
+    try {
+      // Fetch team general information
+      const teamResponse = await fetch(`${BASE_URL}teams/${teamId}`);
+      const teamData = await teamResponse.json();
+      const team = teamData.teams[0];
+
+      const teamName = team.name;
+      const leagueName = team.league.name;
+      const division = team.division.name;
+
+      // Fetch league standings to get team ranking
+      const leagueId = team.league.id;
+      const standingsResponse = await fetch(
+        `${BASE_URL}standings?leagueId=${leagueId}`
+      );
+      const standingsData = await standingsResponse.json();
+
+      // Find the team's rank in the league
+      const teamRecord = standingsData.records
+        .flatMap((record: any) => record.teamRecords)
+        .find((record: any) => record.team.id === teamId);
+
+      const leagueRank = teamRecord ? teamRecord.leagueRank : "N/A";
+
+      return {
+        id: team.id,
+        name: teamName,
+        season: team.season,
+        firstYearOfPlay: team.firstYearOfPlay,
+        league: {
+          name: leagueName,
+          id: team.league.id,
+        },
+        division: {
+          name: division,
+          id: team.division.id,
+        },
+        locationName: team.locationName,
+        leagueRank,
+      };
+    } catch (error) {
+      console.error("Failed to fetch team information:", error);
+      throw error;
+    }
+  }
+
+  /** Get stats for a specific team and group */
+  static async getTeamStats(
+    teamId: number,
+    group: "hitting" | "pitching" | "fielding"
+  ): Promise<any> {
+    const endpoint = `teams/${teamId}/stats`;
+    const params = { stats: "season", group };
+    const response = await this.request<TeamStats>(endpoint, params);
+
+    // Extract relevant stats based on group
+    const stats = response.stats[0].splits[0].stat;
+
+    return stats;
   }
 
   /** Get players for MLB teams */
@@ -126,59 +189,6 @@ class MoneyballApi {
       console.error("Failed to fetch player information:", error);
       throw error;
     }
-  }
-
-  /** Get team general information and league rank */
-  static async getTeamInfo(teamId: number): Promise<TeamInfo> {
-    try {
-      // Fetch team general information
-      const teamResponse = await fetch(`${BASE_URL}teams/${teamId}`);
-      const teamData = await teamResponse.json();
-      const team = teamData.teams[0];
-
-      const teamName = team.name;
-      const leagueName = team.league.name;
-      const division = team.division.name;
-
-      // Fetch league standings to get team ranking
-      const leagueId = team.league.id;
-      const standingsResponse = await fetch(
-        `${BASE_URL}standings?leagueId=${leagueId}`
-      );
-      const standingsData = await standingsResponse.json();
-
-      // Find the team's rank in the league
-      const teamRecord = standingsData.records
-        .flatMap((record: any) => record.teamRecords)
-        .find((record: any) => record.team.id === teamId);
-
-      const leagueRank = teamRecord ? teamRecord.leagueRank : "N/A";
-
-      return {
-        teamName,
-        leagueName,
-        division,
-        leagueRank,
-      };
-    } catch (error) {
-      console.error("Failed to fetch team information:", error);
-      throw error;
-    }
-  }
-
-  /** Get stats for a specific team and group */
-  static async getTeamStats(
-    teamId: number,
-    group: "hitting" | "pitching" | "fielding"
-  ): Promise<any> {
-    const endpoint = `teams/${teamId}/stats`;
-    const params = { stats: "season", group };
-    const response = await this.request<TeamStats>(endpoint, params);
-
-    // Extract relevant stats based on group
-    const stats = response.stats[0].splits[0].stat; // Adjust if needed based on actual structure
-
-    return stats;
   }
 
   /** Get hitting stats for a specific team */
@@ -318,53 +328,6 @@ class MoneyballApi {
       throwingErrors: stats.throwingErrors,
     };
   }
-
-  /** Get general information on a specific player by ID */
-  // static async getPlayerInfo(playerId: number): Promise<{
-  //   id: number;
-  //   fullName: string;
-  //   currentTeam: {
-  //     name: string;
-  //     id: number;
-  //   };
-
-  //   primaryNumber: string;
-  //   primaryPosition: string;
-  //   batSide: string;
-  //   pitchHand: string;
-  // }> {
-  //   const endpoint = "sports/1/players";
-  //   try {
-  //     // Fetch all players from the API
-  //     const data = await this.request<{ people: any[] }>(endpoint);
-
-  //     // Find the player by ID
-  //     const player = data.people.find((p) => p.id === playerId);
-
-  //     if (!player) {
-  //       throw new Error(`Player with ID ${playerId} not found`);
-  //     }
-
-  //     // Extract the required player details
-  //     const playerInfo = {
-  //       id: player.id,
-  //       fullName: player.fullName,
-  //       currentTeam: {
-  //         name: player.currentTeam.name,
-  //         id: player.currentTeam.id,
-  //       },
-  //       primaryNumber: player.primaryNumber,
-  //       primaryPosition: player.primaryPosition.name,
-  //       batSide: player.batSide.description,
-  //       pitchHand: player.pitchHand.description,
-  //     };
-
-  //     return playerInfo;
-  //   } catch (error) {
-  //     console.error("Failed to fetch player information:", error);
-  //     throw error;
-  //   }
-  // }
 }
 
 export default MoneyballApi;
