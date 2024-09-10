@@ -1,4 +1,10 @@
-import { Player, League, Team, TeamStats, PlayerGeneralInfo } from "./types";
+import {
+  Player,
+  LeagueStanding,
+  Team,
+  TeamStats,
+  PlayerGeneralInfo,
+} from "./types";
 
 const BASE_URL = "https://statsapi.mlb.com/api/v1/";
 
@@ -25,17 +31,39 @@ class MoneyballApi {
     }
   }
 
-  /** Get league names */
-  static async getLeagueNames(): Promise<{ leagues: League[] }> {
-    const endpoint = "leagues";
-    return this.request(endpoint);
-  }
-
   /** Get standings for a specific league */
-  static async getStandings(leagueId: number): Promise<any> {
+  static async getStandings(leagueId: number): Promise<LeagueStanding[]> {
     const endpoint = "standings";
     const params = { leagueId: leagueId.toString() };
-    return this.request(endpoint, params);
+    const response = await this.request<any>(endpoint, params);
+
+    // Transform the response into the LeagueStanding type
+    return response.records.flatMap((record: any) =>
+      record.teamRecords.map((teamRecord: any) => {
+        return {
+          teamId: teamRecord.team.id,
+          teamName: teamRecord.team.name,
+          leagueId: record.league.id,
+          leagueName: record.league.name,
+          logoUrl: "",
+          W: teamRecord.leagueRecord.wins,
+          L: teamRecord.leagueRecord.losses,
+          pct: parseFloat(teamRecord.leagueRecord.pct),
+          gamesBack: teamRecord.gamesBack,
+          wildCardGamesBack: teamRecord.wildCardGamesBack,
+          streakCode: teamRecord.streak.streakCode,
+          runsScored: teamRecord.runsScored,
+          runsAllowed: teamRecord.runsAllowed,
+          runDifferential: teamRecord.runsScored - teamRecord.runsAllowed,
+          HOME:
+            teamRecord.records.splitRecords.find((r: any) => r.type === "home")
+              ?.pct || "",
+          AWAY:
+            teamRecord.records.splitRecords.find((r: any) => r.type === "away")
+              ?.pct || "",
+        };
+      })
+    );
   }
 
   /** Get MLB teams with specific fields */

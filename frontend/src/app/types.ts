@@ -40,14 +40,16 @@ type PlayerGeneralInfo = {
   pitchingHand?: string;
 };
 
-type League = {
-  id: number;
-  name: string;
-};
+// type League = {
+//   id: number;
+//   name: string;
+// };
 
 type LeagueStanding = {
-  id: number;
-  name: string;
+  teamId: number;
+  teamName: string;
+  leagueId: number;
+  leagueName: string;
   logoUrl: string;
   W: number;
   L: number;
@@ -135,7 +137,6 @@ type Stats = HittingStats | PitchingStats | FieldingStats;
 export type {
   Player,
   PlayerGeneralInfo,
-  League,
   Team,
   TeamStats,
   Stats,

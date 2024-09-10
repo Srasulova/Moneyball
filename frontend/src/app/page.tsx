@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,12 +9,10 @@ import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
 import PlayerDashboard from "./components/PlayerDashboard";
-import { Player, Team, League, LeagueStanding } from "./types"
-
+import { Player, Team, LeagueStanding } from "./types";
 
 export default function Home() {
-  const [standings, setStandings] = useState<{ [key: string]: LeagueStanding[] }>({});
-  const [leagues, setLeagues] = useState<League[]>([]);
+  const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
@@ -23,28 +21,26 @@ export default function Home() {
   const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
 
   const router = useRouter();
-  const season = "2024"; // Define the season
+  const season = "2024";
 
-  // Fetch league standings
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
 
     const fetchStandings = async () => {
       try {
-        const leagueData = await MoneyballApi.getLeagueNames();
-        const filteredLeagues = leagueData.leagues.filter(league => [103, 104].includes(league.id));
-        setLeagues(filteredLeagues);
+        const leagueIds = [103, 104];
+        const leagues = [];
 
-        const standingsData: { [key: string]: LeagueStanding[] } = {};
-        for (const league of filteredLeagues) {
-          const leagueStandings = await MoneyballApi.getStandings(league.id);
-          const transformedData = leagueStandings.records
-            .flatMap((record: any) => (record.teamRecords || []).map(extractTeamStandings))
-            .sort((a: LeagueStanding, b: LeagueStanding) => b.pct - a.pct);
-          standingsData[league.name] = transformedData;
+        for (const leagueId of leagueIds) {
+          const standingsData = await MoneyballApi.getStandings(leagueId);
+          if (standingsData.length > 0) {
+            const leagueName = standingsData[0].leagueName;
+            leagues.push({ leagueId, leagueName, teams: standingsData.sort((a, b) => b.pct - a.pct) });
+          }
         }
-        setStandings(standingsData);
+
+        setLeagueStandings(leagues);
       } catch (err) {
         console.error("Failed to fetch standings:", err);
       } finally {
@@ -52,52 +48,9 @@ export default function Home() {
       }
     };
 
-    const extractTeamStandings = (teamRecords: any): LeagueStanding => {
-      const id = teamRecords.team.id;
-      const name = teamRecords.team.name;
-      const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecords.team.id}.svg`;
-      const { wins, losses, pct } = teamRecords.leagueRecord || {};
-      const gamesBack = teamRecords.gamesBack || "-";
-      const wildCardGamesBack = teamRecords.wildCardGamesBack || "-";
-      const streakCode = teamRecords.streak?.streakCode || "-";
-      const runsScored = teamRecords.runsScored || 0;
-      const runsAllowed = teamRecords.runsAllowed || 0;
-      const runDifferential = teamRecords.runDifferential || 0;
-
-      let HOME = "";
-      let AWAY = "";
-
-      (teamRecords.records?.overallRecords || []).forEach((record: any) => {
-        if (record.type === "home") {
-          HOME = `${record.wins}-${record.losses}`;
-        }
-        if (record.type === "away") {
-          AWAY = `${record.wins}-${record.losses}`;
-        }
-      });
-
-      return {
-        id,
-        name,
-        logoUrl,
-        W: wins,
-        L: losses,
-        pct,
-        gamesBack,
-        wildCardGamesBack,
-        streakCode,
-        runsScored,
-        runsAllowed,
-        runDifferential,
-        HOME,
-        AWAY
-      };
-    };
-
     fetchStandings();
   }, []);
 
-  // Fetch team summaries for favorite teams
   useEffect(() => {
     const fetchFavoriteTeamsSummary = async () => {
       try {
@@ -106,11 +59,9 @@ export default function Home() {
         setFavoriteTeamIds(ids);
 
         if (ids.length > 0) {
-          console.log("Fetching summaries for teams:", ids);
           const summaries = await Promise.all(
             ids.map((id: number) => MoneyballApi.getTeamInfo(id))
           );
-          console.log("Fetched team summaries:", summaries);
           setTeamSummaries(summaries);
         }
       } catch (err) {
@@ -121,7 +72,6 @@ export default function Home() {
     fetchFavoriteTeamsSummary();
   }, []);
 
-  // Fetch player summaries for favorite players
   useEffect(() => {
     const fetchFavoritePlayersSummary = async () => {
       try {
@@ -130,11 +80,9 @@ export default function Home() {
         setFavoritePlayerIds(ids);
 
         if (ids.length > 0) {
-          console.log("Fetching summaries for players:", ids);
           const summaries = await Promise.all(
             ids.map((id: number) => MoneyballApi.getPlayerInfo(id))
           );
-          console.log("Fetched player summaries:", summaries);
           setPlayerSummaries(summaries);
         }
       } catch (err) {
@@ -154,7 +102,7 @@ export default function Home() {
       {isLoggedIn ? (
         <>
           {teamSummaries.length > 0 && (
-            <div className="w-full mt-16 ">
+            <div className="w-full mt-16">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {teamSummaries.map((summary) => (
@@ -184,11 +132,12 @@ export default function Home() {
 
           <div>
             <h2 className="text-2xl font-bold text-center text-sky-900 mt-10">League Standings</h2>
-            {leagues.map((league) => (
+            {leagueStandings.map(({ leagueId, leagueName, teams }) => (
               <LeagueStandings
-                key={league.id}
-                leagueName={league.name}
-                teams={standings[league.name] || []}
+                key={leagueId}
+                leagueId={leagueId}
+                leagueName={leagueName}
+                teams={teams}
               />
             ))}
           </div>

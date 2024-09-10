@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { LeagueStanding, League } from "../types";
+import { LeagueStanding } from "../types";
 
 interface LeagueStandingsProps {
+    leagueId: number;
     leagueName: string;
     teams: LeagueStanding[];
 }
 
-export default function LeagueStandings({ leagueName, teams }: LeagueStandingsProps) {
+export default function LeagueStandings({ leagueId, leagueName, teams }: LeagueStandingsProps) {
 
     const [favoriteTeams, setFavoriteTeams] = useState<number[]>(() => {
         const storedFavorites = localStorage.getItem("favoriteTeams");
@@ -22,8 +23,6 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                 : [...prevFavorites, teamId]; // Add to favorites
 
             localStorage.setItem("favoriteTeams", JSON.stringify(updatedFavorites));
-            // Redirect to the home page
-            window.location.href = '/'
             return updatedFavorites;
         });
     };
@@ -83,13 +82,13 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                             </thead>
                             <tbody className="divide-y divide-sky-200 bg-white">
                                 {teams.map((team) => {
-                                    const isFavorite = favoriteTeams.includes(team.id);
+                                    const isFavorite = favoriteTeams.includes(team.teamId);
 
                                     return (
-                                        <tr key={team.id}>
+                                        <tr key={team.teamId}>
                                             <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0 flex">
-                                                <Image src={team.logoUrl} alt={team.name} width={20} height={20} className="mr-2" />
-                                                {team.name}
+                                                <Image src={team.logoUrl} alt={team.teamName} width={20} height={20} className="mr-2" />
+                                                {team.teamName}
                                             </td>
                                             <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-red-800">
                                                 {team.W}
@@ -126,7 +125,7 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                             </td>
                                             <td className="relative whitespace-nowrap py-2 text-sm font-medium text-center">
                                                 <button
-                                                    onClick={() => handleFavoriteClick(team.id)}
+                                                    onClick={() => handleFavoriteClick(team.teamId)}
                                                     className={`p-1 border rounded ${isFavorite ? 'bg-sky-900 text-white' : 'border-red-800 text-red-800 hover:bg-red-800 hover:text-white'}`}
                                                 >
                                                     {isFavorite ? (
