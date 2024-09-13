@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MoneyballApi from '../api';
-import { HittingStats, PitchingStats, FieldingStats, Stats } from '../types';
+import { Stats, StatsType } from '../types';
 import { formatHittingStats, formatPitchingStats, formatFieldingStats } from '../utils';
 import { useStatsType } from '../hooks/useStatsType';
 
@@ -69,7 +69,7 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
                     <button
                         key={type}
                         className={`px-3 py-1.5 border rounded-md ${statsType === type ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                        onClick={() => handleTabClick(type as 'hitting' | 'pitching' | 'fielding')}
+                        onClick={() => handleTabClick(type as StatsType)}
                     >
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                     </button>

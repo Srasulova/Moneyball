@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MoneyballApi from '../api';
-import { Stats } from '../types';
-
+import { Stats, StatsType } from '../types';
+import { useStatsType } from '../hooks/useStatsType';
 
 const PlayerStats: React.FC<{ playerId: number; statsType: 'hitting' | 'pitching' | 'fielding' }> = ({ playerId, statsType }) => {
+    const { statsType: currentStatsType, handleTabClick } = useStatsType(statsType);
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [currentStatsType, setCurrentStatsType] = useState<'hitting' | 'pitching' | 'fielding'>(statsType);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -36,10 +36,6 @@ const PlayerStats: React.FC<{ playerId: number; statsType: 'hitting' | 'pitching
 
         fetchStats();
     }, [playerId, currentStatsType]);
-
-    const handleTabClick = (type: 'hitting' | 'pitching' | 'fielding') => {
-        setCurrentStatsType(type);
-    };
 
     if (loading) return <p>Loading...</p>;
 
@@ -70,88 +66,51 @@ const PlayerStats: React.FC<{ playerId: number; statsType: 'hitting' | 'pitching
     return (
         <div className="overflow-hidden bg-white ml-16 lg:ml-10 w-full">
             <div className="flex mb-4">
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${currentStatsType === 'hitting' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('hitting')}
-                >
-                    Hitting
-                </button>
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${currentStatsType === 'pitching' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('pitching')}
-                >
-                    Pitching
-                </button>
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${currentStatsType === 'fielding' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('fielding')}
-                >
-                    Fielding
-                </button>
+                {Object.keys(headers).map(type => (
+                    <button
+                        key={type}
+                        className={`px-3 py-1.5 border rounded-md ${currentStatsType === type ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
+                        onClick={() => handleTabClick(type as StatsType)}
+                    >
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                ))}
             </div>
             <div className="">
                 <div className="overflow-x-auto">
                     <div className="inline-block min-w-full py-2 align-middle">
-                        {/* Render the first table with the first half of the headers and stats */}
-                        <table className="min-w-full divide-y divide-gray-300 mb-4">
-                            <thead className="">
+                        <table className="min-w-full divide-y divide-gray-300">
+                            <thead>
                                 <tr>
                                     {firstHeaders.map((header, index) => (
-                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
+                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">
+                                            {header}
+                                        </th>
                                     ))}
                                 </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                {error ? (
-                                    <tr>
-                                        <td colSpan={firstHeaders.length} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                            {error}
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    <>
-                                        {firstHalf.length > 0 && (
-                                            <tr>
-                                                {firstHalf.map((stat, index) => (
-                                                    <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                                        {stat}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        )}
-                                    </>
-                                )}
-                            </tbody>
-                        </table>
-                        {/* Render the second table with the second half of the headers and stats */}
-                        <table className="min-w-full divide-y divide-gray-300">
-                            <thead className="">
                                 <tr>
                                     {secondHeaders.map((header, index) => (
-                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
+                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">
+                                            {header}
+                                        </th>
                                     ))}
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                {error ? (
-                                    <tr>
-                                        <td colSpan={secondHeaders.length} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                            {error}
+                            <tbody className="divide-y divide-gray-200">
+                                <tr>
+                                    {firstHalf.map((stat, index) => (
+                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
+                                            {stat}
                                         </td>
-                                    </tr>
-                                ) : (
-                                    <>
-                                        {secondHalf.length > 0 && (
-                                            <tr>
-                                                {secondHalf.map((stat, index) => (
-                                                    <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                                        {stat}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        )}
-                                    </>
-                                )}
+                                    ))}
+                                </tr>
+                                <tr>
+                                    {secondHalf.map((stat, index) => (
+                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
+                                            {stat}
+                                        </td>
+                                    ))}
+                                </tr>
                             </tbody>
                         </table>
                     </div>
