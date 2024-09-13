@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MoneyballApi from '../api';
+import { HittingStats, PitchingStats, FieldingStats, Stats } from '../types';
+import { formatHittingStats, formatPitchingStats, formatFieldingStats } from '../utils';
 
 interface TeamStatsProps {
     teamId: number;
@@ -12,48 +14,9 @@ const headers = {
     fielding: ['FPCT', 'E', 'A', 'PO', 'CH', 'DP', 'TP', 'PB', 'TE', 'RF/G']
 };
 
-const formatHittingStats = (stats: any) => ({
-    avg: stats.avg || 'N/A',
-    hr: stats.homeRuns || 'N/A',
-    obp: stats.obp || 'N/A',
-    slg: stats.slg || 'N/A',
-    ops: stats.ops || 'N/A',
-    r: stats.runs || 'N/A',
-    h: stats.hits || 'N/A',
-    so: stats.strikeOuts || 'N/A',
-    sb: stats.stolenBases || 'N/A',
-    rbi: stats.rbi || 'N/A'
-});
-
-const formatPitchingStats = (stats: any) => ({
-    era: stats.era || 'N/A',
-    so: stats.so || 'N/A',
-    bb: stats.bb || 'N/A',
-    whip: stats.whip || 'N/A',
-    ip: stats.ip || 'N/A',
-    wins: stats.wins || 'N/A',
-    losses: stats.losses || 'N/A',
-    saves: stats.saves || 'N/A',
-    blownSaves: stats.blownSaves || 'N/A',
-    strikeoutWalkRatio: stats.strikeoutWalkRatio || 'N/A',
-});
-
-const formatFieldingStats = (stats: any) => ({
-    fpct: stats.fielding || 'N/A',
-    errors: stats.errors || 'N/A',
-    assists: stats.assists || 'N/A',
-    putOuts: stats.putOuts || 'N/A',
-    chances: stats.chances || 'N/A',
-    doublePlays: stats.doublePlays || 'N/A',
-    triplePlays: stats.triplePlays || 'N/A',
-    passedBall: stats.passedBall || 'N/A',
-    throwingErrors: stats.throwingErrors || 'N/A',
-    rangeFactorPerGame: stats.rangeFactorPerGame || 'N/A',
-});
-
 const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
     const [statsType, setStatsType] = useState<'hitting' | 'pitching' | 'fielding'>('hitting');
-    const [stats, setStats] = useState<any>(null);
+    const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -139,7 +102,7 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 <tr>
-                                    {Object.values(stats).map((stat: any, index: number) => (
+                                    {stats && Object.values(stats).map((stat, index) => (
                                         <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
                                             {stat}
                                         </td>

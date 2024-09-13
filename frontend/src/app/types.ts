@@ -89,47 +89,43 @@ type TeamStats = {
   }>;
 };
 
-// Define types for player stats
 type HittingStats = {
-  gamesPlayed: number;
-  atBats: number;
-  hits: number;
-  homeRuns: number;
-  avg: number;
-  obp: number;
-  slg: number;
-  ops: number;
-  rbi: number;
-  strikeOuts: number;
+  avg: string;
+  homeRuns: string;
+  obp: string;
+  slg: string;
+  ops: string;
+  runs: string;
+  hits: string;
+  strikeOuts: string;
+  stolenBases: string;
+  rbi: string;
 };
 
 type PitchingStats = {
-  era: number;
-  strikeOuts: number;
-  whip: number;
-  inningsPitched: number;
-  wins: number;
-  losses: number;
-  saves: number;
-  homeRunsAllowed: number;
-  earnedRuns: number;
-  strikeoutsPer9Inn: number;
+  era: string;
+  strikeOuts: string;
+  baseOnBalls: string;
+  whip: string;
+  inningsPitched: string;
+  wins: string;
+  losses: string;
+  saves: string;
+  blownSaves: string;
+  strikeoutWalkRatio: string;
 };
 
 type FieldingStats = {
-  gamesPlayed: number;
-  gamesStarted: number;
-  assists: number;
-  putOuts: number;
-  errors: number;
-  chances: number;
-  fieldingPercentage: number;
-  rangeFactorPerGame: number;
-  rangeFactorPer9Inn: number;
-  innings: number;
-  doublePlays: number;
-  triplePlays: number;
-  throwingErrors: number;
+  fieldingPercentage: string;
+  errors: string;
+  assists: string;
+  putOuts: string;
+  chances: string;
+  doublePlays: string;
+  triplePlays: string;
+  passedBall: string;
+  throwingErrors: string;
+  rangeFactorPerGame: string;
 };
 
 type Stats = HittingStats | PitchingStats | FieldingStats;
