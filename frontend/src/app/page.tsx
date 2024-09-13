@@ -102,7 +102,7 @@ export default function Home() {
       {isLoggedIn ? (
         <>
           {teamSummaries.length > 0 && (
-            <div className="w-full mt-16">
+            <div className="w-full mt-16 border-b-2 border-dashed border-red-800 pb-16">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Teams Dashboard</h2>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {teamSummaries.map((summary) => (
@@ -116,7 +116,7 @@ export default function Home() {
           )}
 
           {playerSummaries.length > 0 && (
-            <div className="w-full mt-16">
+            <div className="w-full mt-16  border-b-2 border-dashed border-red-800 pb-16">
               <h2 className="text-2xl font-bold text-center text-sky-900 my-4">Favorite Players Dashboard</h2>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 max-w-7xl mx-auto">
                 {playerSummaries.map((summary) => (

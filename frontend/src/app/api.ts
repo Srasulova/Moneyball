@@ -46,14 +46,14 @@ class MoneyballApi {
             (rec: any) => rec.league.id === leagueId
           )?.league.name || "";
 
-        const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecord.team.id}.svg1`;
+        const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${teamRecord.team.id}.svg`;
 
         return {
           teamId: teamRecord.team.id,
           teamName: teamRecord.team.name,
           leagueId: record.league.id,
           leagueName: leagueName,
-          logoUrl: "",
+          logoUrl: logoUrl,
           W: teamRecord.leagueRecord.wins,
           L: teamRecord.leagueRecord.losses,
           pct: parseFloat(teamRecord.leagueRecord.pct),
