@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MoneyballApi from '../api';
 import { HittingStats, PitchingStats, FieldingStats, Stats } from '../types';
 import { formatHittingStats, formatPitchingStats, formatFieldingStats } from '../utils';
+import { useStatsType } from '../hooks/useStatsType';
 
 interface TeamStatsProps {
     teamId: number;
@@ -15,7 +16,7 @@ const headers = {
 };
 
 const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
-    const [statsType, setStatsType] = useState<'hitting' | 'pitching' | 'fielding'>('hitting');
+    const { statsType, handleTabClick } = useStatsType('hitting');
     const [stats, setStats] = useState<Stats | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -51,10 +52,6 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
         fetchStats();
     }, [teamId, statsType, season]);
 
-    const handleTabClick = (type: 'hitting' | 'pitching' | 'fielding') => {
-        setStatsType(type);
-    };
-
     if (loading) {
         return <div className="text-center text-sky-900 mt-20">Loading...</div>;
     }
@@ -68,24 +65,15 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
     return (
         <div className="ml-16 lg:mx-0">
             <div className="flex mb-4">
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${statsType === 'hitting' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('hitting')}
-                >
-                    Hitting
-                </button>
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${statsType === 'pitching' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('pitching')}
-                >
-                    Pitching
-                </button>
-                <button
-                    className={`px-3 py-1.5 border rounded-md ${statsType === 'fielding' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
-                    onClick={() => handleTabClick('fielding')}
-                >
-                    Fielding
-                </button>
+                {Object.keys(headers).map(type => (
+                    <button
+                        key={type}
+                        className={`px-3 py-1.5 border rounded-md ${statsType === type ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
+                        onClick={() => handleTabClick(type as 'hitting' | 'pitching' | 'fielding')}
+                    >
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                ))}
             </div>
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

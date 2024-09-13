@@ -265,16 +265,16 @@ class MoneyballApi {
   static async getFieldingStats(teamId: number): Promise<any> {
     const stats = await this.getTeamStats(teamId, "fielding");
     return {
-      fpct: stats.fielding || "N/A",
-      errors: stats.errors || "N/A",
-      assists: stats.assists || "N/A",
-      putOuts: stats.putOuts || "N/A",
-      chances: stats.chances || "N/A",
-      doublePlays: stats.doublePlays || "N/A",
-      triplePlays: stats.triplePlays || "N/A",
-      passedBall: stats.passedBall || "N/A",
-      throwingErrors: stats.throwingErrors || "N/A",
-      rangeFactorPerGame: stats.rangeFactorPerGame || "N/A",
+      fpct: stats.fielding,
+      errors: stats.errors,
+      assists: stats.assists,
+      putOuts: stats.putOuts,
+      chances: stats.chances,
+      doublePlays: stats.doublePlays,
+      triplePlays: stats.triplePlays,
+      passedBall: stats.passedBall,
+      throwingErrors: stats.throwingErrors,
+      rangeFactorPerGame: stats.rangeFactorPerGame,
     };
   }
 

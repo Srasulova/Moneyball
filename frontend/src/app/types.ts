@@ -130,6 +130,8 @@ type FieldingStats = {
 
 type Stats = HittingStats | PitchingStats | FieldingStats;
 
+type StatsType = "hitting" | "pitching" | "fielding";
+
 export type {
   Player,
   PlayerGeneralInfo,
@@ -140,4 +142,5 @@ export type {
   HittingStats,
   FieldingStats,
   LeagueStanding,
+  StatsType,
 };
