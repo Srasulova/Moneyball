@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import User from "../apiClient";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,15 +12,22 @@ export default function Login() {
 
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoginError(null); // Reset the error before attempting login
 
-    // Dummy login validation
-    if (email === 'sabina@example.com' && password === '123456') {
-      localStorage.setItem("isLoggedIn", "true");
-      router.push('/'); // Redirect to home page upon successful login
-    } else {
-      setLoginError('Invalid email or password');
+    try {
+      // Call the User class login method
+      const response = await User.login(email, password);
+
+      // Store the token in localStorage upon successful login
+      localStorage.setItem("token", response.token);
+
+      // Redirect to home page upon successful login
+      router.push('/');
+    } catch (error) {
+      // Handle login errors
+      setLoginError((error as Error).message || 'An error occurred during login');
     }
   };
 

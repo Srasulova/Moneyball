@@ -1,6 +1,41 @@
+"use client"
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import User from "../apiClient";
 
 export default function Signup() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [signupError, setSignupError] = useState<string | null>(null);
+
+    const router = useRouter();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSignupError(null); // Reset the error before attempting signup
+
+        // Basic validation
+        if (password !== confirmPassword) {
+            setSignupError("Passwords do not match");
+            return;
+        }
+
+        try {
+            // Call the User class register method
+            await User.register(name, email, password);
+
+            // Redirect to login page or home page upon successful signup
+            router.push('/login');
+        } catch (error) {
+            // Handle signup errors
+            setSignupError((error as Error).message || 'An error occurred during signup');
+        }
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-white">
             <div className="bg-white p-8 rounded-lg shadow-2xl sm:w-96 w-full">
@@ -8,7 +43,7 @@ export default function Signup() {
                     Sign Up
                 </h2>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-6">
                         <label
                             htmlFor="name"
@@ -19,6 +54,8 @@ export default function Signup() {
                         <input
                             type="text"
                             id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your name"
                         />
@@ -34,6 +71,8 @@ export default function Signup() {
                         <input
                             type="email"
                             id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your email"
                         />
@@ -49,6 +88,8 @@ export default function Signup() {
                         <input
                             type="password"
                             id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your password"
                         />
@@ -64,6 +105,8 @@ export default function Signup() {
                         <input
                             type="password"
                             id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Confirm your password"
                         />
@@ -75,6 +118,10 @@ export default function Signup() {
                     >
                         Register
                     </button>
+
+                    {signupError && (
+                        <p className="mt-4 text-red-600 text-center">{signupError}</p>
+                    )}
                 </form>
 
                 <div className="flex flex-col">
@@ -88,7 +135,6 @@ export default function Signup() {
                         Go back to Home page
                     </Link>
                 </div>
-
             </div>
         </div>
     );
