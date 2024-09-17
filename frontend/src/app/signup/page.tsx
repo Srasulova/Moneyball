@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,12 +11,14 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [signupError, setSignupError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSignupError(null); // Reset the error before attempting signup
+        setSuccessMessage(null); // Reset the success message before attempting signup
 
         // Basic validation
         if (password !== confirmPassword) {
@@ -28,8 +30,13 @@ export default function Signup() {
             // Call the User class register method
             await User.register(name, email, password);
 
-            // Redirect to home page or home page upon successful signup
-            router.push('/');
+            // Set success message
+            setSuccessMessage("Registration successful! Redirecting to home page...");
+
+            // Redirect to home page after a short delay
+            setTimeout(() => {
+                router.push('/');
+            }, 2000); // Adjust the delay as needed
         } catch (error) {
             // Handle signup errors
             setSignupError((error as Error).message || 'An error occurred during signup');
@@ -121,6 +128,10 @@ export default function Signup() {
 
                     {signupError && (
                         <p className="mt-4 text-red-600 text-center">{signupError}</p>
+                    )}
+
+                    {successMessage && (
+                        <p className="mt-4 text-green-600 text-center">{successMessage}</p>
                     )}
                 </form>
 
