@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import PlayerStats from './PlayerStats';
-import { Player } from '../types'; // Adjust the path as needed
+import { Player } from '../types';
+import User from "../apiClient";
 
 interface PlayerDashboardProps {
     playerSummary: Player | null;
@@ -13,18 +14,14 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsT
         return <div className="text-center text-sky-900 mt-20">Loading...</div>;
     }
 
-    const handleRemoveFromFavorites = () => {
-        // Retrieve the favoritePlayers array from localStorage
-        const favoritePlayers = JSON.parse(localStorage.getItem('favoritePlayers') || '[]');
-
-        // Filter out the playerId to remove
-        const updatedFavorites = favoritePlayers.filter((id: number) => id !== playerSummary.id);
-
-        // Update localStorage with the filtered array
-        localStorage.setItem('favoritePlayers', JSON.stringify(updatedFavorites));
-
-        // Redirect to the home page
-        window.location.href = '/';
+    const handleRemoveFromFavorites = async () => {
+        try {
+            await User.deleteFavoritePlayer(playerSummary.id);
+            // Force a page reload
+            window.location.reload();
+        } catch (error) {
+            console.error("Failed to remove from favorites:", error);
+        }
     };
 
     return (
