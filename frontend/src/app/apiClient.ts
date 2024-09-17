@@ -29,7 +29,7 @@ class User {
 
   // Authentication endpoints
   static async login(email: string, password: string): Promise<any> {
-    return this.request("/login", "POST", { email, password });
+    return this.request("/auth/login", "POST", { email, password });
   }
 
   static async register(
@@ -37,20 +37,27 @@ class User {
     email: string,
     password: string
   ): Promise<any> {
-    return this.request("/register", "POST", { firstName, email, password });
+    return this.request("/auth/register", "POST", {
+      firstName,
+      email,
+      password,
+    });
   }
 
   // User and favorites endpoints
   static async getUser(): Promise<any> {
-    return this.request("/users");
+    // return this.request("/user");
+    const userData = await this.request("/user");
+    console.log("User Data: ", userData);
+    return userData;
   }
 
   static async updateUser(email: string, data: object): Promise<any> {
-    return this.request(`/users/${email}`, "PATCH", data);
+    return this.request(`/user/${email}`, "PATCH", data);
   }
 
   static async deleteUser(email: string): Promise<any> {
-    return this.request(`/users/${email}`, "DELETE");
+    return this.request(`/user/${email}`, "DELETE");
   }
 
   static async getFavoriteTeams(): Promise<any> {

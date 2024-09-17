@@ -20,6 +20,7 @@ const router = express.Router();
  **/
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
+  console.log(res.locals.user);
   try {
     const user = await User.get(res.locals.user.email);
     return res.json({ user });
