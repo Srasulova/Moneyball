@@ -14,7 +14,7 @@ const router = express.Router();
  *
  * Authorization required: logged-in
  **/
-router.get("/favorites/teams", ensureLoggedIn, async function (req, res, next) {
+router.get("/teams", ensureLoggedIn, async function (req, res, next) {
   try {
     const favoriteTeams = await User.getFavoriteTeams(res.locals.user.email);
     return res.json({ favoriteTeams });
@@ -29,20 +29,16 @@ router.get("/favorites/teams", ensureLoggedIn, async function (req, res, next) {
  *
  * Authorization required: logged-in
  **/
-router.get(
-  "/favorites/players",
-  ensureLoggedIn,
-  async function (req, res, next) {
-    try {
-      const favoritePlayers = await User.getFavoritePlayers(
-        res.locals.user.email
-      );
-      return res.json({ favoritePlayers });
-    } catch (err) {
-      return next(err);
-    }
+router.get("/players", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const favoritePlayers = await User.getFavoritePlayers(
+      res.locals.user.email
+    );
+    return res.json({ favoritePlayers });
+  } catch (err) {
+    return next(err);
   }
-);
+});
 
 /** POST /favorites/teams/:teamId  => { favoriteTeams }
  *

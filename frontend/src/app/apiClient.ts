@@ -46,10 +46,7 @@ class User {
 
   // User and favorites endpoints
   static async getUser(): Promise<any> {
-    // return this.request("/user");
-    const userData = await this.request("/user");
-    console.log("User Data: ", userData);
-    return userData;
+    return this.request("/user");
   }
 
   static async updateUser(email: string, data: object): Promise<any> {
@@ -61,7 +58,10 @@ class User {
   }
 
   static async getFavoriteTeams(): Promise<any> {
-    return this.request("/favorites/teams");
+    // return this.request("/favorites/teams");
+    const favoriteTeams = await this.request("/favorites/teams");
+    // console.log(favoriteTeams);
+    return favoriteTeams;
   }
 
   static async addFavoriteTeam(teamId: number): Promise<any> {

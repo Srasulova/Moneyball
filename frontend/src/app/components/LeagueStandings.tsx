@@ -17,8 +17,10 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
     useEffect(() => {
         const fetchFavoriteTeams = async () => {
             try {
-                const favorites = await User.getFavoriteTeams();
-                setFavoriteTeams(favorites.map((team: { teamId: number }) => team.teamId));
+                const response = await User.getFavoriteTeams();
+                // Access the favoriteTeams array from the response object
+                const favorites = response.favoriteTeams;
+                setFavoriteTeams(favorites.map((teamId: number) => teamId));
             } catch (error) {
                 console.error("Failed to fetch favorite teams", error);
             } finally {
@@ -34,7 +36,6 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
         try {
             setLoading(true);
             const isFavorite = favoriteTeams.includes(teamId);
-
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
                 setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
@@ -148,12 +149,9 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                             <td className="relative whitespace-nowrap py-2 text-sm font-medium text-center">
                                                 <button
                                                     onClick={() => handleFavoriteClick(team.teamId)}
-                                                    disabled={loading}
                                                     className={`p-1 border rounded ${isFavorite ? 'bg-sky-900 text-white' : 'border-red-800 text-red-800 hover:bg-red-800 hover:text-white'}`}
                                                 >
-                                                    {loading ? (
-                                                        <span>Loading...</span>
-                                                    ) : isFavorite ? (
+                                                    {isFavorite ? (
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"

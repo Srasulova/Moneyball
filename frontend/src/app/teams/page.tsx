@@ -4,25 +4,13 @@ import { useEffect, useState } from "react";
 import MoneyballApi from "../api";
 import Image from "next/image";
 import { Team } from "../types";
-
-// type Team = {
-//     id: number;
-//     name: string;
-//     firstYearOfPlay: string;
-//     leagueName: string;
-//     divisionName: string;
-//     locationName: string;
-// };
+import User from "../apiClient";
 
 export default function Teams() {
     const [teams, setTeams] = useState<Team[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
-    const [favoriteTeams, setFavoriteTeams] = useState<number[]>(() => {
-        // Initialize state from localStorage
-        const storedFavorites = localStorage.getItem("favoriteTeams");
-        return storedFavorites ? JSON.parse(storedFavorites) : [];
-    });
+    const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
 
     useEffect(() => {
         async function fetchTeams() {
@@ -35,6 +23,18 @@ export default function Teams() {
             }
         }
         fetchTeams();
+    }, []);
+
+    useEffect(() => {
+        async function fetchFavoriteTeams() {
+            try {
+                const favorites = await User.getFavoriteTeams();
+                setFavoriteTeams(favorites.map((team: { id: number }) => team.id));
+            } catch (error) {
+                console.error("Failed to fetch favorite teams:", error);
+            }
+        }
+        fetchFavoriteTeams();
     }, []);
 
     useEffect(() => {
@@ -51,15 +51,20 @@ export default function Teams() {
     };
 
     // Add or remove a team to/from the favorites list
-    const handleFavoriteClick = (teamId: number) => {
-        setFavoriteTeams(prevFavorites => {
-            const updatedFavorites = prevFavorites.includes(teamId)
-                ? prevFavorites.filter(id => id !== teamId) // Remove from favorites
-                : [...prevFavorites, teamId]; // Add to favorites
+    const handleFavoriteClick = async (teamId: number) => {
+        try {
+            const isFavorite = favoriteTeams.includes(teamId);
 
-            localStorage.setItem("favoriteTeams", JSON.stringify(updatedFavorites));
-            return updatedFavorites;
-        });
+            if (isFavorite) {
+                await User.deleteFavoriteTeam(teamId);
+                setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
+            } else {
+                await User.addFavoriteTeam(teamId);
+                setFavoriteTeams(prevFavorites => [...prevFavorites, teamId]);
+            }
+        } catch (error) {
+            console.error("Failed to update favorite teams:", error);
+        }
     };
 
     return (

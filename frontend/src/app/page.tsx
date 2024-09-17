@@ -30,7 +30,6 @@ export default function Home() {
       const fetchUserName = async () => {
         try {
           const userData = await User.getUser();
-          console.log("User Data from API:", userData); // Log the entire user data object
           if (userData && userData.user && userData.user.firstName) {
             setUserName(userData.user.firstName);
           } else {
@@ -84,6 +83,7 @@ export default function Home() {
         if (!isLoggedIn) return;
 
         const response = await User.getFavoriteTeams();
+        // console.log("Favorite Teams Response:", response);
         const ids = response.favoriteTeams || [];
         setFavoriteTeamIds(ids);
 
