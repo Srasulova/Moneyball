@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LeagueStanding } from "../types";
+import User from "../apiClient";
 
 interface LeagueStandingsProps {
     leagueName: string;
@@ -9,21 +10,43 @@ interface LeagueStandingsProps {
 
 export default function LeagueStandings({ leagueName, teams }: LeagueStandingsProps) {
 
-    const [favoriteTeams, setFavoriteTeams] = useState<number[]>(() => {
-        const storedFavorites = localStorage.getItem("favoriteTeams");
-        return storedFavorites ? JSON.parse(storedFavorites) : [];
-    });
+    const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    // Fetch favorite teams on component mount
+    useEffect(() => {
+        const fetchFavoriteTeams = async () => {
+            try {
+                const favorites = await User.getFavoriteTeams();
+                setFavoriteTeams(favorites.map((team: { teamId: number }) => team.teamId));
+            } catch (error) {
+                console.error("Failed to fetch favorite teams", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFavoriteTeams();
+    }, []);
 
     // Handle the click to add/remove team from favorites
-    const handleFavoriteClick = (teamId: number) => {
-        setFavoriteTeams(prevFavorites => {
-            const updatedFavorites = prevFavorites.includes(teamId)
-                ? prevFavorites.filter(id => id !== teamId) // Remove from favorites
-                : [...prevFavorites, teamId]; // Add to favorites
+    const handleFavoriteClick = async (teamId: number) => {
+        try {
+            setLoading(true);
+            const isFavorite = favoriteTeams.includes(teamId);
 
-            localStorage.setItem("favoriteTeams", JSON.stringify(updatedFavorites));
-            return updatedFavorites;
-        });
+            if (isFavorite) {
+                await User.deleteFavoriteTeam(teamId);
+                setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
+            } else {
+                await User.addFavoriteTeam(teamId);
+                setFavoriteTeams(prevFavorites => [...prevFavorites, teamId]);
+            }
+        } catch (error) {
+            console.error("Failed to update favorite team", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -125,9 +148,12 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                             <td className="relative whitespace-nowrap py-2 text-sm font-medium text-center">
                                                 <button
                                                     onClick={() => handleFavoriteClick(team.teamId)}
+                                                    disabled={loading}
                                                     className={`p-1 border rounded ${isFavorite ? 'bg-sky-900 text-white' : 'border-red-800 text-red-800 hover:bg-red-800 hover:text-white'}`}
                                                 >
-                                                    {isFavorite ? (
+                                                    {loading ? (
+                                                        <span>Loading...</span>
+                                                    ) : isFavorite ? (
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"

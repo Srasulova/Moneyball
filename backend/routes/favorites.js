@@ -50,22 +50,18 @@ router.get(
  *
  * Authorization required: logged-in
  **/
-router.post(
-  "/favorites/teams/:teamId",
-  ensureLoggedIn,
-  async function (req, res, next) {
-    try {
-      const { teamId } = req.params;
-      const favoriteTeams = await User.addFavoriteTeam(
-        res.locals.user.email,
-        teamId
-      );
-      return res.json({ favoriteTeams });
-    } catch (err) {
-      return next(err);
-    }
+router.post("/teams/:teamId", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const { teamId } = req.params;
+    const favoriteTeams = await User.addFavoriteTeam(
+      res.locals.user.email,
+      teamId
+    );
+    return res.json({ favoriteTeams });
+  } catch (err) {
+    return next(err);
   }
-);
+});
 
 /** DELETE /favorites/teams/:teamId  => { favoriteTeams }
  *
@@ -74,7 +70,7 @@ router.post(
  * Authorization required: logged-in
  **/
 router.delete(
-  "/favorites/teams/:teamId",
+  "/teams/:teamId",
   ensureLoggedIn,
   async function (req, res, next) {
     try {
@@ -97,7 +93,7 @@ router.delete(
  * Authorization required: logged-in
  **/
 router.post(
-  "/favorites/players/:playerId",
+  "/players/:playerId",
   ensureLoggedIn,
   async function (req, res, next) {
     try {
@@ -120,7 +116,7 @@ router.post(
  * Authorization required: logged-in
  **/
 router.delete(
-  "/favorites/players/:playerId",
+  "/players/:playerId",
   ensureLoggedIn,
   async function (req, res, next) {
     try {
