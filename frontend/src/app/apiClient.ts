@@ -58,10 +58,7 @@ class User {
   }
 
   static async getFavoriteTeams(): Promise<any> {
-    // return this.request("/favorites/teams");
-    const favoriteTeams = await this.request("/favorites/teams");
-    // console.log(favoriteTeams);
-    return favoriteTeams;
+    return this.request("/favorites/teams");
   }
 
   static async addFavoriteTeam(teamId: number): Promise<any> {

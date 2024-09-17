@@ -137,7 +137,7 @@ export default function Profile() {
                 </form>
 
                 <div className="flex flex-col mt-8">
-                    <a href="/" className="text-center text-xs text-sky-700 hover:underline">
+                    <a href="/" className="text-center text-xs text-sky-700 hover:underline hover:text-red-800">
                         Go back to Home page
                     </a>
                 </div>
