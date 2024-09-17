@@ -30,15 +30,15 @@ export default function Home() {
       const fetchUserName = async () => {
         try {
           const userData = await User.getUser();
-          if (userData && userData.user && userData.user.firstName) {
+          if (userData?.user?.firstName) {
             setUserName(userData.user.firstName);
           } else {
             console.warn("No firstName found in user data.");
-            setIsLoggedIn(false);  // If user data is invalid, consider the user as logged out
+            setIsLoggedIn(false);
           }
         } catch (err) {
           console.error("Failed to fetch user data:", err);
-          setIsLoggedIn(false);  // Handle error by logging out the user
+          setIsLoggedIn(false);
         }
       };
 
@@ -47,8 +47,6 @@ export default function Home() {
       setIsLoggedIn(false);
     }
   }, []);
-
-
 
   // Fetch league standings
   useEffect(() => {
@@ -68,7 +66,6 @@ export default function Home() {
             });
           }
         }
-        console.log(leagues);
         setLeagueStandings(leagues);
       } catch (err) {
         console.error("Failed to fetch standings:", err);
@@ -86,7 +83,6 @@ export default function Home() {
         if (!isLoggedIn) return;
 
         const response = await User.getFavoriteTeams();
-        // console.log("Favorite Teams Response:", response);
         const ids = response.favoriteTeams || [];
         setFavoriteTeamIds(ids);
 
@@ -96,8 +92,12 @@ export default function Home() {
           );
           setTeamSummaries(summaries);
         }
-      } catch (err) {
-        console.error("Failed to fetch team summaries:", err);
+      } catch (err: any) {
+        if (err.message.includes("404")) {
+          console.warn("No favorite teams found.");
+        } else {
+          console.error("Failed to fetch team summaries:", err);
+        }
       }
     };
 
@@ -119,8 +119,12 @@ export default function Home() {
           );
           setPlayerSummaries(summaries);
         }
-      } catch (err) {
-        console.error("Failed to fetch player summaries:", err);
+      } catch (err: any) {
+        if (err.message.includes("404")) {
+          console.warn("No favorite players found.");
+        } else {
+          console.error("Failed to fetch player summaries:", err);
+        }
       }
     };
 
@@ -137,7 +141,7 @@ export default function Home() {
         <>
           <div className="text-center mt-10">
             <h1 className="text-4xl font-bold text-sky-900">
-              Welcome, <span className="text-red-800">{userName ? userName : "User"}</span> !
+              Welcome, <span className="text-red-800">{userName ? userName : "User"}</span>!
             </h1>
           </div>
 
