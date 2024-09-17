@@ -11,7 +11,7 @@ export default function Profile() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null); // New success state
+    const [success, setSuccess] = useState<string | null>(null);
     const router = useRouter();
 
     // Load the user's current data when the component mounts
@@ -52,7 +52,23 @@ export default function Profile() {
             await User.updateUser(email, updatedData);
 
             setIsLoading(false);
-            setSuccess("Your profile has been updated successfully!"); // Set success message
+            setSuccess("Your profile has been updated successfully!");
+        } catch (err: any) {
+            setError(err.message);
+            setIsLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            // Call the backend API to delete the user's profile
+            await User.deleteUser(email);
+
+            setIsLoading(false);
+            router.push("/");
         } catch (err: any) {
             setError(err.message);
             setIsLoading(false);
@@ -101,13 +117,15 @@ export default function Profile() {
                             htmlFor="email"
                             className="block text-sm font-medium text-sky-900"
                         >
-                            Email
+                            Email <span className="text-gray-500">(cannot be changed)</span>
                         </label>
                         <input
                             type="email"
                             id="email"
                             value={email}
-                            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sky-900 focus:ring-red-800 focus:border-red-800"
+                            readOnly
+                            disabled
+                            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-sky-900 focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your email"
                         />
                     </div>
@@ -156,11 +174,11 @@ export default function Profile() {
                 </form>
 
                 <button
-                    type="submit"
+                    onClick={handleDelete}
                     className="w-full mt-2 py-2 px-4 bg-sky-900 text-white rounded-md hover:bg-sky-800 transition duration-200"
-
+                    disabled={isLoading}
                 >
-                    Delete Profile
+                    {isLoading ? "Deleting..." : "Delete Profile"}
                 </button>
 
                 <div className="flex flex-col mt-8">

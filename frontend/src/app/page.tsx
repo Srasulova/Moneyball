@@ -15,7 +15,7 @@ export default function Home() {
   const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null); // State for the user's name
+  const [userName, setUserName] = useState<string | null>(null);
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
   const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
   const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
@@ -34,9 +34,11 @@ export default function Home() {
             setUserName(userData.user.firstName);
           } else {
             console.warn("No firstName found in user data.");
+            setIsLoggedIn(false);  // If user data is invalid, consider the user as logged out
           }
         } catch (err) {
           console.error("Failed to fetch user data:", err);
+          setIsLoggedIn(false);  // Handle error by logging out the user
         }
       };
 
@@ -45,6 +47,7 @@ export default function Home() {
       setIsLoggedIn(false);
     }
   }, []);
+
 
 
   // Fetch league standings

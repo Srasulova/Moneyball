@@ -28,8 +28,8 @@ export default function Signup() {
             // Call the User class register method
             await User.register(name, email, password);
 
-            // Redirect to login page or home page upon successful signup
-            router.push('/login');
+            // Redirect to home page or home page upon successful signup
+            router.push('/');
         } catch (error) {
             // Handle signup errors
             setSignupError((error as Error).message || 'An error occurred during signup');
