@@ -11,6 +11,10 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [signupError, setSignupError] = useState<string | null>(null);
+    const [nameError, setNameError] = useState<string | null>(null);
+    const [emailError, setEmailError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const router = useRouter();
@@ -20,15 +24,33 @@ export default function Signup() {
         setSignupError(null); // Reset the error before attempting signup
         setSuccessMessage(null); // Reset the success message before attempting signup
 
+        // Reset field-specific errors
+        setNameError(null);
+        setEmailError(null);
+        setPasswordError(null);
+        setConfirmPasswordError(null);
+
         // Basic validation
+        if (!name) setNameError("Name is required");
+        if (!email) setEmailError("Email is required");
+        if (!password) setPasswordError("Password is required");
+        if (!confirmPassword) setConfirmPasswordError("Confirm Password is required");
+
         if (password !== confirmPassword) {
             setSignupError("Passwords do not match");
             return;
         }
 
+        if (nameError || emailError || passwordError || confirmPasswordError) {
+            return; // Exit early if there are validation errors
+        }
+
         try {
             // Call the User class register method
-            await User.register(name, email, password);
+            const response = await User.register(name, email, password);
+
+            // Store the token in localStorage upon successful registration
+            localStorage.setItem("token", response.token);
 
             // Set success message
             setSuccessMessage("Registration successful! Redirecting to home page...");
@@ -38,8 +60,23 @@ export default function Signup() {
                 router.push('/');
             }, 2000); // Adjust the delay as needed
         } catch (error) {
-            // Handle signup errors
-            setSignupError((error as Error).message || 'An error occurred during signup');
+            // Handle and display user-friendly error messages
+            if (error instanceof Error) {
+                const errorMessage = error.message;
+                if (errorMessage.includes("email")) {
+                    if (errorMessage.includes("Duplicate email")) {
+                        setEmailError("This email is already registered");
+                    } else {
+                        setEmailError("Please enter a valid email address");
+                    }
+                } else if (errorMessage.includes("password")) {
+                    setPasswordError("Password must be at least 6 characters long");
+                } else {
+                    setSignupError('An error occurred during signup');
+                }
+            } else {
+                setSignupError('An unexpected error occurred');
+            }
         }
     };
 
@@ -66,6 +103,7 @@ export default function Signup() {
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your name"
                         />
+                        {nameError && <p className="mt-2 text-red-600">{nameError}</p>}
                     </div>
 
                     <div className="mb-6">
@@ -83,6 +121,7 @@ export default function Signup() {
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your email"
                         />
+                        {emailError && <p className="mt-2 text-red-600">{emailError}</p>}
                     </div>
 
                     <div className="mb-6">
@@ -100,6 +139,7 @@ export default function Signup() {
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Enter your password"
                         />
+                        {passwordError && <p className="mt-2 text-red-600">{passwordError}</p>}
                     </div>
 
                     <div className="mb-6">
@@ -117,6 +157,7 @@ export default function Signup() {
                             className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                             placeholder="Confirm your password"
                         />
+                        {confirmPasswordError && <p className="mt-2 text-red-600">{confirmPasswordError}</p>}
                     </div>
 
                     <button
