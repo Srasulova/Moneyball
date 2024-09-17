@@ -87,7 +87,7 @@ export function Navbar() {
                                 <div className="hidden sm:flex space-x-4">
                                     <Link
                                         href="/"
-                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/' ? 'bg-white text-sky-900' : 'text-white hover:decoration-1 hover:underline'
+                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/' ? 'bg-white text-sky-900' : 'text-white hover:bg-sky-800 '
                                             }`}
                                         aria-current="page"
                                     >
@@ -95,14 +95,14 @@ export function Navbar() {
                                     </Link>
                                     <Link
                                         href="/teams"
-                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/teams' ? 'bg-white text-sky-900' : 'text-white hover:decoration-1 hover:underline'
+                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/teams' ? 'bg-white text-sky-900' : 'text-white hover:bg-sky-800 '
                                             }`}
                                     >
                                         Teams
                                     </Link>
                                     <Link
                                         href="/players"
-                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/players' ? 'bg-white text-sky-900' : 'text-white hover:decoration-1 hover:underline'
+                                        className={`rounded-md px-3 py-2 text-sm font-medium ${pathname === '/players' ? 'bg-white text-sky-900' : 'text-white hover:bg-sky-800 '
                                             }`}
                                     >
                                         Players

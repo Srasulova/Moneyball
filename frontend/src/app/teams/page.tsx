@@ -70,7 +70,7 @@ export default function Teams() {
     };
 
     return (
-        <div className="min-h-screen bg-white py-8 px-8">
+        <div className="min-h-screen bg-white py-8 px-16">
             <h1 className="text-red-800 text-4xl font-bold text-center mb-8">
                 MLB Teams
             </h1>
@@ -87,7 +87,6 @@ export default function Teams() {
                 {filteredTeams.map((team) => {
                     const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${team.id}.svg`;
                     const isFavorite = favoriteTeams.includes(team.id);
-                    console.log(`team ${team.id} is ${isFavorite}`);
 
                     return (
                         <div

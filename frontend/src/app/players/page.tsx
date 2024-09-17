@@ -62,7 +62,7 @@ export default function Players() {
 
 
     return (
-        <div className="min-h-screen bg-white py-8 px-8">
+        <div className="min-h-screen bg-white py-8 px-16">
             <h1 className="text-red-800 text-4xl font-bold text-center mb-8">
                 MLB Players
             </h1>
@@ -89,8 +89,8 @@ export default function Players() {
                                 src={imgUrl}
                                 alt={`${player.fullName}`}
                                 className="rounded-md"
-                                width={200}
-                                height={200}
+                                width={220}
+                                height={0}
                             />
                             <div className="ml-8">
                                 <button
