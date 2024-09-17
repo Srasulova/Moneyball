@@ -2,14 +2,12 @@ import Image from "next/image";
 import TeamStats from "./TeamStats";
 import { Team } from "../types";
 import User from "../apiClient";
-import { useRouter } from "next/navigation";
 
 interface TeamDashboardProps {
     teamSummary: Team | null;
 }
 
 const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamSummary }) => {
-    const router = useRouter();
 
     if (!teamSummary) {
         return <div className="text-center text-sky-900 mt-20">Loading...</div>;
@@ -18,7 +16,8 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamSummary }) => {
     const handleRemoveFromFavorites = async () => {
         try {
             await User.deleteFavoriteTeam(teamSummary.id);
-            router.push('/'); // Redirect to home page after removing from favorites
+            // Force a page reload
+            window.location.reload();
         } catch (error) {
             console.error("Failed to remove from favorites:", error);
         }
