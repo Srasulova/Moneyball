@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -9,22 +9,27 @@ import logo from "../../../public/logo-no.png"
 export function Navbar() {
     const pathname = usePathname()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const router = useRouter()
 
     // Simulate a logged-in state 
     const [isLoggedIn, setIsLoggedIn] = useState(true)
 
-    const handleLogout = () => {
-        // Clear login status from localStorage
-        localStorage.removeItem('isLoggedIn')
+    const handleLogout = async () => {
+        try {
+            // Clear token from localStorage
+            localStorage.removeItem('token')
 
-        // Update the local state
-        setIsLoggedIn(false)
+            // Optionally, make a request to the server to end the session
+            // await fetch('/api/logout', { method: 'POST' })
 
-        // Redirect to the home page
-        window.location.href = '/'
+            // Update the local state
+            setIsLoggedIn(false)
+
+            // Redirect to the home page
+            window.location.href = '/'
+        } catch (err) {
+            console.error('Failed to log out:', err)
+        }
     }
-
 
     return (
         <>

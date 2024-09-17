@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo-no.png";
@@ -21,9 +20,6 @@ export default function Home() {
   const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
   const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
   const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
-
-  const router = useRouter();
-  const season = "2024";
 
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {
