@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LeagueStanding } from "../types";
 import User from "../apiClient";
+import { useRouter } from "next/navigation";
 
 interface LeagueStandingsProps {
     leagueName: string;
@@ -12,6 +13,8 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
 
     const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const router = useRouter();
 
     // Fetch favorite teams on component mount
     useEffect(() => {
@@ -36,6 +39,7 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
         try {
             setLoading(true);
             const isFavorite = favoriteTeams.includes(teamId);
+
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
                 setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
@@ -43,12 +47,16 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                 await User.addFavoriteTeam(teamId);
                 setFavoriteTeams(prevFavorites => [...prevFavorites, teamId]);
             }
+
+            // Force a page reload
+            window.location.reload();
         } catch (error) {
             console.error("Failed to update favorite team", error);
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="px-6 sm:px-14 lg:px-20 my-10 border-b-2 border-dashed border-red-800 pb-16">
