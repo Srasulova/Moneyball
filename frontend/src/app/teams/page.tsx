@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import MoneyballApi from "../api";
@@ -28,8 +28,9 @@ export default function Teams() {
     useEffect(() => {
         async function fetchFavoriteTeams() {
             try {
-                const favorites = await User.getFavoriteTeams();
-                setFavoriteTeams(favorites.map((team: { id: number }) => team.id));
+                const response = await User.getFavoriteTeams();
+                const favorites = response.favoriteTeams;
+                setFavoriteTeams(favorites);
             } catch (error) {
                 console.error("Failed to fetch favorite teams:", error);
             }
@@ -38,7 +39,6 @@ export default function Teams() {
     }, []);
 
     useEffect(() => {
-        // Filter teams based on search term
         setFilteredTeams(
             teams.filter(team =>
                 team.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,18 +50,20 @@ export default function Teams() {
         setSearchTerm(event.target.value);
     };
 
-    // Add or remove a team to/from the favorites list
     const handleFavoriteClick = async (teamId: number) => {
         try {
             const isFavorite = favoriteTeams.includes(teamId);
 
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
-                setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
             } else {
                 await User.addFavoriteTeam(teamId);
-                setFavoriteTeams(prevFavorites => [...prevFavorites, teamId]);
             }
+
+            const response = await User.getFavoriteTeams();
+            const favorites = response.favoriteTeams;
+            setFavoriteTeams(favorites);
+
         } catch (error) {
             console.error("Failed to update favorite teams:", error);
         }
@@ -85,6 +87,7 @@ export default function Teams() {
                 {filteredTeams.map((team) => {
                     const logoUrl = `https://www.mlbstatic.com/team-logos/team-cap-on-light/${team.id}.svg`;
                     const isFavorite = favoriteTeams.includes(team.id);
+                    console.log(`team ${team.id} is ${isFavorite}`);
 
                     return (
                         <div
@@ -114,7 +117,6 @@ export default function Teams() {
                                     {isFavorite ? "Remove from favorites" : "Add to favorites"}
                                 </button>
                             </div>
-
                         </div>
                     );
                 })}
@@ -122,5 +124,3 @@ export default function Teams() {
         </div>
     );
 }
-
-
