@@ -128,7 +128,7 @@ class User {
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
     // Check if teamId is already in the favorites array
-    if (user.favorite_teams.includes(teamId)) {
+    if (user.favorite_teams && user.favorite_teams.includes(teamId)) {
       throw new BadRequestError(`Team ID: ${teamId} is already a favorite.`);
     }
 

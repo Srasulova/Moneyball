@@ -24,7 +24,6 @@ export default function Home() {
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token in localStorage:", localStorage.getItem("token"));
 
     if (token) {
       setIsLoggedIn(true);
@@ -50,11 +49,6 @@ export default function Home() {
       setIsLoggedIn(false);
     }
   }, []);
-
-  useEffect(() => {
-    console.log("isLoggedIn:", isLoggedIn);
-    console.log("userName:", userName);
-  }, [isLoggedIn, userName]);
 
 
   // Fetch league standings
