@@ -119,7 +119,7 @@ export default function Players() {
                                     onClick={() => handleFavoriteClick(player.id)}
                                     className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'} font-normal px-3 py-2 text-white`}
                                 >
-                                    {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                    {isFavorite ? "Unfollow" : "Follow"}
                                 </button>
                                 <h2 className="text-2xl text-sky-900 font-bold my-4">
                                     {player.fullName}

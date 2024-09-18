@@ -91,7 +91,7 @@ export default function Teams() {
                     return (
                         <div
                             key={team.id}
-                            className="bg-white text-red-800 text-base p-4 rounded-lg shadow-xl border border-gray-100 hover:shadow-2xl"
+                            className="bg-white text-red-800 text-base py-4 px-10 rounded-lg shadow-xl border border-gray-100 hover:shadow-2xl"
                         >
                             <div className="flex items-center justify-center mb-4">
                                 <Image
@@ -102,18 +102,21 @@ export default function Teams() {
                                     className="mr-2"
                                 />
                                 <h2 className="text-2xl text-sky-900 font-bold text-center">{team.name}</h2>
+                            </div >
+                            <div className="">
+                                <p className="">Location: <span className="text-sky-900">{team.locationName}</span></p>
+                                <p>First Year of Play: <span className="text-sky-900">{team.firstYearOfPlay}</span></p>
+                                <p>League: <span className="text-sky-900">{team.league.name}</span></p>
+                                <p>Division: <span className="text-sky-900">{team.division.name}</span></p>
                             </div>
-                            <p>Location: <span className="text-sky-900">{team.locationName}</span></p>
-                            <p>First Year of Play: <span className="text-sky-900">{team.firstYearOfPlay}</span></p>
-                            <p>League: <span className="text-sky-900">{team.league.name}</span></p>
-                            <p>Division: <span className="text-sky-900">{team.division.name}</span></p>
+
                             <div className="flex justify-center">
                                 <button
                                     onClick={() => handleFavoriteClick(team.id)}
                                     className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'
                                         }  font-normal px-3 py-2 text-white`}
                                 >
-                                    {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                    {isFavorite ? "Unfollow" : "Follow"}
                                 </button>
                             </div>
                         </div>
