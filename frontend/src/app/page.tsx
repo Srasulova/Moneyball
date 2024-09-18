@@ -139,7 +139,7 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-zinc-50">
+    <div className="bg-zinc-50">
       {isLoggedIn ? (
         <>
           <div className="text-center pt-10">
@@ -212,6 +212,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }
