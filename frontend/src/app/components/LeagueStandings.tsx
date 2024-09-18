@@ -14,15 +14,13 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
     const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const router = useRouter();
-
     // Fetch favorite teams on component mount
     useEffect(() => {
         const fetchFavoriteTeams = async () => {
             try {
                 const response = await User.getFavoriteTeams();
                 // Access the favoriteTeams array from the response object
-                const favorites = response.favoriteTeams;
+                const favorites = response.favoriteTeams || [];
                 setFavoriteTeams(favorites.map((teamId: number) => teamId));
             } catch (error) {
                 console.error("Failed to fetch favorite teams", error);
@@ -38,7 +36,7 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
     const handleFavoriteClick = async (teamId: number) => {
         try {
             setLoading(true);
-            const isFavorite = favoriteTeams.includes(teamId);
+            const isFavorite = Array.isArray(favoriteTeams) && favoriteTeams.includes(teamId);
 
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
@@ -59,11 +57,11 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
 
 
     return (
-        <div className="px-6 sm:px-14 lg:px-20 my-10 border-b-2 border-dashed border-red-800 pb-16">
+        <div className="px-6 sm:px-14 lg:px-20 my-10 border-b-2 border-dashed border-red-800 pb-16 ">
             <div className="mt-8 flow-root">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-gray-300">
+                <div className="mx-auto max-w-7xl bg-white rounded-md">
+                    <div className="inline-block min-w-full  py-2 align-middle sm:px-6 lg:px-8">
+                        <table className="min-w-full divide-y  divide-gray-300">
                             <thead>
                                 <tr>
                                     <th

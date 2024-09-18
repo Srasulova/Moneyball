@@ -84,7 +84,7 @@ export default function Players() {
 
 
     return (
-        <div className="min-h-screen bg-white py-8 px-16">
+        <div className="min-h-screen bg-white py-8 px-8 md:px-16">
             <h1 className="text-red-800 text-4xl font-bold text-center mb-8">
                 MLB Players
             </h1>
@@ -97,7 +97,7 @@ export default function Players() {
                     className="w-1/2 p-2 border border-gray-300 rounded-full text-sky-900 focus:outline-none focus:ring-2 focus:ring-red-800"
                 />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                 {filteredPlayers.map((player, index) => {
                     const imgUrl = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${player.id}/headshot/67/current`;
                     const isFavorite = favoritePlayers.includes(player.id);
@@ -105,7 +105,7 @@ export default function Players() {
                     return (
                         <div
                             key={player.id}
-                            className="bg-white text-red-800 text-sm p-4 rounded-lg shadow-xl border border-gray-100 flex hover:shadow-2xl"
+                            className="bg-white text-red-800 text-sm py-4 sm:p-4 rounded-lg shadow-xl border border-gray-100 flex flex-col items-center sm:flex-row hover:shadow-2xl"
                         >
                             <Image
                                 src={imgUrl}
@@ -114,31 +114,32 @@ export default function Players() {
                                 width={220}
                                 height={0}
                             />
-                            <div className="ml-8">
+                            <div className="sm:ml-8 text-center sm:text-left">
                                 <button
                                     onClick={() => handleFavoriteClick(player.id)}
-                                    className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'
-                                        }  font-normal px-3 py-2 text-white`}
+                                    className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'} font-normal px-3 py-2 text-white`}
                                 >
                                     {isFavorite ? "Remove from favorites" : "Add to favorites"}
                                 </button>
-                                <h2 className="text-2xl text-sky-900 font-bold my-2">
-                                    {index + 1}. {player.fullName}
-
+                                <h2 className="text-2xl text-sky-900 font-bold my-4">
+                                    {player.fullName}
                                 </h2>
-                                <p className="mb-1">Team: <span className="text-sky-900 ">{player.currentTeam.name}</span></p>
-                                <p className="mb-1">Position: <span className="text-sky-900">{player.primaryPosition.name}</span></p>
-                                <p className="mb-1">Height: <span className="text-sky-900">{player.height}</span></p>
-                                <p className="mb-1">Weight: <span className="text-sky-900">{player.weight} lbs</span></p>
-                                <p className="mb-1">Age: <span className="text-sky-900">{player.currentAge}</span></p>
-                                <p className="mb-1">Birth City: <span className="text-sky-900">{player.birthCity}</span></p>
-                                <p className="mb-1">Birth State/Province: <span className="text-sky-900">{player.birthStateProvince}</span></p>
-                                <p className="mb-1">Birth Country: <span className="text-sky-900">{player.birthCountry}</span></p>
-                                <p className="mb-1">Debut: <span className="text-sky-900">{player.mlbDebutDate}</span></p>
-                                <p className="mb-1">Draft: <span className="text-sky-900">{player.draftYear}</span></p>
+                                {/* Apply grid layout for the <p> elements */}
+                                <div className="grid grid-cols-2 gap-x-8 sm:grid-cols-1 text-left">
+                                    <p className="mb-1">Team: <span className="text-sky-900">{player.currentTeam.name}</span></p>
+                                    <p className="mb-1">Position: <span className="text-sky-900">{player.primaryPosition.name}</span></p>
+                                    <p className="mb-1">Height: <span className="text-sky-900">{player.height}</span></p>
+                                    <p className="mb-1">Weight: <span className="text-sky-900">{player.weight} lbs</span></p>
+                                    <p className="mb-1">Age: <span className="text-sky-900">{player.currentAge}</span></p>
+                                    <p className="mb-1">Birth City: <span className="text-sky-900">{player.birthCity}</span></p>
+                                    <p className="mb-1">Birth State/Province: <span className="text-sky-900">{player.birthStateProvince}</span></p>
+                                    <p className="mb-1">Birth Country: <span className="text-sky-900">{player.birthCountry}</span></p>
+                                    <p className="mb-1">Debut: <span className="text-sky-900">{player.mlbDebutDate}</span></p>
+                                    <p className="mb-1">Draft: <span className="text-sky-900">{player.draftYear}</span></p>
+                                </div>
                             </div>
-
                         </div>
+
                     );
                 })
                 }

@@ -139,10 +139,10 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className="bg-zinc-50">
       {isLoggedIn ? (
         <>
-          <div className="text-center mt-10">
+          <div className="text-center pt-10">
             <h1 className="text-4xl font-bold text-sky-900">
               Welcome, <span className="text-red-800">{userName ? userName : "User"}</span>!
             </h1>
