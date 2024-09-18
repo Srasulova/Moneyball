@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import logo from "../../../public/logo-no.png"
 
-export function Navbar() {
+export default function Navbar() {
     const pathname = usePathname()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
