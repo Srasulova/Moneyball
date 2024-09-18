@@ -1,7 +1,7 @@
 
 export default function Footer() {
     return (
-        <footer className="bg-sky-950 text-white py-6 mt-16">
+        <footer className="bg-sky-950 text-white pt-10  pb-6">
             <div className="container mx-auto text-center">
                 <div className="flex flex-col md:flex-row gap-x-24 items-center justify-center">
                     <p className="mb-4">Data powered by the <a href="https://github.com/toddrob99/MLB-StatsAPI/wiki/Endpoints#url-httpsstatsapimlbcomapiverleague" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:underline">MLB Stats API</a></p>

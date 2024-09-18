@@ -11,7 +11,7 @@ interface PlayerDashboardProps {
 
 const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsType }) => {
     if (!playerSummary) {
-        return <div className="text-center text-sky-900 mt-20">Loading...</div>;
+        return <div className="text-center text-sky-900">Loading...</div>;
     }
 
     const handleRemoveFromFavorites = async () => {

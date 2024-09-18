@@ -57,8 +57,8 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
 
 
     return (
-        <div className="px-6 sm:px-14 lg:px-20 my-10 border-b-2 border-dashed border-red-800 pb-16 ">
-            <div className="mt-8 flow-root">
+        <div className="px-6 sm:px-14 lg:px-20 border-b-2 border-dashed border-red-800 py-10 ">
+            <div className="flow-root">
                 <div className="mx-auto max-w-7xl bg-white rounded-md">
                     <div className="inline-block min-w-full  py-2 align-middle sm:px-6 lg:px-8">
                         <table className="min-w-full divide-y  divide-gray-300">
