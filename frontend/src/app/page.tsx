@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo-no.png";
+import bgImage from "../../public/bg-image.jpg"
 import MoneyballApi from "@/app/api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
@@ -142,11 +143,17 @@ export default function Home() {
     <div className="bg-zinc-50">
       {isLoggedIn ? (
         <>
-          <div className="text-center pt-10">
-            <h1 className="text-4xl font-bold text-sky-900">
-              Welcome, <span className="text-red-800">{userName ? userName : "User"}</span>!
-            </h1>
-          </div>
+          <>
+            <div className="relative bg-cover bg-center h-72 " style={{ backgroundImage: `url(${bgImage.src})` }}>
+              <div className="absolute inset-0 bg-black opacity-60"></div>
+              <div className="relative flex flex-col items-center justify-center h-full text-center text-white">
+                <h1 className="text-6xl font-bold">
+                  Welcome, <span className="text-sky-400">{userName ? userName : "User"}</span>!
+                </h1>
+              </div>
+            </div>
+          </>
+
 
           {teamSummaries.length > 0 && (
             <div className="w-full mt-10 border-b-2 border-dashed border-red-800 pb-16">
