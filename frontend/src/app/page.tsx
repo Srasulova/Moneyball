@@ -145,7 +145,7 @@ export default function Home() {
         <>
           <>
             <div className="relative bg-cover bg-center h-72 " style={{ backgroundImage: `url(${bgImage.src})` }}>
-              <div className="absolute inset-0 bg-black opacity-60"></div>
+              <div className="absolute inset-0 bg-black opacity-50"></div>
               <div className="relative flex flex-col items-center justify-center h-full text-center text-white">
                 <h1 className="text-6xl font-bold">
                   Welcome, <span className="text-sky-400">{userName ? userName : "User"}</span>!
