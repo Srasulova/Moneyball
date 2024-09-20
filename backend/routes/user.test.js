@@ -16,7 +16,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** GET /users */
+/************************************** GET /user */
 
 describe("GET /user", function () {
   test("works for logged-in user", async function () {
@@ -40,7 +40,7 @@ describe("GET /user", function () {
   });
 });
 
-/************************************** PATCH /users/:email */
+/************************************** PATCH /user/:email */
 
 describe("PATCH /user/:email", function () {
   test("works for logged-in user updating own info", async function () {
@@ -88,7 +88,7 @@ describe("PATCH /user/:email", function () {
   });
 });
 
-/************************************** DELETE /users/:email */
+/************************************** DELETE /user/:email */
 
 describe("DELETE /user/:email", function () {
   test("works for logged-in user deleting own account", async function () {
