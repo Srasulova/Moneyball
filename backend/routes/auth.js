@@ -21,14 +21,29 @@ const { BadRequestError } = require("../expressError");
 
 router.post("/login", async function (req, res, next) {
   try {
+    const { email, password } = req.body;
+
+    // Additional validation for required fields
+    if (!email || !password) {
+      throw new BadRequestError("Email and password are required");
+    }
+
     const validator = jsonschema.validate(req.body, userAuthSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
     }
 
-    const { email, password } = req.body;
+    // Check for valid email format before authenticating
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      throw new BadRequestError("Invalid email format");
+    }
+
     const user = await User.authenticate(email, password);
+    if (!user) {
+      throw new BadRequestError("Invalid email or password");
+    }
+
     const token = createToken(user);
     return res.json({ token });
   } catch (err) {
