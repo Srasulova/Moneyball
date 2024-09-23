@@ -5,6 +5,7 @@ import MoneyballApi from "../api";
 import Image from "next/image";
 import { Player } from "../types";
 import User from "../apiClient";
+import FavoriteButton from "../components/FavoriteButton";
 
 export default function Players() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -68,6 +69,15 @@ export default function Players() {
             if (isFavorite) {
                 await User.deleteFavoritePlayer(playerId);
             } else {
+                // Prevent adding the same player if it's already in the favorites
+                const response = await User.getFavoritePlayers();
+                const updatedFavorites = response.favoritePlayers;
+
+                if (updatedFavorites.includes(playerId)) {
+                    console.warn("Player is already in favorites");
+                    return; // Prevent adding the player again
+                }
+
                 await User.addFavoritePlayer(playerId);
             }
 
@@ -81,6 +91,7 @@ export default function Players() {
             console.error("Failed to update favorite players:", err);
         }
     };
+
 
 
     return (
@@ -115,12 +126,10 @@ export default function Players() {
                                 height={0}
                             />
                             <div className="sm:ml-8 text-center sm:text-left">
-                                <button
+                                <FavoriteButton
+                                    isFavorite={isFavorite}
                                     onClick={() => handleFavoriteClick(player.id)}
-                                    className={`rounded-md mt-4 shadow-sm border border-gray-100 text-xs ${isFavorite ? 'bg-sky-900 hover:bg-red-800' : 'bg-red-800 hover:bg-sky-900'} font-normal px-3 py-2 text-white`}
-                                >
-                                    {isFavorite ? "Unfollow" : "Follow"}
-                                </button>
+                                />
                                 <h2 className="text-2xl text-sky-900 font-bold my-4">
                                     {player.fullName}
                                 </h2>
