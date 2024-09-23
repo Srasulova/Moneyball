@@ -1,8 +1,8 @@
 import Image from "next/image";
 import TeamStats from "./TeamStats";
 import { Team } from "../types";
-import User from "../apiClient";
 import UnfollowButton from "./UnfollowButton";
+import { handleRemoveFromFavorites } from "../utils";
 
 interface TeamDashboardProps {
     teamSummary: Team | null;
@@ -13,16 +13,6 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamSummary }) => {
     if (!teamSummary) {
         return <div className="text-center text-sky-900 mt-20">Loading...</div>;
     }
-
-    const handleRemoveFromFavorites = async () => {
-        try {
-            await User.deleteFavoriteTeam(teamSummary.id);
-            // Force a page reload
-            window.location.reload();
-        } catch (error) {
-            console.error("Failed to remove from favorites:", error);
-        }
-    };
 
     return (
         <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-2 border border-gray-100 flex flex-col items-center w-full">
@@ -46,7 +36,7 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamSummary }) => {
                 </div>
                 <TeamStats teamId={teamSummary.id} season="season" />
             </div>
-            <UnfollowButton removeFromFavorites={handleRemoveFromFavorites} />
+            <UnfollowButton removeFromFavorites={() => handleRemoveFromFavorites('team', teamSummary.id)} />
         </div>
     );
 };

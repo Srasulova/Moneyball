@@ -1,4 +1,5 @@
 import { HittingStats, PitchingStats, FieldingStats } from "./types";
+import User from "./apiClient";
 
 export const formatHittingStats = (stats: any): HittingStats => ({
   avg: stats.avg || "0",
@@ -38,3 +39,20 @@ export const formatFieldingStats = (stats: any): FieldingStats => ({
   throwingErrors: stats.throwingErrors || "0",
   rangeFactorPerGame: stats.rangeFactorPerGame || "0",
 });
+
+export const handleRemoveFromFavorites = async (
+  type: "team" | "player",
+  id: number
+) => {
+  try {
+    if (type === "team") {
+      await User.deleteFavoriteTeam(id);
+    } else if (type === "player") {
+      await User.deleteFavoritePlayer(id);
+    }
+    // Force a page reload
+    window.location.reload();
+  } catch (error) {
+    console.error(`Failed to remove from favorite ${type}:`, error);
+  }
+};

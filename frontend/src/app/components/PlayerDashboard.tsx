@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import PlayerStats from './PlayerStats';
 import { Player } from '../types';
-import User from "../apiClient";
 import UnfollowButton from './UnfollowButton';
+import { handleRemoveFromFavorites } from '../utils';
 
 interface PlayerDashboardProps {
     playerSummary: Player | null;
@@ -14,16 +14,6 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsT
     if (!playerSummary) {
         return <div className="text-center text-sky-900">Loading...</div>;
     }
-
-    const handleRemoveFromFavorites = async () => {
-        try {
-            await User.deleteFavoritePlayer(playerSummary.id);
-            // Force a page reload
-            window.location.reload();
-        } catch (error) {
-            console.error("Failed to remove from favorites:", error);
-        }
-    };
 
     return (
         <div className="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-2 border border-gray-100 flex flex-col items-center w-full">
@@ -49,7 +39,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsT
                 </div>
                 <PlayerStats playerId={playerSummary.id} statsType={statsType} />
             </div>
-            <UnfollowButton removeFromFavorites={handleRemoveFromFavorites} />
+            <UnfollowButton removeFromFavorites={() => handleRemoveFromFavorites('player', playerSummary.id)} />
         </div>
     );
 };
