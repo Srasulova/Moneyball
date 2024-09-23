@@ -2,6 +2,7 @@ import Image from "next/image";
 import TeamStats from "./TeamStats";
 import { Team } from "../types";
 import User from "../apiClient";
+import UnfollowButton from "./UnfollowButton";
 
 interface TeamDashboardProps {
     teamSummary: Team | null;
@@ -45,12 +46,7 @@ const TeamDashboard: React.FC<TeamDashboardProps> = ({ teamSummary }) => {
                 </div>
                 <TeamStats teamId={teamSummary.id} season="season" />
             </div>
-            <button
-                onClick={handleRemoveFromFavorites}
-                className="text-base rounded-md px-3 py-1.5 bg-red-800 text-white"
-            >
-                Remove from favorites
-            </button>
+            <UnfollowButton removeFromFavorites={handleRemoveFromFavorites} />
         </div>
     );
 };

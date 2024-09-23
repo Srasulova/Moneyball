@@ -3,6 +3,7 @@ import Image from 'next/image';
 import PlayerStats from './PlayerStats';
 import { Player } from '../types';
 import User from "../apiClient";
+import UnfollowButton from './UnfollowButton';
 
 interface PlayerDashboardProps {
     playerSummary: Player | null;
@@ -48,11 +49,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsT
                 </div>
                 <PlayerStats playerId={playerSummary.id} statsType={statsType} />
             </div>
-            <button
-                onClick={handleRemoveFromFavorites}
-                className="text-base rounded-md px-3 py-1.5 bg-red-800 text-white">
-                Remove from favorites
-            </button>
+            <UnfollowButton removeFromFavorites={handleRemoveFromFavorites} />
         </div>
     );
 };
