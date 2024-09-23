@@ -1,26 +1,25 @@
-'use client';
+'use client'
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo-no.png";
-import bgImage from "../../public/bg-image.jpg"
-import MoneyballApi from "@/app/api";
+import bgImage from "../../public/bg-image.jpg";
+import MoneyballApi from "./api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
 import PlayerDashboard from "./components/PlayerDashboard";
 import { Player, Team, LeagueStanding } from "./types";
 import User from "./apiClient";
+import useFetchFavoritesSummary from "./hooks/useFetchFavoritesSummary";
 
 export default function Home() {
   const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
-  const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
-  const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
-  const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
+
+  const { favoriteTeamIds, teamSummaries, favoritePlayerIds, playerSummaries } = useFetchFavoritesSummary(isLoggedIn);
 
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {
@@ -51,7 +50,6 @@ export default function Home() {
     }
   }, []);
 
-
   // Fetch league standings
   useEffect(() => {
     const fetchStandings = async () => {
@@ -81,60 +79,6 @@ export default function Home() {
     fetchStandings();
   }, []);
 
-  useEffect(() => {
-    const fetchFavoriteTeamsSummary = async () => {
-      try {
-        if (!isLoggedIn) return;
-
-        const response = await User.getFavoriteTeams();
-        const ids = response.favoriteTeams || [];
-        setFavoriteTeamIds(ids);
-
-        if (ids.length > 0) {
-          const summaries = await Promise.all(
-            ids.map((id: number) => MoneyballApi.getTeamInfo(id))
-          );
-          setTeamSummaries(summaries);
-        }
-      } catch (err: any) {
-        if (err.message.includes("404")) {
-          console.warn("No favorite teams found.");
-        } else {
-          console.error("Failed to fetch team summaries:", err);
-        }
-      }
-    };
-
-    fetchFavoriteTeamsSummary();
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    const fetchFavoritePlayersSummary = async () => {
-      try {
-        if (!isLoggedIn) return;
-
-        const response = await User.getFavoritePlayers();
-        const ids = response.favoritePlayers || [];
-        setFavoritePlayerIds(ids);
-
-        if (ids.length > 0) {
-          const summaries = await Promise.all(
-            ids.map((id: number) => MoneyballApi.getPlayerInfo(id))
-          );
-          setPlayerSummaries(summaries);
-        }
-      } catch (err: any) {
-        if (err.message.includes("404")) {
-          console.warn("No favorite players found.");
-        } else {
-          console.error("Failed to fetch player summaries:", err);
-        }
-      }
-    };
-
-    fetchFavoritePlayersSummary();
-  }, [isLoggedIn]);
-
   if (loading) {
     return <p className="text-center text-gray-500 mt-20">Loading...</p>;
   }
@@ -143,17 +87,14 @@ export default function Home() {
     <div className="bg-zinc-50">
       {isLoggedIn ? (
         <>
-          <>
-            <div className="relative bg-cover bg-center h-72 " style={{ backgroundImage: `url(${bgImage.src})` }}>
-              <div className="absolute inset-0 bg-black opacity-50"></div>
-              <div className="relative flex flex-col items-center justify-center h-full text-center text-white">
-                <h1 className="text-6xl font-bold">
-                  Welcome, <span className="text-sky-400">{userName ? userName : "User"}</span>!
-                </h1>
-              </div>
+          <div className="relative bg-cover bg-center h-72" style={{ backgroundImage: `url(${bgImage.src})` }}>
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="relative flex flex-col items-center justify-center h-full text-center text-white">
+              <h1 className="text-6xl font-bold">
+                Welcome, <span className="text-sky-400">{userName ? userName : "User"}</span>!
+              </h1>
             </div>
-          </>
-
+          </div>
 
           {teamSummaries.length > 0 && (
             <div className="w-full mt-10 border-b-2 border-dashed border-red-800 pb-16">
@@ -210,12 +151,8 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-sky-900">Welcome to Moneyball</h1>
           <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
           <div className="mt-6 flex gap-2">
-            <Link href="/login" className="px-6 py-2 bg-red-800 text-white rounded-md hover:bg-red-900">
-              Log In
-            </Link>
-            <Link href="/signup" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">
-              Sign Up
-            </Link>
+            <Link href="/login" className="px-6 py-2 bg-red-800 text-white rounded-md hover:bg-red-700">Login</Link>
+            <Link href="/signup" className="px-6 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700">Sign Up</Link>
           </div>
         </div>
       )}
