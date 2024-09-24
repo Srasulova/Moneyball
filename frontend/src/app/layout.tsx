@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -16,11 +16,9 @@ export const metadata: Metadata = {
 
 export const AuthContext = createContext<boolean>(false);
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: {
+  children: React.ReactNode
+}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
