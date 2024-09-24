@@ -44,8 +44,6 @@ export default function Home() {
       };
 
       fetchUserName();
-    } else {
-      redirect('/login');
     }
   }, [isLoggedIn]);
 
