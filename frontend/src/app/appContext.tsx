@@ -13,7 +13,7 @@ export default function AppContext({ children }: { children: React.ReactNode }) 
 
     return (
         <AuthContext.Provider value={isLoggedIn}>
-            children
+            {children}
         </AuthContext.Provider>
     );
 }
