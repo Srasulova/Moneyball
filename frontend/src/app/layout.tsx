@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./UI/Navbar";
 import Footer from "./UI/Footer";
-import AppContext from "./appContext";
+import AppContext, { AuthContext } from "./appContext";
+import { useContext } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const isLoggedIn = useContext(AuthContext);
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <AppContext>
-          <Navbar />
+          {isLoggedIn && <Navbar />}
           <main className="flex-1">
             {children}
           </main>
