@@ -36,7 +36,6 @@ export default function Home() {
             console.warn("No firstName found in user data.");
           }
         } catch (err) {
-
           console.error("Failed to fetch user data:", err);
         }
       };
