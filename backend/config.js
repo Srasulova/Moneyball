@@ -5,21 +5,19 @@
 require("dotenv").config();
 require("colors");
 
-const SECRET_KEY = process.env.SECRET_KEY || "moneyball-secret-key";
-
-const PORT = +process.env.PORT || 3001;
+const PORT = 3001;
 
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
-  return process.env.NODE_ENV === "test"
-    ? "postgresql://postgres:Milagros@localhost:5432/moneyball_test"
-    : process.env.DATABASE_URL ||
-        "postgresql://postgres:Milagros@localhost:5432/moneyball";
+  return (
+    process.env.DATABASE_URL ||
+    "postgresql://postgres:Milagros@localhost:5432/moneyball"
+  );
 }
 
-// Speed up bcrypt during tests, since the algorithm safety isn't being tested
+const SECRET_KEY = process.env.SECRET_KEY || "super-top-secret-key";
 
-const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
+const BCRYPT_WORK_FACTOR = 12;
 
 console.log("Moneyball Config:".green);
 console.log("SECRET_KEY:".yellow, SECRET_KEY);
