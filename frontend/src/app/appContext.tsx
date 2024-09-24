@@ -17,8 +17,8 @@ export default function AppContext({ children }: { children: React.ReactNode }) 
         } else {
             setIsLoggedIn(false);
 
-            if (pathname !== '/login' && pathname !== 'signup') {
-                redirect('/login');
+            if (pathname !== '/login' && pathname !== 'signup' && pathname !== '/') {
+                redirect('/');
             }
         }
     }, [pathname]);
