@@ -12,9 +12,9 @@ import PlayerDashboard from "./components/PlayerDashboard";
 import { Player, Team, LeagueStanding } from "./types";
 import User from "./apiClient";
 import useFetchFavoritesSummary from "./hooks/useFetchFavoritesSummary";
-import { AuthContext } from "./layout";
 import { Router } from "next/router";
 import { redirect } from "next/navigation";
+import AppContext, { AuthContext } from "./appContext";
 
 export default function Home() {
   const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
