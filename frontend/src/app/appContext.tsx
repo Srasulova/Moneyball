@@ -2,14 +2,13 @@
 
 import { createContext, useEffect, useState } from "react";
 import Navbar from "./UI/Navbar";
-import { useRouter } from "next/router";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 export const AuthContext = createContext<boolean>(false);
 
 export default function AppContext({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         let token = localStorage.getItem("token");
@@ -18,9 +17,9 @@ export default function AppContext({ children }: { children: React.ReactNode }) 
         } else {
             setIsLoggedIn(false);
 
-            console.log(router.pathname);
+            console.log(pathname);
         }
-    }, [router]);
+    }, [pathname]);
 
     return (
         <AuthContext.Provider value={isLoggedIn}>
