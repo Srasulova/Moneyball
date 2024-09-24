@@ -11,5 +11,9 @@ export default function AppContext({ children }: { children: React.ReactNode }) 
         localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
     }, []);
 
-    return children;
+    return (
+        <AuthContext.Provider value={isLoggedIn}>
+            children
+        </AuthContext.Provider>
+    );
 }
