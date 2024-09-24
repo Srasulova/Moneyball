@@ -152,7 +152,7 @@ export default function Home() {
           <p className="mt-4 text-lg text-zinc-600">Please log in or sign up to access league standings.</p>
           <div className="mt-6 flex gap-2">
             <Link href="/login" className="px-6 py-2 bg-red-800 text-white rounded-md hover:bg-red-700">Login</Link>
-            <Link href="/signup" className="px-6 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700">Sign Up</Link>
+            <Link href="/signup" className="px-6 py-2 bg-sky-900 text-white rounded-md hover:bg-sky-800">Sign Up</Link>
           </div>
         </div>
       )}

@@ -18,9 +18,6 @@ export default function Navbar() {
             // Clear token from localStorage
             localStorage.removeItem('token')
 
-            // Optionally, make a request to the server to end the session
-            // await fetch('/api/logout', { method: 'POST' })
-
             // Update the local state
             setIsLoggedIn(false)
 
