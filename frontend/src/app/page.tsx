@@ -3,18 +3,15 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/logo-no.png";
 import bgImage from "../../public/bg-image.jpg";
 import MoneyballApi from "./api";
 import LeagueStandings from "./components/LeagueStandings";
 import TeamDashboard from "./components/TeamDashboard";
 import PlayerDashboard from "./components/PlayerDashboard";
-import { Player, Team, LeagueStanding } from "./types";
+import { LeagueStanding } from "./types";
 import User from "./apiClient";
 import useFetchFavoritesSummary from "./hooks/useFetchFavoritesSummary";
-import { Router } from "next/router";
-import { redirect } from "next/navigation";
-import AppContext, { AuthContext } from "./appContext";
+import { AuthContext } from "./appContext";
 
 export default function Home() {
   const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
