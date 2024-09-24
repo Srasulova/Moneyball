@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo-no.png";
@@ -12,21 +12,22 @@ import PlayerDashboard from "./components/PlayerDashboard";
 import { Player, Team, LeagueStanding } from "./types";
 import User from "./apiClient";
 import useFetchFavoritesSummary from "./hooks/useFetchFavoritesSummary";
+import { AuthContext } from "./layout";
+import { Router } from "next/router";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const [leagueStandings, setLeagueStandings] = useState<{ leagueId: number; leagueName: string; teams: LeagueStanding[] }[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+
+  const isLoggedIn = useContext(AuthContext);
 
   const { favoriteTeamIds, teamSummaries, favoritePlayerIds, playerSummaries } = useFetchFavoritesSummary(isLoggedIn);
 
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      setIsLoggedIn(true);
+    if (isLoggedIn) {
 
       const fetchUserName = async () => {
         try {
@@ -36,19 +37,17 @@ export default function Home() {
             setUserName(userData.user.firstName);
           } else {
             console.warn("No firstName found in user data.");
-            setIsLoggedIn(false);
           }
         } catch (err) {
           console.error("Failed to fetch user data:", err);
-          setIsLoggedIn(false);
         }
       };
 
       fetchUserName();
     } else {
-      setIsLoggedIn(false);
+      redirect('/login');
     }
-  }, []);
+  }, [isLoggedIn]);
 
   // Fetch league standings
   useEffect(() => {
