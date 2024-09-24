@@ -1,10 +1,11 @@
+"use client"
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./UI/Navbar";
 import Footer from "./UI/Footer";
-import { createContext, useContext, useEffect, useState } from "react";
-import User from "./apiClient";
+import { createContext, useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,13 +24,7 @@ export default function RootLayout({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
   }, []);
 
   return (
