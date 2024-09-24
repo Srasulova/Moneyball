@@ -19,13 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const isLoggedIn = useContext(AuthContext);
-
   return (
     <html lang="en">
       <body className={inter.className}>
         <AppContext>
-          {isLoggedIn && <Navbar />}
           <main className="flex-1">
             {children}
           </main>
