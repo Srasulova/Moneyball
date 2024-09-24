@@ -5,6 +5,7 @@ import Navbar from "./UI/Navbar";
 import { redirect, usePathname } from "next/navigation";
 
 export const AuthContext = createContext<boolean>(false);
+export const UserNameContext = createContext<string | null>(null);
 
 export default function AppContext({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
