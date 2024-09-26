@@ -9,12 +9,14 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // State to track logging in status
 
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null); // Reset the error before attempting login
+    setIsLoggingIn(true); // Set logging in state to true
 
     try {
       // Call the User class login method
@@ -28,6 +30,8 @@ export default function Login() {
     } catch (error) {
       // Handle login errors
       setLoginError((error as Error).message || 'An error occurred during login');
+    } finally {
+      setIsLoggingIn(false); // Reset logging in state regardless of success or failure
     }
   };
 
@@ -65,7 +69,7 @@ export default function Login() {
             type="submit"
             className="w-full px-4 py-2 bg-sky-900 text-white font-semibold rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
           >
-            Login
+            {isLoggingIn ? "Logging in..." : "Login"} {/* Update button text based on logging in state */}
           </button>
 
           {loginError && (

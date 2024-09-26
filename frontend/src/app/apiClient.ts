@@ -20,10 +20,19 @@ class User {
     };
 
     const res = await fetch(`${BASE_URL}${endpoint}`, config);
-    const responseData = await res.json();
 
-    if (!res.ok)
-      throw new Error(responseData.error.message || "Request failed");
+    let responseData;
+    try {
+      responseData = await res.json();
+    } catch (error) {
+      // Handle non-JSON response
+      throw new Error("Response is not valid JSON.");
+    }
+
+    if (!res.ok) {
+      throw new Error(responseData.error?.message || "Request failed");
+    }
+
     return responseData;
   }
 

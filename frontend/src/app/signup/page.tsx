@@ -16,13 +16,14 @@ export default function Signup() {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [isRegistering, setIsRegistering] = useState(false); // New state for registering status
 
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSignupError(null); // Reset the error before attempting signup
-        setSuccessMessage(null); // Reset the success message before attempting signup
+        setSignupError(null);
+        setSuccessMessage(null);
 
         // Reset field-specific errors
         setNameError(null);
@@ -45,22 +46,17 @@ export default function Signup() {
             return; // Exit early if there are validation errors
         }
 
+        setIsRegistering(true); // Set registering status to true
+
         try {
-            // Call the User class register method
             const response = await User.register(name, email, password);
-
-            // Store the token in localStorage upon successful registration
             localStorage.setItem("token", response.token);
-
-            // Set success message
             setSuccessMessage("Registration successful! Redirecting to home page...");
 
-            // Redirect to home page after a short delay
             setTimeout(() => {
                 router.push('/');
-            }, 2000); // Adjust the delay as needed
+            }, 2000);
         } catch (error) {
-            // Handle and display user-friendly error messages
             if (error instanceof Error) {
                 const errorMessage = error.message;
                 if (errorMessage.includes("email")) {
@@ -77,6 +73,8 @@ export default function Signup() {
             } else {
                 setSignupError('An unexpected error occurred');
             }
+        } finally {
+            setIsRegistering(false); // Reset registering status after the request
         }
     };
 
@@ -164,7 +162,7 @@ export default function Signup() {
                         type="submit"
                         className="w-full px-4 py-2 bg-sky-900 text-white font-semibold rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-offset-2"
                     >
-                        Register
+                        {isRegistering ? "Registering..." : "Register"} {/* Conditional button text */}
                     </button>
 
                     {signupError && (
