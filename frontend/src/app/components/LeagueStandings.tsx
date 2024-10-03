@@ -3,6 +3,7 @@ import Image from "next/image";
 import { LeagueStanding } from "../types";
 import User from "../apiClient";
 import { useRouter } from "next/navigation";
+import TeamStandingsCard from "./TeamStandingsCard"; // Import the TeamStandingsCard component
 
 interface LeagueStandingsProps {
     leagueName: string;
@@ -57,17 +58,16 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
             <div className="flow-root">
                 <div className="mx-auto max-w-7xl bg-white rounded-md">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        {/* Display league name above the table on smaller screens */}
-                        <h2 className="text-2xl font-medium text-red-800 text-center mb-4 md:hidden">
+                        {/* Display league name above the table on larger screens */}
+                        <h2 className="text-2xl font-medium text-red-800 text-center mb-4 hidden md:block">
                             {leagueName}
                         </h2>
-                        <table className="min-w-full divide-y divide-gray-300">
+
+                        {/* Table for medium and larger screens */}
+                        <table className="min-w-full divide-y divide-gray-300 hidden md:table">
                             <thead>
                                 <tr>
-                                    <th
-                                        scope="col"
-                                        className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-2xl font-medium text-red-800 sm:pl-0 hidden md:table-cell"
-                                    >
+                                    <th scope="col" className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-2xl font-medium text-red-800 sm:pl-0">
                                         {leagueName}
                                     </th>
                                     <th className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-red-800">W</th>
@@ -90,7 +90,6 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                             <tbody className="divide-y divide-sky-200 bg-white">
                                 {teams.map((team) => {
                                     const isFavorite = favoriteTeams.includes(team.teamId);
-
                                     return (
                                         <tr key={team.teamId}>
                                             <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0 flex">
@@ -143,11 +142,27 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                 })}
                             </tbody>
                         </table>
+
+                        {/* Cards for extra small and small screens */}
+                        <div className="grid grid-cols-1 md:hidden">
+                            <h2 className="text-2xl font-medium text-red-800 text-center mb-4">
+                                {leagueName}
+                            </h2>
+                            {teams.map((team) => {
+                                const isFavorite = favoriteTeams.includes(team.teamId);
+                                return (
+                                    <TeamStandingsCard
+                                        key={team.teamId}
+                                        team={team}
+                                        onFavoriteClick={handleFavoriteClick}
+                                        isFavorite={isFavorite}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     );
 }
-
-
