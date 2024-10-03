@@ -58,13 +58,26 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
             <div className="flow-root">
                 <div className="mx-auto max-w-7xl bg-white rounded-md">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        {/* Display league name above the table on larger screens */}
-                        <h2 className="text-2xl font-medium text-red-800 text-center mb-4 hidden md:block">
-                            {leagueName}
-                        </h2>
+                        {/* Cards for extra small and small screens */}
+                        <div className="grid grid-cols-1 lg:hidden">
+                            <h2 className="text-2xl font-medium text-red-800 text-center mb-4">
+                                {leagueName}
+                            </h2>
+                            {teams.map((team) => {
+                                const isFavorite = favoriteTeams.includes(team.teamId);
+                                return (
+                                    <TeamStandingsCard
+                                        key={team.teamId}
+                                        team={team}
+                                        onFavoriteClick={handleFavoriteClick}
+                                        isFavorite={isFavorite}
+                                    />
+                                );
+                            })}
+                        </div>
 
-                        {/* Table for medium and larger screens */}
-                        <table className="min-w-full divide-y divide-gray-300 hidden md:table">
+                        {/* Table for large and larger screens */}
+                        <table className="min-w-full divide-y divide-gray-300 hidden lg:table">
                             <thead>
                                 <tr>
                                     <th scope="col" className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-2xl font-medium text-red-800 sm:pl-0">
@@ -142,24 +155,6 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
                                 })}
                             </tbody>
                         </table>
-
-                        {/* Cards for extra small and small screens */}
-                        <div className="grid grid-cols-1 md:hidden">
-                            <h2 className="text-2xl font-medium text-red-800 text-center mb-4">
-                                {leagueName}
-                            </h2>
-                            {teams.map((team) => {
-                                const isFavorite = favoriteTeams.includes(team.teamId);
-                                return (
-                                    <TeamStandingsCard
-                                        key={team.teamId}
-                                        team={team}
-                                        onFavoriteClick={handleFavoriteClick}
-                                        isFavorite={isFavorite}
-                                    />
-                                );
-                            })}
-                        </div>
                     </div>
                 </div>
             </div>

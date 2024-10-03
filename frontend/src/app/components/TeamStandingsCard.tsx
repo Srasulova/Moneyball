@@ -11,9 +11,9 @@ interface TeamStandingsCardProps {
 const TeamStandingsCard: React.FC<TeamStandingsCardProps> = ({ team, onFavoriteClick, isFavorite }) => {
     return (
         <div className="border border-gray-200 rounded-lg p-4 mb-4 shadow-md">
-            <div className="flex items-center mb-2">
+            <div className="flex items-center justify-center mb-2">
                 <Image src={team.logoUrl} alt={team.teamName} width={40} height={40} className="mr-2" />
-                <span className="text-lg font-semibold text-sky-900">{team.teamName}</span>
+                <span className="text-2xl font-semibold text-sky-900">{team.teamName}</span>
             </div>
             <div className="grid grid-cols-3 gap-4 text-sm font-medium text-sky-900 my-4">
                 <div>
