@@ -61,7 +61,7 @@ const PlayerStats: React.FC<{ playerId: number; statsType: StatsType }> = ({ pla
     const secondHalf = statsArray.slice(splitIndex);
 
     return (
-        <div className="overflow-hidden bg-white mt-6 md:mt-0 md:ml-16 lg:ml-10 w-full">
+        <div className="overflow-hidden bg-white mt-2 md:mt-0 md:ml-16 lg:ml-10 w-full">
             <div className="flex mb-4">
                 <button
                     className={`px-3 py-1.5 border rounded-md ${currentStatsType === 'hitting' ? 'border-red-800 text-red-800' : 'border-transparent text-sky-900'} mx-0.5`}
