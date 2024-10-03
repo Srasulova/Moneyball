@@ -63,7 +63,7 @@ const TeamStats: React.FC<TeamStatsProps> = ({ teamId, season }) => {
     const currentHeaders = headers[statsType];
 
     return (
-        <div className="ml-16 lg:mx-0">
+        <div className="md:ml-16 lg:mx-0">
             <div className="flex mb-4">
                 {Object.keys(headers).map(type => (
                     <button
