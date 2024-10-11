@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerStats Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="overflow-hidden bg-white mt-2 md:mt-0 md:ml-16 lg:ml-10 w-full"
+  >
+    <div
+      class="flex mb-4"
+    >
+      <button
+        class="px-3 py-1.5 border rounded-md border-red-800 text-red-800 mx-0.5"
+      >
+        Hitting
+      </button>
+      <button
+        class="px-3 py-1.5 border rounded-md border-transparent text-sky-900 mx-0.5"
+      >
+        Pitching
+      </button>
+      <button
+        class="px-3 py-1.5 border rounded-md border-transparent text-sky-900 mx-0.5"
+      >
+        Fielding
+      </button>
+    </div>
+    <div
+      class=""
+    >
+      <div
+        class="overflow-x-auto"
+      >
+        <div
+          class="inline-block min-w-full py-2 align-middle"
+        >
+          <table
+            class="min-w-full divide-y divide-gray-300 mb-4"
+          >
+            <thead
+              class=""
+            >
+              <tr>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  Games
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  AB
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  H
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  HR
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  AVG
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="divide-y divide-gray-200 bg-white"
+            >
+              <tr>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  50
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  200
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  50
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  5
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  0.25
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table
+            class="min-w-full divide-y divide-gray-300"
+          >
+            <thead
+              class=""
+            >
+              <tr>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  OBP
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  SLG
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  OPS
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  RBI
+                </th>
+                <th
+                  class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
+                >
+                  SO
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="divide-y divide-gray-200 bg-white"
+            >
+              <tr>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  0.32
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  0.4
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  0.72
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  20
+                </td>
+                <td
+                  class="px-2 py-4 text-sm text-sky-900 whitespace-nowrap"
+                >
+                  30
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

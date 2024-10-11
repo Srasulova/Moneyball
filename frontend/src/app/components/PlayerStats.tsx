@@ -38,6 +38,7 @@ const PlayerStats: React.FC<{ playerId: number; statsType: StatsType }> = ({ pla
     }, [playerId, currentStatsType]);
 
     if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
     // Define headers based on stats type
     const headers = {
