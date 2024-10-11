@@ -43,7 +43,7 @@ exports[`UnfollowButton Component matches the snapshot 1`] = `
             >
               Unfollow
             </button>,
-            "timeStamp": 1728625878206,
+            "timeStamp": 1728664895532,
             "type": "click",
             "view": null,
           },

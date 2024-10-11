@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerDashboard Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="p-4 bg-white shadow-lg rounded-lg max-w-3xl mx-auto my-2 border border-gray-100 flex flex-col items-center w-full"
+  >
+    <div
+      class="flex flex-col sm:flex-row sm:items-start w-full"
+    >
+      <div
+        class="flex flex-col items-center sm:items-start mb-6"
+      >
+        <h2
+          class="text-2xl font-medium text-red-800"
+        >
+          John Doe
+        </h2>
+        <div
+          class="flex  sm:items-center space-x-4 my-4"
+        >
+          <img
+            alt="John Doe photo"
+            class="rounded-md"
+            data-nimg="1"
+            decoding="async"
+            height="40"
+            loading="lazy"
+            src="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=256&q=75"
+            srcset="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=96&q=75 1x, /_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=256&q=75 2x"
+            style="color: transparent;"
+            width="80"
+          />
+          <div
+            class="flex flex-col items-start sm:items-start"
+          >
+            <p
+              class="text-base text-red-800"
+            >
+              Team: 
+              <span
+                class="text-sky-900"
+              >
+                Yankees
+              </span>
+            </p>
+            <p
+              class="text-base text-red-800"
+            >
+              Number: 
+              <span
+                class="text-sky-900"
+              >
+                12
+              </span>
+            </p>
+            <p
+              class="text-base text-red-800"
+            >
+              Position: 
+              <span
+                class="text-sky-900"
+              >
+                Pitcher
+              </span>
+            </p>
+            <p
+              class="text-base text-red-800"
+            >
+              Batside: 
+              <span
+                class="text-sky-900"
+              >
+                Left
+              </span>
+            </p>
+            <p
+              class="text-base text-red-800"
+            >
+              Pitching Hand: 
+              <span
+                class="text-sky-900"
+              >
+                Right
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex justify-center w-full sm:w-auto"
+      >
+        <p>
+          Loading...
+        </p>
+      </div>
+    </div>
+    <button
+      class="text-base rounded-md px-3 py-1.5 bg-red-800 hover:bg-sky-900 text-white"
+    >
+      Unfollow
+    </button>
+  </div>
+</DocumentFragment>
+`;
