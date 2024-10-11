@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TeamStats Component matches snapshot 1`] = `
+<div
+  className="text-center text-sky-900 mt-20"
+>
+  Loading...
+</div>
+`;
