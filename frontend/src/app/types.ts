@@ -40,11 +40,6 @@ type PlayerGeneralInfo = {
   pitchingHand?: string;
 };
 
-// type League = {
-//   id: number;
-//   name: string;
-// };
-
 type LeagueStanding = {
   teamId: number;
   teamName: string;
