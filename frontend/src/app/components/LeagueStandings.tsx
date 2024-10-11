@@ -3,7 +3,7 @@ import Image from "next/image";
 import { LeagueStanding } from "../types";
 import User from "../apiClient";
 import { useRouter } from "next/navigation";
-import TeamStandingsCard from "./TeamStandingsCard"; // Import the TeamStandingsCard component
+import TeamStandingsCard from "./TeamStandingsCard";
 
 interface LeagueStandingsProps {
     leagueName: string;

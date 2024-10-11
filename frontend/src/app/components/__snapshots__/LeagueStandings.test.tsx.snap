@@ -1,0 +1,576 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LeagueStandings Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="px-6 sm:px-14 lg:px-20 border-b-2 border-dashed border-red-800 py-10"
+  >
+    <div
+      class="flow-root"
+    >
+      <div
+        class="mx-auto max-w-7xl bg-white rounded-md"
+      >
+        <div
+          class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+        >
+          <div
+            class="grid grid-cols-1 lg:hidden"
+          >
+            <h2
+              class="text-2xl font-medium text-red-800 text-center mb-4"
+            >
+              AL East
+            </h2>
+            <div
+              class="border border-gray-200 rounded-lg p-4 mb-4 shadow-md"
+            >
+              <div
+                class="flex items-center justify-center mb-2"
+              >
+                <img
+                  alt="Team A"
+                  class="mr-2"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=96&q=75"
+                  srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <span
+                  class="text-2xl font-semibold text-sky-900"
+                >
+                  Team A
+                </span>
+              </div>
+              <div
+                class="grid grid-cols-3 gap-4 text-sm font-medium text-sky-900 my-4"
+              >
+                <div>
+                  <p
+                    class="text-red-800"
+                  >
+                    Wins: 
+                    <span
+                      class=" font-light text-gray-600"
+                    >
+                      10
+                    </span>
+                     
+                  </p>
+                  <p>
+                    Losses:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       5
+                    </span>
+                  </p>
+                  <p>
+                    PCT:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       0.667
+                    </span>
+                  </p>
+                  <p>
+                    GB: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      0
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    WCGB:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       0
+                    </span>
+                  </p>
+                  <p>
+                    STRK: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      W
+                    </span>
+                  </p>
+                  <p>
+                    RS:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       50
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    RA:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       40
+                    </span>
+                  </p>
+                  <p>
+                    DIFF: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      10
+                    </span>
+                  </p>
+                  <p>
+                    HOME: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      5
+                    </span>
+                  </p>
+                  <p>
+                    AWAY: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      5
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="flex justify-center"
+              >
+                <button
+                  class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+                >
+                  Follow
+                </button>
+              </div>
+            </div>
+            <div
+              class="border border-gray-200 rounded-lg p-4 mb-4 shadow-md"
+            >
+              <div
+                class="flex items-center justify-center mb-2"
+              >
+                <img
+                  alt="Team B"
+                  class="mr-2"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=96&q=75"
+                  srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <span
+                  class="text-2xl font-semibold text-sky-900"
+                >
+                  Team B
+                </span>
+              </div>
+              <div
+                class="grid grid-cols-3 gap-4 text-sm font-medium text-sky-900 my-4"
+              >
+                <div>
+                  <p
+                    class="text-red-800"
+                  >
+                    Wins: 
+                    <span
+                      class=" font-light text-gray-600"
+                    >
+                      8
+                    </span>
+                     
+                  </p>
+                  <p>
+                    Losses:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       7
+                    </span>
+                  </p>
+                  <p>
+                    PCT:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       0.533
+                    </span>
+                  </p>
+                  <p>
+                    GB: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      2
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    WCGB:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       1
+                    </span>
+                  </p>
+                  <p>
+                    STRK: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      L
+                    </span>
+                  </p>
+                  <p>
+                    RS:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       45
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    RA:
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                       50
+                    </span>
+                  </p>
+                  <p>
+                    DIFF: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      -5
+                    </span>
+                  </p>
+                  <p>
+                    HOME: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      4
+                    </span>
+                  </p>
+                  <p>
+                    AWAY: 
+                    <span
+                      class="font-light text-gray-600"
+                    >
+                      4
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="flex justify-center"
+              >
+                <button
+                  class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+                >
+                  Follow
+                </button>
+              </div>
+            </div>
+          </div>
+          <table
+            class="min-w-full divide-y divide-gray-300 hidden lg:table"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-2xl font-medium text-red-800 sm:pl-0"
+                  scope="col"
+                >
+                  AL East
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-red-800"
+                >
+                  W
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  L
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  PCT
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  GB
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  WCGB
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  STRK
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  RS
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  RA
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  DIFF
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  HOME
+                </th>
+                <th
+                  class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-medium text-sky-900"
+                >
+                  AWAY
+                </th>
+                <th
+                  class="relative whitespace-nowrap py-3.5 px-2 text-center text-sm font-medium text-red-800"
+                >
+                  Follow / Unfollow
+                  <span
+                    class="sr-only"
+                  >
+                    Edit
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="divide-y divide-sky-200 bg-white"
+            >
+              <tr>
+                <td
+                  class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0 flex"
+                >
+                  <img
+                    alt="Team A"
+                    class="mr-2"
+                    data-nimg="1"
+                    decoding="async"
+                    height="20"
+                    loading="lazy"
+                    src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75"
+                    srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75 2x"
+                    style="color: transparent;"
+                    width="20"
+                  />
+                  Team A
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm font-medium text-red-800"
+                >
+                  10
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-sky-900 font-medium"
+                >
+                  5
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  0.667
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  0
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  0
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  W
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  50
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  40
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  10
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  5
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  5
+                </td>
+                <td
+                  class="relative whitespace-nowrap py-2 text-sm font-medium text-center"
+                >
+                  <button
+                    class="p-1 border rounded border-red-800 text-red-800 hover:bg-red-800 hover:text-white"
+                  >
+                    <svg
+                      class="size-6"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 4.5v15m7.5-7.5h-15"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-sky-900 sm:pl-0 flex"
+                >
+                  <img
+                    alt="Team B"
+                    class="mr-2"
+                    data-nimg="1"
+                    decoding="async"
+                    height="20"
+                    loading="lazy"
+                    src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75"
+                    srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75 2x"
+                    style="color: transparent;"
+                    width="20"
+                  />
+                  Team B
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm font-medium text-red-800"
+                >
+                  8
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-sky-900 font-medium"
+                >
+                  7
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  0.533
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  2
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  1
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  L
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  45
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  50
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  -5
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  4
+                </td>
+                <td
+                  class="whitespace-nowrap px-2 py-2 text-sm text-gray-500"
+                >
+                  4
+                </td>
+                <td
+                  class="relative whitespace-nowrap py-2 text-sm font-medium text-center"
+                >
+                  <button
+                    class="p-1 border rounded border-red-800 text-red-800 hover:bg-red-800 hover:text-white"
+                  >
+                    <svg
+                      class="size-6"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 4.5v15m7.5-7.5h-15"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import UnfollowButton from './UnfollowButton';
+import renderer from 'react-test-renderer';
 
 // Mock the removeFromFavorites function
 const mockRemoveFromFavorites = jest.fn();
@@ -24,5 +25,10 @@ describe('UnfollowButton Component', () => {
 
         // Ensure the mock function is called
         expect(mockRemoveFromFavorites).toHaveBeenCalledTimes(1);
+    });
+
+    it('matches the snapshot', () => {
+        const tree = renderer.create(<UnfollowButton removeFromFavorites={mockRemoveFromFavorites} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

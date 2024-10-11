@@ -43,7 +43,7 @@ exports[`FavoriteButton Component matches the snapshot when isFavorite is false 
             >
               Follow
             </button>,
-            "timeStamp": 1728623917498,
+            "timeStamp": 1728625878041,
             "type": "click",
             "view": null,
           },
@@ -105,7 +105,7 @@ exports[`FavoriteButton Component matches the snapshot when isFavorite is true 1
             >
               Follow
             </button>,
-            "timeStamp": 1728623917498,
+            "timeStamp": 1728625878041,
             "type": "click",
             "view": null,
           },
