@@ -16,7 +16,7 @@ export default function Signup() {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    const [isRegistering, setIsRegistering] = useState(false); // New state for registering status
+    const [isRegistering, setIsRegistering] = useState(false);
 
     const router = useRouter();
 
@@ -46,7 +46,7 @@ export default function Signup() {
             return; // Exit early if there are validation errors
         }
 
-        setIsRegistering(true); // Set registering status to true
+        setIsRegistering(true);
 
         try {
             const response = await User.register(name, email, password);
