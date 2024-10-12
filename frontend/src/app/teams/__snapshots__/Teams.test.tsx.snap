@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Teams Component matches snapshot 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-white py-8 px-8 sm:px-16"
+  >
+    <h1
+      class="text-red-800 text-4xl font-bold text-center mb-8"
+    >
+      MLB Teams
+    </h1>
+    <div
+      class="mb-8 flex justify-center"
+    >
+      <input
+        class="w-1/2 p-2 border border-gray-300 rounded-full text-sky-900 focus:outline-none focus:ring-2 focus:ring-red-800"
+        placeholder="Search teams..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    >
+      <div
+        class="bg-white text-red-800 text-base py-4 px-10 rounded-lg shadow-xl border border-gray-100 hover:shadow-2xl"
+      >
+        <div
+          class="flex items-center justify-center mb-4"
+        >
+          <img
+            alt="Team A logo"
+            class="mr-2"
+            data-nimg="1"
+            decoding="async"
+            height="40"
+            loading="lazy"
+            src="https://www.mlbstatic.com/team-logos/team-cap-on-light/1.svg"
+            style="color: transparent;"
+            width="40"
+          />
+          <h2
+            class="text-2xl text-sky-900 font-bold text-center"
+          >
+            Team A
+          </h2>
+        </div>
+        <div
+          class=""
+        >
+          <p
+            class=""
+          >
+            Location: 
+            <span
+              class="text-sky-900"
+            >
+              Location A
+            </span>
+          </p>
+          <p>
+            First Year of Play: 
+            <span
+              class="text-sky-900"
+            >
+              1901
+            </span>
+          </p>
+          <p>
+            League: 
+            <span
+              class="text-sky-900"
+            >
+              AL
+            </span>
+          </p>
+          <p>
+            Division: 
+            <span
+              class="text-sky-900"
+            >
+              East
+            </span>
+          </p>
+        </div>
+        <div
+          class="flex justify-center"
+        >
+          <button
+            class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+          >
+            Follow
+          </button>
+        </div>
+      </div>
+      <div
+        class="bg-white text-red-800 text-base py-4 px-10 rounded-lg shadow-xl border border-gray-100 hover:shadow-2xl"
+      >
+        <div
+          class="flex items-center justify-center mb-4"
+        >
+          <img
+            alt="Team B logo"
+            class="mr-2"
+            data-nimg="1"
+            decoding="async"
+            height="40"
+            loading="lazy"
+            src="https://www.mlbstatic.com/team-logos/team-cap-on-light/2.svg"
+            style="color: transparent;"
+            width="40"
+          />
+          <h2
+            class="text-2xl text-sky-900 font-bold text-center"
+          >
+            Team B
+          </h2>
+        </div>
+        <div
+          class=""
+        >
+          <p
+            class=""
+          >
+            Location: 
+            <span
+              class="text-sky-900"
+            >
+              Location B
+            </span>
+          </p>
+          <p>
+            First Year of Play: 
+            <span
+              class="text-sky-900"
+            >
+              1901
+            </span>
+          </p>
+          <p>
+            League: 
+            <span
+              class="text-sky-900"
+            >
+              NL
+            </span>
+          </p>
+          <p>
+            Division: 
+            <span
+              class="text-sky-900"
+            >
+              West
+            </span>
+          </p>
+        </div>
+        <div
+          class="flex justify-center"
+        >
+          <button
+            class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+          >
+            Follow
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
