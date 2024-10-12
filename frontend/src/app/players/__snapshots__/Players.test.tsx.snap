@@ -1,0 +1,299 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Players Component matches snapshot 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-white py-8 px-8 md:px-16"
+  >
+    <h1
+      class="text-red-800 text-4xl font-bold text-center mb-8"
+    >
+      MLB Players
+    </h1>
+    <div
+      class="mb-8 flex justify-center"
+    >
+      <input
+        class="w-1/2 p-2 border border-gray-300 rounded-full text-sky-900 focus:outline-none focus:ring-2 focus:ring-red-800"
+        placeholder="Search teams..."
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6"
+    >
+      <div
+        class="bg-white text-red-800 text-sm py-4 sm:p-4 rounded-lg shadow-xl border border-gray-100 flex flex-col items-center sm:flex-row hover:shadow-2xl"
+      >
+        <img
+          alt="Player One"
+          class="rounded-md"
+          data-nimg="1"
+          decoding="async"
+          height="0"
+          loading="lazy"
+          src="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=640&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=256&q=75 1x, /_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=640&q=75 2x"
+          style="color: transparent;"
+          width="220"
+        />
+        <div
+          class="sm:ml-8 text-center sm:text-left"
+        >
+          <button
+            class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+          >
+            Follow
+          </button>
+          <h2
+            class="text-2xl text-sky-900 font-bold my-4"
+          >
+            Player One
+          </h2>
+          <div
+            class="grid grid-cols-2 gap-x-8 sm:grid-cols-1 text-left"
+          >
+            <p
+              class="mb-1"
+            >
+              Team: 
+              <span
+                class="text-sky-900"
+              >
+                Team A
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Position: 
+              <span
+                class="text-sky-900"
+              >
+                Pitcher
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Height: 
+              <span
+                class="text-sky-900"
+              >
+                6'0"
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Weight: 
+              <span
+                class="text-sky-900"
+              >
+                200
+                 lbs
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Age: 
+              <span
+                class="text-sky-900"
+              >
+                30
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth City: 
+              <span
+                class="text-sky-900"
+              >
+                City A
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth State/Province: 
+              <span
+                class="text-sky-900"
+              >
+                State A
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth Country: 
+              <span
+                class="text-sky-900"
+              >
+                Country A
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Debut: 
+              <span
+                class="text-sky-900"
+              >
+                2010-01-01
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Draft: 
+              <span
+                class="text-sky-900"
+              >
+                2008
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white text-red-800 text-sm py-4 sm:p-4 rounded-lg shadow-xl border border-gray-100 flex flex-col items-center sm:flex-row hover:shadow-2xl"
+      >
+        <img
+          alt="Player Two"
+          class="rounded-md"
+          data-nimg="1"
+          decoding="async"
+          height="0"
+          loading="lazy"
+          src="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F2%2Fheadshot%2F67%2Fcurrent&w=640&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F2%2Fheadshot%2F67%2Fcurrent&w=256&q=75 1x, /_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F2%2Fheadshot%2F67%2Fcurrent&w=640&q=75 2x"
+          style="color: transparent;"
+          width="220"
+        />
+        <div
+          class="sm:ml-8 text-center sm:text-left"
+        >
+          <button
+            class="rounded-md mt-4 shadow-sm border border-gray-100 text-xs bg-red-800 hover:bg-sky-900 font-normal px-3 py-2 text-white"
+          >
+            Follow
+          </button>
+          <h2
+            class="text-2xl text-sky-900 font-bold my-4"
+          >
+            Player Two
+          </h2>
+          <div
+            class="grid grid-cols-2 gap-x-8 sm:grid-cols-1 text-left"
+          >
+            <p
+              class="mb-1"
+            >
+              Team: 
+              <span
+                class="text-sky-900"
+              >
+                Team B
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Position: 
+              <span
+                class="text-sky-900"
+              >
+                Catcher
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Height: 
+              <span
+                class="text-sky-900"
+              >
+                5'10"
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Weight: 
+              <span
+                class="text-sky-900"
+              >
+                180
+                 lbs
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Age: 
+              <span
+                class="text-sky-900"
+              >
+                28
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth City: 
+              <span
+                class="text-sky-900"
+              >
+                City B
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth State/Province: 
+              <span
+                class="text-sky-900"
+              >
+                State B
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Birth Country: 
+              <span
+                class="text-sky-900"
+              >
+                Country B
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Debut: 
+              <span
+                class="text-sky-900"
+              >
+                2012-06-01
+              </span>
+            </p>
+            <p
+              class="mb-1"
+            >
+              Draft: 
+              <span
+                class="text-sky-900"
+              >
+                2010
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
