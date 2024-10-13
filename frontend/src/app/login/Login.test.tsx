@@ -1,7 +1,9 @@
+import React from 'react';
 import { render, screen, fireEvent } from "@testing-library/react";
 import Login from "./page";
 import User from "../apiClient";
 import { useRouter } from "next/navigation";
+
 
 // Mock the User.login method
 jest.mock("../apiClient", () => ({

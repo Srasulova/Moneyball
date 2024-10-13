@@ -1,8 +1,10 @@
+import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import TeamStats from './TeamStats';
 import MoneyballApi from '../api';
 import { HittingStats, PitchingStats, FieldingStats } from '../types';
 import renderer from 'react-test-renderer';
+
 
 jest.mock('../api');
 

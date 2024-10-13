@@ -36,9 +36,7 @@ exports[`PlayerStats Component matches snapshot 1`] = `
           <table
             class="min-w-full divide-y divide-gray-300 mb-4"
           >
-            <thead
-              class=""
-            >
+            <thead>
               <tr>
                 <th
                   class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"
@@ -102,9 +100,7 @@ exports[`PlayerStats Component matches snapshot 1`] = `
           <table
             class="min-w-full divide-y divide-gray-300"
           >
-            <thead
-              class=""
-            >
+            <thead>
               <tr>
                 <th
                   class="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900"

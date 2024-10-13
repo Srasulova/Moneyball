@@ -5,7 +5,7 @@ const config: Config = {
   testEnvironment: "jsdom", // Set the test environment to jsdom for React testing
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"], // Setup file for any global configurations
   transform: {
-    "^.+\\.tsx?$": "ts-jest", // Use ts-jest for TypeScript and TSX files
+    "^.+\\.tsx?$": "babel-jest", // Use ts-jest for TypeScript and TSX files
     "^.+\\.(js|jsx)$": "babel-jest", // Use babel-jest for JavaScript and JSX files
   },
   moduleNameMapper: {

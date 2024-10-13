@@ -1,7 +1,8 @@
-
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TeamDashboard from './TeamDashboard';
 import { Team } from '../types';
+
 
 // Mock team data to be used across tests
 const mockTeamSummary: Team = {

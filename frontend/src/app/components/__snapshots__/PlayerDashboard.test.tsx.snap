@@ -17,7 +17,7 @@ exports[`PlayerDashboard Component matches the snapshot 1`] = `
           John Doe
         </h2>
         <div
-          class="flex  sm:items-center space-x-4 my-4"
+          class="flex sm:items-center space-x-4 my-4"
         >
           <img
             alt="John Doe photo"

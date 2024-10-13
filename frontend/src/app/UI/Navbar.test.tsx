@@ -1,6 +1,7 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Navbar from './Navbar';
-import React from 'react';
+
 
 // Define the prop types for the MockImage component
 type MockImageProps = {

@@ -1,6 +1,8 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import UnfollowButton from './UnfollowButton';
 import renderer from 'react-test-renderer';
+
 
 // Mock the removeFromFavorites function
 const mockRemoveFromFavorites = jest.fn();

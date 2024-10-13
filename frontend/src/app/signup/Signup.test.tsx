@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Signup from "./page";
 import User from "../apiClient";

@@ -1,8 +1,10 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Teams from './page';
 import MoneyballApi from '../api';
 import User from '../apiClient';
 import FavoriteButton from '../components/FavoriteButton';
+
 
 // Mock the MoneyballApi and User API calls
 jest.mock('../api');

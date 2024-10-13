@@ -1,6 +1,8 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PlayerDashboard from './PlayerDashboard';
 import { PlayerGeneralInfo } from '../types';
+
 
 // Mock player data to be used across tests
 const mockPlayerSummary: PlayerGeneralInfo = {

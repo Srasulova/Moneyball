@@ -1,6 +1,8 @@
+import React from 'react';
 import { render, screen, fireEvent } from "@testing-library/react";
 import TeamStandingsCard from "./TeamStandingsCard";
 import { LeagueStanding } from "../types";
+
 
 // Mock data for testing
 const mockTeam: LeagueStanding = {

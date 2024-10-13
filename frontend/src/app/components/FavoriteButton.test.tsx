@@ -1,6 +1,8 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FavoriteButton from './FavoriteButton';
 import renderer from 'react-test-renderer';
+
 
 describe('FavoriteButton Component', () => {
     const mockOnClick = jest.fn();

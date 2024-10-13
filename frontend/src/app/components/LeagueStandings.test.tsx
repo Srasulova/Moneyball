@@ -1,7 +1,9 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import LeagueStandings from './LeagueStandings';
 import User from '../apiClient';
 import { LeagueStanding } from '../types';
+
 
 // Define types for the User methods
 type UserApiMethods = {
