@@ -10,7 +10,10 @@ const mockPlayerSummary: PlayerGeneralInfo = {
     primaryNumber: 12,
     primaryPosition: 'Pitcher',
     batSide: 'Left',
-    pitchingHand: 'Right',
+    pitchHand: {
+        description: 'Right',
+        code: '123456'
+    },
 };
 
 describe('PlayerDashboard Component', () => {
