@@ -22,13 +22,8 @@ exports[`PlayerDashboard Component matches the snapshot 1`] = `
           <img
             alt="John Doe photo"
             class="rounded-md"
-            data-nimg="1"
-            decoding="async"
             height="40"
-            loading="lazy"
-            src="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=256&q=75"
-            srcset="/_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=96&q=75 1x, /_next/image?url=https%3A%2F%2Fimg.mlbstatic.com%2Fmlb-photos%2Fimage%2Fupload%2Fd_people%3Ageneric%3Aheadshot%3A67%3Acurrent.png%2Fw_213%2Cq_auto%3Abest%2Fv1%2Fpeople%2F1%2Fheadshot%2F67%2Fcurrent&w=256&q=75 2x"
-            style="color: transparent;"
+            src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/1/headshot/67/current"
             width="80"
           />
           <div

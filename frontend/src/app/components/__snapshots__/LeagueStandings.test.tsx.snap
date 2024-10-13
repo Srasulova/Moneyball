@@ -31,13 +31,8 @@ exports[`LeagueStandings Component matches the snapshot 1`] = `
                 <img
                   alt="Team A"
                   class="mr-2"
-                  data-nimg="1"
-                  decoding="async"
                   height="40"
-                  loading="lazy"
-                  src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=96&q=75"
-                  srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=96&q=75 2x"
-                  style="color: transparent;"
+                  src="https://example.com/logoA.png"
                   width="40"
                 />
                 <span
@@ -166,13 +161,8 @@ exports[`LeagueStandings Component matches the snapshot 1`] = `
                 <img
                   alt="Team B"
                   class="mr-2"
-                  data-nimg="1"
-                  decoding="async"
                   height="40"
-                  loading="lazy"
-                  src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=96&q=75"
-                  srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=96&q=75 2x"
-                  style="color: transparent;"
+                  src="https://example.com/logoB.png"
                   width="40"
                 />
                 <span
@@ -381,13 +371,8 @@ exports[`LeagueStandings Component matches the snapshot 1`] = `
                   <img
                     alt="Team A"
                     class="mr-2"
-                    data-nimg="1"
-                    decoding="async"
                     height="20"
-                    loading="lazy"
-                    src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75"
-                    srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoA.png&w=48&q=75 2x"
-                    style="color: transparent;"
+                    src="https://example.com/logoA.png"
                     width="20"
                   />
                   Team A
@@ -477,13 +462,8 @@ exports[`LeagueStandings Component matches the snapshot 1`] = `
                   <img
                     alt="Team B"
                     class="mr-2"
-                    data-nimg="1"
-                    decoding="async"
                     height="20"
-                    loading="lazy"
-                    src="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75"
-                    srcset="/_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Fexample.com%2FlogoB.png&w=48&q=75 2x"
-                    style="color: transparent;"
+                    src="https://example.com/logoB.png"
                     width="20"
                   />
                   Team B
