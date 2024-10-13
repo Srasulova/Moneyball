@@ -120,7 +120,8 @@ class User {
     const result = await db.query(
       `UPDATE users
      SET favorite_teams = CASE 
-        WHEN NOT favorite_teams @> ARRAY[$1] THEN array_append(favorite_teams, $1)
+        WHEN favorite_teams IS NULL THEN ARRAY[$1::integer]
+        WHEN NOT favorite_teams @> ARRAY[$1::integer] THEN array_append(favorite_teams, $1::integer)
         ELSE favorite_teams
       END
      WHERE email = $2
@@ -163,7 +164,8 @@ class User {
     const result = await db.query(
       `UPDATE users
      SET favorite_players = CASE 
-        WHEN NOT favorite_players @> ARRAY[$1] THEN array_append(favorite_players, $1)
+        WHEN favorite_players IS NULL THEN ARRAY[$1::integer]
+        WHEN NOT favorite_players @> ARRAY[$1::integer] THEN array_append(favorite_players, $1::integer)
         ELSE favorite_players
       END
      WHERE email = $2
