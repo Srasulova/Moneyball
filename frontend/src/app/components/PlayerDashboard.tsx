@@ -41,7 +41,7 @@ const PlayerDashboard: React.FC<PlayerDashboardProps> = ({ playerSummary, statsT
                             <p className="text-base text-red-800">Number: <span className="text-sky-900">{playerSummary.primaryNumber || 'N/A'}</span></p>
                             <p className="text-base text-red-800">Position: <span className="text-sky-900">{playerSummary.primaryPosition}</span></p>
                             <p className="text-base text-red-800">Batside: <span className="text-sky-900">{playerSummary.batSide || 'N/A'}</span></p>
-                            <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchingHand || 'N/A'}</span></p>
+                            <p className="text-base text-red-800">Pitching Hand: <span className="text-sky-900">{playerSummary.pitchingHand?.description || 'N/A'}</span></p>
                         </div>
                     </div>
                 </div>

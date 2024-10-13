@@ -37,7 +37,10 @@ type PlayerGeneralInfo = {
   primaryNumber?: number;
   primaryPosition: string;
   batSide?: string;
-  pitchingHand?: string;
+  pitchingHand?: {
+    code: string;
+    description: string;
+  };
 };
 
 type LeagueStanding = {

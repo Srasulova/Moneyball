@@ -217,7 +217,12 @@ class MoneyballApi {
         primaryNumber: player.primaryNumber,
         primaryPosition: player.primaryPosition.name,
         batSide: player.batSide?.description,
-        pitchingHand: player.pitchingHand?.description,
+        pitchingHand: player.pitchingHand
+          ? {
+              code: player.pitchingHand.code,
+              description: player.pitchingHand.description,
+            }
+          : undefined,
       };
 
       return playerInfo;
