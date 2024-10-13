@@ -13,7 +13,7 @@ type Player = {
     code: string;
     description: string;
   };
-  pitchingHand?: {
+  pitchHand?: {
     code: string;
     description: string;
   };
@@ -37,7 +37,7 @@ type PlayerGeneralInfo = {
   primaryNumber?: number;
   primaryPosition: string;
   batSide?: string;
-  pitchingHand?: {
+  pitchHand?: {
     code: string;
     description: string;
   };
