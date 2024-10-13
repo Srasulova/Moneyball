@@ -32,7 +32,7 @@ const PlayerStats: React.FC<{ playerId: number; statsType: StatsType }> = ({ pla
                 if (fetchedStats) {
                     setStats(fetchedStats);
                 } else {
-                    throw new Error(`No ${currentStatsType} stats found for player`);
+                    setError(`No ${currentStatsType} stats found for player`);
                 }
             } catch (err: any) {
                 setError(err.message || 'An error occurred while fetching stats');
@@ -45,7 +45,6 @@ const PlayerStats: React.FC<{ playerId: number; statsType: StatsType }> = ({ pla
     }, [playerId, currentStatsType]);
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
 
     // Define headers based on stats type
     const headers: Record<StatsType, string[]> = {
@@ -75,47 +74,53 @@ const PlayerStats: React.FC<{ playerId: number; statsType: StatsType }> = ({ pla
                     </button>
                 ))}
             </div>
+
+            {error && <p className="text-sm font-medium text-sky-900">{error}</p>}
+
             <div className="">
                 <div className="overflow-x-auto">
                     <div className="inline-block min-w-full py-2 align-middle">
-                        {/* Render the first table with the first half of the headers and stats */}
-                        <table className="min-w-full divide-y divide-gray-300 mb-4">
-                            <thead>
-                                <tr>
-                                    {firstHeaders.map((header, index) => (
-                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                <tr>
-                                    {firstHalf.map((stat, index) => (
-                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                            {stat}
-                                        </td>
-                                    ))}
-                                </tr>
-                            </tbody>
-                        </table>
-                        {/* Render the second table with the second half of the headers and stats */}
-                        <table className="min-w-full divide-y divide-gray-300">
-                            <thead>
-                                <tr>
-                                    {secondHeaders.map((header, index) => (
-                                        <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                <tr>
-                                    {secondHalf.map((stat, index) => (
-                                        <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
-                                            {stat}
-                                        </td>
-                                    ))}
-                                </tr>
-                            </tbody>
-                        </table>
+                        {/* Render the first table with the first half of the headers and stats if stats exist */}
+                        {stats ? (
+                            <>
+                                <table className="min-w-full divide-y divide-gray-300 mb-4">
+                                    <thead>
+                                        <tr>
+                                            {firstHeaders.map((header, index) => (
+                                                <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200 bg-white">
+                                        <tr>
+                                            {firstHalf.map((stat, index) => (
+                                                <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
+                                                    {stat}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table className="min-w-full divide-y divide-gray-300">
+                                    <thead>
+                                        <tr>
+                                            {secondHeaders.map((header, index) => (
+                                                <th key={index} className="px-2 py-3.5 text-left text-sm font-medium bg-sky-50 text-sky-900">{header}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200 bg-white">
+                                        <tr>
+                                            {secondHalf.map((stat, index) => (
+                                                <td key={index} className="px-2 py-4 text-sm text-sky-900 whitespace-nowrap">
+                                                    {stat}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </div>
