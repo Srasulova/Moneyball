@@ -6,6 +6,16 @@ const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.(js|jsx|ts|tsx)$": [
+      "babel-jest",
+      {
+        presets: [
+          "@babel/preset-env",
+          "@babel/preset-react",
+          "@babel/preset-typescript",
+        ],
+      },
+    ],
   },
   moduleNameMapper: {
     // Handle image imports
