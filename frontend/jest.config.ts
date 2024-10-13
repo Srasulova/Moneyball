@@ -1,23 +1,16 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  preset: "ts-jest",
-  testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  preset: "ts-jest", // Use ts-jest for TypeScript support
+  testEnvironment: "jsdom", // Set the test environment to jsdom for React testing
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"], // Setup file for any global configurations
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.(js|jsx|ts|tsx)$": [
-      "babel-jest",
-      {
-        presets: [
-          "@babel/preset-env",
-          "@babel/preset-react",
-          "@babel/preset-typescript",
-        ],
-      },
-    ],
+    "^.+\\.tsx?$": "ts-jest", // Use ts-jest for TypeScript and TSX files
+    "^.+\\.(js|jsx)$": "babel-jest", // Use babel-jest for JavaScript and JSX files
   },
   moduleNameMapper: {
+    // Mock the next/image component
+    "^next/image$": "<rootDir>/__mocks__/next/image.js",
     // Handle image imports
     "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
     // Handle CSS module imports
