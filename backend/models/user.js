@@ -117,123 +117,269 @@ class User {
 
   /** Add team to user's favorites. */
   static async addFavoriteTeam(email, teamId) {
-    const result = await db.query(
-      `UPDATE users
-     SET favorite_teams = CASE 
-        WHEN favorite_teams IS NULL THEN ARRAY[$1::integer]
-        WHEN NOT favorite_teams @> ARRAY[$1::integer] THEN array_append(favorite_teams, $1::integer)
-        ELSE favorite_teams
-      END
-     WHERE email = $2
-     RETURNING favorite_teams`,
-      [teamId, email]
+    const userRes = await db.query(
+      `SELECT favorite_teams
+       FROM users
+       WHERE email = $1`,
+      [email]
     );
 
-    const user = result.rows[0];
+    const user = userRes.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    // If no changes were made (team was already a favorite)
-    if (
-      result.rowCount === 0 ||
-      (user.favorite_teams && user.favorite_teams.includes(teamId))
-    ) {
+    let favoriteTeams = user.favorite_teams
+      ? JSON.parse(user.favorite_teams)
+      : [];
+    if (favoriteTeams.includes(teamId)) {
       throw new BadRequestError(`Team ID: ${teamId} is already a favorite.`);
     }
 
-    return user.favorite_teams;
+    favoriteTeams.push(teamId);
+
+    const result = await db.query(
+      `UPDATE users
+       SET favorite_teams = $1
+       WHERE email = $2
+       RETURNING favorite_teams`,
+      [JSON.stringify(favoriteTeams), email]
+    );
+
+    return JSON.parse(result.rows[0].favorite_teams);
   }
+
+  // static async addFavoriteTeam(email, teamId) {
+  //   const result = await db.query(
+  //     `UPDATE users
+  //    SET favorite_teams = CASE
+  //       WHEN favorite_teams IS NULL THEN ARRAY[$1::integer]
+  //       WHEN NOT favorite_teams @> ARRAY[$1::integer] THEN array_append(favorite_teams, $1::integer)
+  //       ELSE favorite_teams
+  //     END
+  //    WHERE email = $2
+  //    RETURNING favorite_teams`,
+  //     [teamId, email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   // If no changes were made (team was already a favorite)
+  //   if (
+  //     result.rowCount === 0 ||
+  //     (user.favorite_teams && user.favorite_teams.includes(teamId))
+  //   ) {
+  //     throw new BadRequestError(`Team ID: ${teamId} is already a favorite.`);
+  //   }
+
+  //   return user.favorite_teams;
+  // }
 
   /** Remove team from user's favorites. */
   static async removeFavoriteTeam(email, teamId) {
-    const result = await db.query(
-      `UPDATE users
-     SET favorite_teams = array_remove(favorite_teams, $1)
-     WHERE email = $2
-     RETURNING favorite_teams`,
-      [teamId, email]
+    const userRes = await db.query(
+      `SELECT favorite_teams
+       FROM users
+       WHERE email = $1`,
+      [email]
     );
 
-    const user = result.rows[0];
+    const user = userRes.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    return user.favorite_teams;
+    let favoriteTeams = user.favorite_teams
+      ? JSON.parse(user.favorite_teams)
+      : [];
+    favoriteTeams = favoriteTeams.filter((id) => id !== teamId);
+
+    const result = await db.query(
+      `UPDATE users
+       SET favorite_teams = $1
+       WHERE email = $2
+       RETURNING favorite_teams`,
+      [JSON.stringify(favoriteTeams), email]
+    );
+
+    return JSON.parse(result.rows[0].favorite_teams);
   }
+
+  // static async removeFavoriteTeam(email, teamId) {
+  //   const result = await db.query(
+  //     `UPDATE users
+  //    SET favorite_teams = array_remove(favorite_teams, $1)
+  //    WHERE email = $2
+  //    RETURNING favorite_teams`,
+  //     [teamId, email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   return user.favorite_teams;
+  // }
 
   /** Add player to user's favorites. */
   static async addFavoritePlayer(email, playerId) {
-    const result = await db.query(
-      `UPDATE users
-     SET favorite_players = CASE 
-        WHEN favorite_players IS NULL THEN ARRAY[$1::integer]
-        WHEN NOT favorite_players @> ARRAY[$1::integer] THEN array_append(favorite_players, $1::integer)
-        ELSE favorite_players
-      END
-     WHERE email = $2
-     RETURNING favorite_players`,
-      [playerId, email]
+    const userRes = await db.query(
+      `SELECT favorite_players
+       FROM users
+       WHERE email = $1`,
+      [email]
     );
 
-    const user = result.rows[0];
+    const user = userRes.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    // If no changes were made (player was already a favorite)
-    if (
-      result.rowCount === 0 ||
-      (user.favorite_players && user.favorite_players.includes(playerId))
-    ) {
+    let favoritePlayers = user.favorite_players
+      ? JSON.parse(user.favorite_players)
+      : [];
+    if (favoritePlayers.includes(playerId)) {
       throw new BadRequestError(
         `Player ID: ${playerId} is already a favorite.`
       );
     }
 
-    return user.favorite_players;
+    favoritePlayers.push(playerId);
+
+    const result = await db.query(
+      `UPDATE users
+       SET favorite_players = $1
+       WHERE email = $2
+       RETURNING favorite_players`,
+      [JSON.stringify(favoritePlayers), email]
+    );
+
+    return JSON.parse(result.rows[0].favorite_players);
   }
+
+  // static async addFavoritePlayer(email, playerId) {
+  //   const result = await db.query(
+  //     `UPDATE users
+  //    SET favorite_players = CASE
+  //       WHEN favorite_players IS NULL THEN ARRAY[$1::integer]
+  //       WHEN NOT favorite_players @> ARRAY[$1::integer] THEN array_append(favorite_players, $1::integer)
+  //       ELSE favorite_players
+  //     END
+  //    WHERE email = $2
+  //    RETURNING favorite_players`,
+  //     [playerId, email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   // If no changes were made (player was already a favorite)
+  //   if (
+  //     result.rowCount === 0 ||
+  //     (user.favorite_players && user.favorite_players.includes(playerId))
+  //   ) {
+  //     throw new BadRequestError(
+  //       `Player ID: ${playerId} is already a favorite.`
+  //     );
+  //   }
+
+  //   return user.favorite_players;
+  // }
 
   /** Remove player from user's favorites. */
   static async removeFavoritePlayer(email, playerId) {
-    const result = await db.query(
-      `UPDATE users
-     SET favorite_players = array_remove(favorite_players, $1)
-     WHERE email = $2
-     RETURNING favorite_players`,
-      [playerId, email]
+    const userRes = await db.query(
+      `SELECT favorite_players
+       FROM users
+       WHERE email = $1`,
+      [email]
     );
 
-    const user = result.rows[0];
+    const user = userRes.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    return user.favorite_players;
+    let favoritePlayers = user.favorite_players
+      ? JSON.parse(user.favorite_players)
+      : [];
+    favoritePlayers = favoritePlayers.filter((id) => id !== playerId);
+
+    const result = await db.query(
+      `UPDATE users
+       SET favorite_players = $1
+       WHERE email = $2
+       RETURNING favorite_players`,
+      [JSON.stringify(favoritePlayers), email]
+    );
+
+    return JSON.parse(result.rows[0].favorite_players);
   }
+
+  // static async removeFavoritePlayer(email, playerId) {
+  //   const result = await db.query(
+  //     `UPDATE users
+  //    SET favorite_players = array_remove(favorite_players, $1)
+  //    WHERE email = $2
+  //    RETURNING favorite_players`,
+  //     [playerId, email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   return user.favorite_players;
+  // }
 
   /** Get favorite teams of a user. */
   static async getFavoriteTeams(email) {
     const result = await db.query(
       `SELECT favorite_teams
-     FROM users
-     WHERE email = $1`,
+       FROM users
+       WHERE email = $1`,
       [email]
     );
 
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    return user.favorite_teams || [];
+    return user.favorite_teams ? JSON.parse(user.favorite_teams) : [];
   }
+
+  // static async getFavoriteTeams(email) {
+  //   const result = await db.query(
+  //     `SELECT favorite_teams
+  //    FROM users
+  //    WHERE email = $1`,
+  //     [email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   return user.favorite_teams || [];
+  // }
 
   /** Get favorite players of a user. */
   static async getFavoritePlayers(email) {
     const result = await db.query(
       `SELECT favorite_players
-     FROM users
-     WHERE email = $1`,
+       FROM users
+       WHERE email = $1`,
       [email]
     );
 
     const user = result.rows[0];
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
 
-    return user.favorite_players || [];
+    return user.favorite_players ? JSON.parse(user.favorite_players) : [];
   }
+
+  // static async getFavoritePlayers(email) {
+  //   const result = await db.query(
+  //     `SELECT favorite_players
+  //    FROM users
+  //    WHERE email = $1`,
+  //     [email]
+  //   );
+
+  //   const user = result.rows[0];
+  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
+
+  //   return user.favorite_players || [];
+  // }
 }
 
 module.exports = User;
