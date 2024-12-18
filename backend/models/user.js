@@ -41,29 +41,6 @@ class User {
     throw new UnauthorizedError("Invalid email/password");
   }
 
-  // static async authenticate(email, password) {
-  //   const result = await db.query(
-  //     `SELECT email,
-  //                 password,
-  //                 first_name AS "firstName"
-  //          FROM users
-  //          WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = result.rows[0];
-
-  //   if (user) {
-  //     const isValid = await bcrypt.compare(password, user.password);
-  //     if (isValid === true) {
-  //       delete user.password;
-  //       return user;
-  //     }
-  //   }
-
-  //   throw new UnauthorizedError("Invalid email/password");
-  // }
-
   /** Register user with data. */
   static async register({ password, firstName, email }) {
     // Duplicate check
@@ -97,32 +74,6 @@ class User {
     return { firstName, email };
   }
 
-  /** Register user with data. */
-  // static async register({ password, firstName, email }) {
-  //   const duplicateCheck = await db.query(
-  //     `SELECT email
-  //          FROM users
-  //          WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   if (duplicateCheck.rows[0]) {
-  //     throw new BadRequestError(`Duplicate email: ${email}`);
-  //   }
-
-  //   const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
-
-  //   const result = await db.query(
-  //     `INSERT INTO users
-  //          (password, first_name, email)
-  //          VALUES ($1, $2, $3)
-  //          RETURNING first_name AS "firstName", email`,
-  //     [hashedPassword, firstName, email]
-  //   );
-
-  //   return result.rows[0];
-  // }
-
   /** Get user by email including favorite teams and players. */
   static async get(email) {
     // Query the database for the user by email
@@ -146,21 +97,6 @@ class User {
 
     return user;
   }
-
-  /** Get user by email including favorite teams and players. */
-  // static async get(email) {
-  //   const userRes = await db.query(
-  //     `SELECT email, first_name AS "firstName", favorite_teams, favorite_players
-  //    FROM users
-  //    WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = userRes.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   return user;
-  // }
 
   /** Update user data. */
   static async update(email, data) {
@@ -211,43 +147,6 @@ class User {
     return user;
   }
 
-  /** Update user data. */
-  // static async update(email, data) {
-  //   if (data.password) {
-  //     data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-  //   }
-
-  //   const { setCols, values } = sqlForPartialUpdate(data, {
-  //     firstName: "first_name",
-  //   });
-
-  //   const querySql = `UPDATE users
-  //                     SET ${setCols}
-  //                     WHERE email = $${values.length + 1}
-  //                     RETURNING first_name AS "firstName", email`;
-  //   const result = await db.query(querySql, [...values, email]);
-  //   const user = result.rows[0];
-
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   delete user.password;
-  //   return user;
-  // }
-
-  /** Delete user from database. */
-  // static async remove(email) {
-  //   const result = await db.query(
-  //     `DELETE
-  //          FROM users
-  //          WHERE email = $1
-  //          RETURNING email`,
-  //     [email]
-  //   );
-  //   const user = result.rows[0];
-
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-  // }
-
   /** Delete user from database. */
   static async remove(email) {
     const deleteSql = `DELETE
@@ -278,38 +177,6 @@ class User {
 
     if (!user) throw new NotFoundError(`No user found with email: ${email}`);
   }
-
-  /** Add team to user's favorites. */
-  // static async addFavoriteTeam(email, teamId) {
-  //   const userRes = await db.query(
-  //     `SELECT favorite_teams
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = userRes.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   let favoriteTeams = user.favorite_teams
-  //     ? JSON.parse(user.favorite_teams)
-  //     : [];
-  //   if (favoriteTeams.includes(teamId)) {
-  //     throw new BadRequestError(`Team ID: ${teamId} is already a favorite.`);
-  //   }
-
-  //   favoriteTeams.push(teamId);
-
-  //   const result = await db.query(
-  //     `UPDATE users
-  //      SET favorite_teams = $1
-  //      WHERE email = $2
-  //      RETURNING favorite_teams`,
-  //     [JSON.stringify(favoriteTeams), email]
-  //   );
-
-  //   return JSON.parse(result.rows[0].favorite_teams);
-  // }
 
   /** Add team to user's favorites. */
   static async addFavoriteTeam(email, teamId) {
@@ -370,34 +237,6 @@ class User {
   }
 
   /** Remove team from user's favorites. */
-  // static async removeFavoriteTeam(email, teamId) {
-  //   const userRes = await db.query(
-  //     `SELECT favorite_teams
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = userRes.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   let favoriteTeams = user.favorite_teams
-  //     ? JSON.parse(user.favorite_teams)
-  //     : [];
-  //   favoriteTeams = favoriteTeams.filter((id) => id !== teamId);
-
-  //   const result = await db.query(
-  //     `UPDATE users
-  //      SET favorite_teams = $1
-  //      WHERE email = $2
-  //      RETURNING favorite_teams`,
-  //     [JSON.stringify(favoriteTeams), email]
-  //   );
-
-  //   return JSON.parse(result.rows[0].favorite_teams);
-  // }
-
-  /** Remove team from user's favorites. */
   static async removeFavoriteTeam(email, teamId) {
     const userRes = await new Promise((resolve, reject) => {
       db.get(
@@ -450,68 +289,6 @@ class User {
       ? JSON.parse(updatedUser.favorite_teams)
       : [];
   }
-
-  /** Add player to user's favorites. */
-  // static async addFavoritePlayer(email, playerId) {
-  //   const userRes = await db.query(
-  //     `SELECT favorite_players
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = userRes.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   let favoritePlayers = user.favorite_players
-  //     ? JSON.parse(user.favorite_players)
-  //     : [];
-  //   if (favoritePlayers.includes(playerId)) {
-  //     throw new BadRequestError(
-  //       `Player ID: ${playerId} is already a favorite.`
-  //     );
-  //   }
-
-  //   favoritePlayers.push(playerId);
-
-  //   const result = await db.query(
-  //     `UPDATE users
-  //      SET favorite_players = $1
-  //      WHERE email = $2
-  //      RETURNING favorite_players`,
-  //     [JSON.stringify(favoritePlayers), email]
-  //   );
-
-  //   return JSON.parse(result.rows[0].favorite_players);
-  // }
-
-  // /** Remove player from user's favorites. */
-  // static async removeFavoritePlayer(email, playerId) {
-  //   const userRes = await db.query(
-  //     `SELECT favorite_players
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = userRes.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   let favoritePlayers = user.favorite_players
-  //     ? JSON.parse(user.favorite_players)
-  //     : [];
-  //   favoritePlayers = favoritePlayers.filter((id) => id !== playerId);
-
-  //   const result = await db.query(
-  //     `UPDATE users
-  //      SET favorite_players = $1
-  //      WHERE email = $2
-  //      RETURNING favorite_players`,
-  //     [JSON.stringify(favoritePlayers), email]
-  //   );
-
-  //   return JSON.parse(result.rows[0].favorite_players);
-  // }
 
   /** Add player to user's favorites. */
   static async addFavoritePlayer(email, playerId) {
@@ -628,21 +405,6 @@ class User {
   }
 
   /** Get favorite teams of a user. */
-  // static async getFavoriteTeams(email) {
-  //   const result = await db.query(
-  //     `SELECT favorite_teams
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   return user.favorite_teams ? JSON.parse(user.favorite_teams) : [];
-  // }
-
-  /** Get favorite teams of a user. */
   static async getFavoriteTeams(email) {
     const result = await new Promise((resolve, reject) => {
       db.get(
@@ -661,21 +423,6 @@ class User {
 
     return result.favorite_teams ? JSON.parse(result.favorite_teams) : [];
   }
-
-  /** Get favorite players of a user. */
-  // static async getFavoritePlayers(email) {
-  //   const result = await db.query(
-  //     `SELECT favorite_players
-  //      FROM users
-  //      WHERE email = $1`,
-  //     [email]
-  //   );
-
-  //   const user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user found with email: ${email}`);
-
-  //   return user.favorite_players ? JSON.parse(user.favorite_players) : [];
-  // }
 
   /** Get favorite players of a user. */
   static async getFavoritePlayers(email) {
