@@ -5,11 +5,6 @@ require("colors");
 
 const PORT = process.env.PORT || 3001;
 
-// Use database
-// function getDatabaseUri() {
-//   return process.env.DATABASE_URL;
-// }
-
 function getDatabaseUri() {
   if (process.env.DATABASE_URL.includes("sqlite")) {
     return process.env.DATABASE_URL.split(":")[1];
