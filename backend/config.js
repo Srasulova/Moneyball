@@ -7,8 +7,11 @@ const PORT = process.env.PORT || 3001;
 
 function getDatabaseUri() {
   if (process.env.DATABASE_URL.includes("sqlite")) {
-    return process.env.DATABASE_URL.split(":")[1];
+    const dbPath = process.env.DATABASE_URL.split(":")[1];
+    console.log("SQLite database path:", dbPath);
+    return dbPath;
   }
+  console.log("Using non-SQLite database URL:", process.env.DATABASE_URL);
   return process.env.DATABASE_URL;
 }
 
