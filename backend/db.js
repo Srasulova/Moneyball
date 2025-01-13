@@ -56,4 +56,9 @@ db.all("SELECT * FROM users", [], (err, rows) => {
   }
 });
 
+db.on("trace", (sql) => {
+  console.log("SQL executed:", sql);
+  console.log("Database location:", path.resolve(dbPath));
+});
+
 module.exports = db;
