@@ -5,6 +5,9 @@ const fs = require("fs");
 const path = require("path");
 
 const dbPath = getDatabaseUri();
+console.log("Absolute database path:", path.resolve(dbPath));
+console.log("Current working directory:", process.cwd());
+
 const schemaSQL = fs.readFileSync(
   path.join(__dirname, "moneyball.sql"),
   "utf8"
@@ -44,7 +47,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
 // Enable foreign keys
 db.run("PRAGMA foreign_keys = ON");
 
-// After database initialization
+// Check current data in users table
 db.all("SELECT * FROM users", [], (err, rows) => {
   if (err) {
     console.error("Error querying users:", err.message);
