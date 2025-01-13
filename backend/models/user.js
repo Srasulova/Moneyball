@@ -43,6 +43,8 @@ class User {
 
   /** Register user with data. */
   static async register({ password, firstName, email }) {
+    console.log("Attempting to register user:", { email, firstName });
+
     // Duplicate check
     const duplicateCheck = await new Promise((resolve, reject) => {
       db.get(`SELECT email FROM users WHERE email = ?`, [email], (err, row) => {
@@ -64,13 +66,29 @@ class User {
         `INSERT INTO users (password, first_name, email) VALUES (?, ?, ?)`,
         [hashedPassword, firstName, email],
         function (err) {
-          if (err) return reject(err);
+          if (err) {
+            console.error("Error inserting user:", err);
+            return reject(err);
+          }
+          console.log("User inserted, row ID:", this.lastID);
           resolve(this);
         }
       );
     });
 
-    // Return user data after insertion
+    // Verify user was created
+    const newUser = await new Promise((resolve, reject) => {
+      db.get(
+        `SELECT email, first_name FROM users WHERE email = ?`,
+        [email],
+        (err, row) => {
+          if (err) return reject(err);
+          console.log("Verified new user in database:", row);
+          resolve(row);
+        }
+      );
+    });
+
     return { firstName, email };
   }
 
@@ -180,6 +198,8 @@ class User {
 
   /** Add team to user's favorites. */
   static async addFavoriteTeam(email, teamId) {
+    console.log("Adding team to favorites:", { email, teamId });
+
     const userRes = await new Promise((resolve, reject) => {
       db.get(
         `SELECT favorite_teams
@@ -188,6 +208,7 @@ class User {
         [email],
         (err, row) => {
           if (err) return reject(err);
+          console.log("Current user data:", row);
           resolve(row);
         }
       );
@@ -230,6 +251,8 @@ class User {
         }
       );
     });
+
+    console.log("Updated favorites:", favoriteTeams);
 
     return updatedUser.favorite_teams
       ? JSON.parse(updatedUser.favorite_teams)

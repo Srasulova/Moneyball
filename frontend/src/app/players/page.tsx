@@ -102,7 +102,7 @@ export default function Players() {
             <div className="mb-8 flex justify-center">
                 <input
                     type="text"
-                    placeholder="Search teams..."
+                    placeholder="Search players..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="w-1/2 p-2 border border-gray-300 rounded-full text-sky-900 focus:outline-none focus:ring-2 focus:ring-red-800"
