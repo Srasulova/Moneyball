@@ -44,4 +44,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
 // Enable foreign keys
 db.run("PRAGMA foreign_keys = ON");
 
+// After database initialization
+db.all("SELECT * FROM users", [], (err, rows) => {
+  if (err) {
+    console.error("Error querying users:", err.message);
+  } else {
+    console.log("All users in database:", rows);
+  }
+});
+
 module.exports = db;
