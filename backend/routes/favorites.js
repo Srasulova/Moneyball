@@ -31,11 +31,12 @@ router.get("/teams", ensureLoggedIn, async function (req, res, next) {
  **/
 router.get("/players", ensureLoggedIn, async function (req, res, next) {
   try {
-    const favoritePlayers = await User.getFavoritePlayers(
-      res.locals.user.email
-    );
-    return res.json({ favoritePlayers });
+    console.log("Getting favorite players for:", res.locals.user.email);
+    const players = await User.getFavoritePlayers(res.locals.user.email);
+    console.log("Found favorite players:", players);
+    return res.json(players);
   } catch (err) {
+    console.error("Error in /favorites/players:", err);
     return next(err);
   }
 });

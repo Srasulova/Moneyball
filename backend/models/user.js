@@ -451,20 +451,32 @@ class User {
   static async getFavoritePlayers(email) {
     const result = await new Promise((resolve, reject) => {
       db.get(
-        `SELECT favorite_players
-       FROM users
-       WHERE email = ?`,
+        `SELECT favorite_players 
+         FROM users 
+         WHERE email = ?`,
         [email],
         (err, row) => {
-          if (err) return reject(err);
+          if (err) {
+            console.error("Database error:", err);
+            return reject(err);
+          }
+          console.log("Raw database result:", row); // Debug log
           resolve(row);
         }
       );
     });
 
-    if (!result) throw new NotFoundError(`No user found with email: ${email}`);
+    if (!result) {
+      console.log("No user found for email:", email);
+      throw new NotFoundError(`No user found with email: ${email}`);
+    }
 
-    return result.favorite_players ? JSON.parse(result.favorite_players) : [];
+    try {
+      return result.favorite_players ? JSON.parse(result.favorite_players) : [];
+    } catch (e) {
+      console.error("JSON parse error:", e);
+      return [];
+    }
   }
 }
 
