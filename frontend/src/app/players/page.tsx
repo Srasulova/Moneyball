@@ -34,15 +34,36 @@ export default function Players() {
 
 
     // Fetch the favorite players from the API
+    // useEffect(() => {
+    //     async function fetchFavoritePlayers() {
+    //         try {
+    //             const response = await User.getFavoritePlayers()
+    //             console.log("response is", response);
+    //             const favorites = response.favoritePlayers;
+    //             console.log("favorite players are", favorites);
+    //             setFavoritePlayers(favorites);
+    //         } catch (error) {
+    //             console.error("Failed to fetch favorite teams:", error);
+    //         }
+    //     }
+    //     fetchFavoritePlayers();
+    // }, []);
+
     useEffect(() => {
         async function fetchFavoritePlayers() {
             try {
-                const response = await User.getFavoritePlayers()
-                const favorites = response.favoritePlayers;
-                console.log("favorites", favorites);
+                const response = await User.getFavoritePlayers();
+                console.log("response is", response);
+
+                // Parse string IDs to numbers
+                const favorites = response
+                    .map((id: string) => parseInt(id, 10))
+                    .filter((id: any) => !isNaN(id));
+
+                console.log("favorite players are", favorites);
                 setFavoritePlayers(favorites);
             } catch (error) {
-                console.error("Failed to fetch favorite teams:", error);
+                console.error("Failed to fetch favorite players:", error);
             }
         }
         fetchFavoritePlayers();
