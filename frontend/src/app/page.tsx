@@ -20,7 +20,7 @@ export default function Home() {
 
   const isLoggedIn = useContext(AuthContext);
 
-  const { favoriteTeamIds, teamSummaries, favoritePlayerIds, playerSummaries } = useFetchFavoritesSummary(isLoggedIn);
+  const { teamSummaries, playerSummaries } = useFetchFavoritesSummary(isLoggedIn);
 
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {

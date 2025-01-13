@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import User from "../apiClient";
 import MoneyballApi from "../api";
+import { Player, Team } from "../types";
 
 const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
-  const [teamSummaries, setTeamSummaries] = useState<any[]>([]);
+  const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
   const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
-  const [playerSummaries, setPlayerSummaries] = useState<any[]>([]);
+  const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
 
   useEffect(() => {
     const fetchFavoritesSummary = async (isTeam: boolean) => {
@@ -16,9 +17,14 @@ const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
         const response = isTeam
           ? await User.getFavoriteTeams()
           : await User.getFavoritePlayers();
+
+        console.log(`${isTeam ? "Team" : "Player"} API Response:`, response);
+
         const ids = isTeam
           ? response.favoriteTeams || []
           : response.favoritePlayers || [];
+
+        console.log(`Favorite ${isTeam ? "team" : "player"} IDs:`, ids); // Debug log
 
         if (isTeam) {
           setFavoriteTeamIds(ids);
@@ -26,6 +32,7 @@ const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
             const summaries = await Promise.all(
               ids.map((id: number) => MoneyballApi.getTeamInfo(id))
             );
+            console.log("favorite team summaries are", summaries); // Debug log
             setTeamSummaries(summaries);
           }
         } else {
@@ -34,6 +41,7 @@ const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
             const summaries = await Promise.all(
               ids.map((id: number) => MoneyballApi.getPlayerInfo(id))
             );
+            console.log("favorite players summaries are", summaries); // Debug log
             setPlayerSummaries(summaries);
           }
         }
@@ -58,6 +66,13 @@ const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
 
     fetchFavorites();
   }, [isLoggedIn]);
+
+  console.log(
+    favoriteTeamIds,
+    teamSummaries,
+    favoritePlayerIds,
+    playerSummaries
+  );
 
   return { favoriteTeamIds, teamSummaries, favoritePlayerIds, playerSummaries };
 };

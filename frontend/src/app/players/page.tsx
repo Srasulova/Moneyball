@@ -12,7 +12,7 @@ export default function Players() {
     const [isLoading, setIsLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
-    const [favoritePlayers, setFavoritePlayers] = useState<any[]>([]);
+    const [favoritePlayers, setFavoritePlayers] = useState<number[]>([]);
 
     useEffect(() => {
         async function fetchPlayers() {
@@ -39,6 +39,7 @@ export default function Players() {
             try {
                 const response = await User.getFavoritePlayers()
                 const favorites = response.favoritePlayers;
+                console.log("favorites", favorites);
                 setFavoritePlayers(favorites);
             } catch (error) {
                 console.error("Failed to fetch favorite teams:", error);
@@ -62,37 +63,59 @@ export default function Players() {
 
 
     // Add or remove a player to/from the favorites list and update the API
+    // const handleFavoriteClick = async (playerId: number) => {
+    //     try {
+    //         const currentFavorites = [...(favoritePlayers || [])];
+    //         const isFavorite = favoritePlayers.includes(playerId);
+    //         console.log("isFavorite", isFavorite);
+
+    //         if (isFavorite) {
+    //             await User.deleteFavoritePlayer(playerId);
+    //             setFavoritePlayers(currentFavorites.filter(id => id !== playerId));
+    //         } else {
+    //             // Prevent adding the same player if it's already in the favorites
+    //             const response = await User.getFavoritePlayers();
+    //             console.log("response", response);
+    //             const updatedFavorites = response.favoritePlayers;
+    //             console.log("updatedFavorites", updatedFavorites);
+
+    //             if (updatedFavorites.includes(playerId)) {
+    //                 console.warn("Player is already in favorites");
+    //                 return; // Prevent adding the player again
+    //             }
+
+    //             await User.addFavoritePlayer(playerId);
+    //         }
+
+    //         // Fetch the updated list of favorite players from the API
+    //         const response = await User.getFavoritePlayers();
+    //         console.log("response", response);
+    //         const updatedFavorites = response.favoritePlayers;
+    //         console.log("updatedFavorites", updatedFavorites);
+
+    //         setFavoritePlayers(updatedFavorites); // Update the state with the new favorites list
+
+    //     } catch (err) {
+    //         console.error("Failed to update favorite players:", err);
+    //     }
+    // };
+
     const handleFavoriteClick = async (playerId: number) => {
         try {
-            const isFavorite = favoritePlayers.includes(playerId);
+            const currentFavorites = [...(favoritePlayers || [])];
+            const isFavorite = currentFavorites.includes(playerId);
 
             if (isFavorite) {
                 await User.deleteFavoritePlayer(playerId);
+                setFavoritePlayers(currentFavorites.filter(id => id !== playerId));
             } else {
-                // Prevent adding the same player if it's already in the favorites
-                const response = await User.getFavoritePlayers();
-                const updatedFavorites = response.favoritePlayers;
-
-                if (updatedFavorites.includes(playerId)) {
-                    console.warn("Player is already in favorites");
-                    return; // Prevent adding the player again
-                }
-
                 await User.addFavoritePlayer(playerId);
+                setFavoritePlayers([...currentFavorites, playerId]);
             }
-
-            // Fetch the updated list of favorite players from the API
-            const response = await User.getFavoritePlayers();
-            const updatedFavorites = response.favoritePlayers;
-
-            setFavoritePlayers(updatedFavorites); // Update the state with the new favorites list
-
-        } catch (err) {
-            console.error("Failed to update favorite players:", err);
+        } catch (error) {
+            console.error("Error updating favorites:", error);
         }
     };
-
-
 
     return (
         <div className="min-h-screen bg-white py-8 px-8 md:px-16">
