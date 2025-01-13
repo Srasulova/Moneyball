@@ -22,6 +22,9 @@ export default function Home() {
 
   const { teamSummaries, playerSummaries } = useFetchFavoritesSummary(isLoggedIn);
 
+  console.log("teamSummaries", teamSummaries);
+  console.log("playerSummaries", playerSummaries);
+
   // Check if the user is logged in based on the presence of a token
   useEffect(() => {
     if (isLoggedIn) {

@@ -14,40 +14,60 @@ export default function LeagueStandings({ leagueName, teams }: LeagueStandingsPr
     const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
+
+    // useEffect(() => {
+    //     const fetchFavoriteTeams = async () => {
+    //         try {
+    //             const response = await User.getFavoriteTeams();
+    //             const favorites = response.favoriteTeams || [];
+    //             setFavoriteTeams(favorites.map((teamId: number) => teamId));
+    //         } catch (error) {
+    //             console.error("Failed to fetch favorite teams", error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     fetchFavoriteTeams();
+    // }, []);
+
     // Fetch favorite teams on component mount
     useEffect(() => {
-        const fetchFavoriteTeams = async () => {
+        async function fetchFavoriteTeams() {
             try {
                 const response = await User.getFavoriteTeams();
-                const favorites = response.favoriteTeams || [];
-                setFavoriteTeams(favorites.map((teamId: number) => teamId));
-            } catch (error) {
-                console.error("Failed to fetch favorite teams", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+                console.log("response is", response);
+                const favorites = response.favoriteTeams.map((id: string) => parseInt(id, 10))
+                    .filter((id: any) => !isNaN(id));
 
+                console.log("favorite teams are", favorites);
+                setFavoriteTeams(favorites);
+            } catch (error) {
+                console.error("Failed to fetch favorite teams:", error);
+            }
+        }
         fetchFavoriteTeams();
     }, []);
+
 
     const handleFavoriteClick = async (teamId: number) => {
         try {
             setLoading(true);
-            const isFavorite = Array.isArray(favoriteTeams) && favoriteTeams.includes(teamId);
+            const currentFavorites = [...(favoriteTeams || [])];
+            const isFavorite = currentFavorites.includes(teamId);
 
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
-                setFavoriteTeams(prevFavorites => prevFavorites.filter(id => id !== teamId));
+                setFavoriteTeams(currentFavorites.filter(id => id !== teamId));
             } else {
                 await User.addFavoriteTeam(teamId);
-                setFavoriteTeams(prevFavorites => [...prevFavorites, teamId]);
+                setFavoriteTeams([...currentFavorites, teamId]);
             }
 
             // Force a page reload
             window.location.reload();
         } catch (error) {
-            console.error("Failed to update favorite team", error);
+            console.error("Error updating favorites:", error);
         } finally {
             setLoading(false);
         }
