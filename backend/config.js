@@ -4,15 +4,12 @@ require("dotenv").config();
 require("colors");
 
 const PORT = process.env.PORT || 3001;
+const path = require("path");
 
 function getDatabaseUri() {
-  if (process.env.DATABASE_URL.includes("sqlite")) {
-    const dbPath = process.env.DATABASE_URL.split(":")[1];
-    console.log("SQLite database path:", dbPath);
-    return dbPath;
-  }
-  console.log("Using non-SQLite database URL:", process.env.DATABASE_URL);
-  return process.env.DATABASE_URL;
+  // Create absolute path to database file in the same directory as this file
+  const dbPath = path.join(__dirname, "moneyball.db");
+  return `sqlite:${dbPath}`;
 }
 
 const SECRET_KEY = process.env.SECRET_KEY || "super-top-secret-key";

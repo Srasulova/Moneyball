@@ -4,8 +4,8 @@ const { getDatabaseUri } = require("./config");
 const fs = require("fs");
 const path = require("path");
 
-const dbPath = getDatabaseUri();
-console.log("Absolute database path:", path.resolve(dbPath));
+const dbPath = getDatabaseUri().replace("sqlite:", "");
+console.log("Absolute database path:", dbPath);
 console.log("Current working directory:", process.cwd());
 
 const schemaSQL = fs.readFileSync(
