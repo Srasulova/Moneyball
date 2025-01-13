@@ -57,22 +57,39 @@ export default function Teams() {
         setSearchTerm(event.target.value);
     };
 
+    // const handleFavoriteClick = async (teamId: number) => {
+    //     try {
+    //         const isFavorite = favoriteTeams.includes(teamId);
+
+    //         if (isFavorite) {
+    //             await User.deleteFavoriteTeam(teamId);
+    //         } else {
+    //             await User.addFavoriteTeam(teamId);
+    //         }
+
+    //         const response = await User.getFavoriteTeams();
+    //         const favorites = response.favoriteTeams;
+    //         setFavoriteTeams(favorites);
+
+    //     } catch (error) {
+    //         console.error("Failed to update favorite teams:", error);
+    //     }
+    // };
+
     const handleFavoriteClick = async (teamId: number) => {
         try {
-            const isFavorite = favoriteTeams.includes(teamId);
+            const currentFavorites = [...(favoriteTeams || [])];
+            const isFavorite = currentFavorites.includes(teamId);
 
             if (isFavorite) {
                 await User.deleteFavoriteTeam(teamId);
+                setFavoriteTeams(currentFavorites.filter(id => id !== teamId));
             } else {
                 await User.addFavoriteTeam(teamId);
+                setFavoriteTeams([...currentFavorites, teamId]);
             }
-
-            const response = await User.getFavoriteTeams();
-            const favorites = response.favoriteTeams;
-            setFavoriteTeams(favorites);
-
         } catch (error) {
-            console.error("Failed to update favorite teams:", error);
+            console.error("Error updating favorites:", error);
         }
     };
 
