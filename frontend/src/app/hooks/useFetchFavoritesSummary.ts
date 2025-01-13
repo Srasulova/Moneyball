@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import User from "../apiClient";
 import MoneyballApi from "../api";
-import { Player, Team } from "../types";
+import { PlayerGeneralInfo, Team } from "../types";
 
 const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
   const [favoriteTeamIds, setFavoriteTeamIds] = useState<number[]>([]);
   const [teamSummaries, setTeamSummaries] = useState<Team[]>([]);
   const [favoritePlayerIds, setFavoritePlayerIds] = useState<number[]>([]);
-  const [playerSummaries, setPlayerSummaries] = useState<Player[]>([]);
+  const [playerSummaries, setPlayerSummaries] = useState<PlayerGeneralInfo[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchFavoritesSummary = async (isTeam: boolean) => {
@@ -20,11 +22,15 @@ const useFetchFavoritesSummary = (isLoggedIn: boolean) => {
 
         console.log(`${isTeam ? "Team" : "Player"} API Response:`, response);
 
-        const ids = isTeam
-          ? response.favoriteTeams || []
-          : response.favoritePlayers || [];
+        // Parse IDs based on response type
 
-        console.log(`Favorite ${isTeam ? "team" : "player"} IDs:`, ids); // Debug log
+        const rawIds = isTeam ? response.favoriteTeams : response;
+
+        const ids = (Array.isArray(rawIds) ? rawIds : [])
+          .map((id) => (typeof id === "string" ? parseInt(id, 10) : id))
+          .filter((id) => !isNaN(id));
+
+        console.log(`Parsed ${isTeam ? "team" : "player"} IDs:`, ids);
 
         if (isTeam) {
           setFavoriteTeamIds(ids);

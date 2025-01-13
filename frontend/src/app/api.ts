@@ -228,7 +228,7 @@ class MoneyballApi {
         fullName: player.fullName,
         currentTeam: {
           name: player.currentTeam.name,
-          id: player.currentTeam.id,
+          id: player.currentTeam.id ?? 0,
         },
         primaryNumber: player.primaryNumber,
         primaryPosition: player.primaryPosition.name,
