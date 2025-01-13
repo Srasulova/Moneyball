@@ -30,7 +30,11 @@ export default function Teams() {
         async function fetchFavoriteTeams() {
             try {
                 const response = await User.getFavoriteTeams();
-                const favorites = response.favoriteTeams;
+                console.log("response is", response);
+                const favorites = response.favoriteTeams.map((id: string) => parseInt(id, 10))
+                    .filter((id: any) => !isNaN(id));
+
+                console.log("favorite teams are", favorites);
                 setFavoriteTeams(favorites);
             } catch (error) {
                 console.error("Failed to fetch favorite teams:", error);
@@ -38,6 +42,8 @@ export default function Teams() {
         }
         fetchFavoriteTeams();
     }, []);
+
+
 
     useEffect(() => {
         setFilteredTeams(
