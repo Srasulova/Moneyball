@@ -111,7 +111,8 @@ export default function Players() {
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                 {filteredPlayers.map((player, index) => {
                     const imgUrl = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${player.id}/headshot/67/current`;
-                    const isFavorite = favoritePlayers.includes(player.id);
+                    const isFavorite = Array.isArray(favoritePlayers) &&
+                        favoritePlayers.includes(player.id);
 
                     return (
                         <div

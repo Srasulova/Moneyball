@@ -173,19 +173,35 @@ class MoneyballApi {
 
       // Fetch MLB teams to filter players
       const teams = await this.getMlbTeams();
+      // console.log("Teams:", teams);
       const mlbTeamIds = new Set(teams.map((team) => team.id));
+      console.log("MLB Team IDs:", mlbTeamIds);
 
-      // Filter players whose teams are in MLB and have valid team information
-      return data.people
-        .filter(
-          (player) =>
+      const filteredPlayers = data.people
+        .filter((player) => {
+          return (
             player.currentTeam &&
             player.currentTeam.id &&
-            player.currentTeam.name &&
-            mlbTeamIds.has(player.currentTeam.id) &&
-            player.currentTeam.name.trim() !== "" // Ensure team name is not empty
-        )
-        .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
+            mlbTeamIds.has(player.currentTeam.id)
+          );
+        })
+        .sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+      console.log("Filtered players count:", filteredPlayers.length); // Debug filtered count
+
+      return filteredPlayers;
+
+      // Filter players whose teams are in MLB and have valid team information
+      // return data.people
+      //   .filter(
+      //     (player) =>
+      //       player.currentTeam &&
+      //       player.currentTeam.id &&
+      //       player.currentTeam.name &&
+      //       mlbTeamIds.has(player.currentTeam.id) &&
+      //       player.currentTeam.name.trim() !== "" // Ensure team name is not empty
+      //   )
+      //   .sort((a, b) => a.fullName.localeCompare(b.fullName)); // Sort alphabetically
     } catch (error) {
       console.error("Failed to fetch MLB players:", error);
       throw error;
